@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-const WORDPRESS_API_URL = 'https://api.uaedigitalsolution.agency/wp-json/wp/v2';
+const WORDPRESS_API_URL = 'https://api.roiyan.com/wp-json/wp/v2';
 
 export async function GET(request: NextRequest) {
  try {
