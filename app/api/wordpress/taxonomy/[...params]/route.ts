@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-const API_BASE_URL = 'https://api.uaedigitalsolution.agency/wp-json/wp/v2';
+const API_BASE_URL = 'https://api.roiyan.com/wp-json/wp/v2';
 
 // Define the proper interface for Next.js 15 route params
 interface RouteContext {
