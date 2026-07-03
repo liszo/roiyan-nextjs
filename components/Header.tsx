@@ -117,7 +117,7 @@ useEffect(() => {
  const fetchToolsAndSolutions = async () => {
  try {
  // Fetch tools directly
- const toolsResponse = await fetch('https://api.uaedigitalsolution.agency/wp-json/wp/v2/tools?per_page=6');
+ const toolsResponse = await fetch('https://api.roiyan.com/wp-json/wp/v2/tools?per_page=6');
  if (toolsResponse.ok) {
  const toolsData = await toolsResponse.json();
  setTools(toolsData);
@@ -132,7 +132,7 @@ useEffect(() => {
 
  try {
  // Fetch solutions directly
- const solutionsResponse = await fetch('https://api.uaedigitalsolution.agency/wp-json/wp/v2/solutions?per_page=6');
+ const solutionsResponse = await fetch('https://api.roiyan.com/wp-json/wp/v2/solutions?per_page=6');
  if (solutionsResponse.ok) {
  const solutionsData = await solutionsResponse.json();
  setSolutions(solutionsData);
