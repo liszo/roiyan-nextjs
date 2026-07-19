@@ -58,14 +58,29 @@ The CPTs won't work properly until rewrite rules are flushed.
 
 ### Option A: Import via SQL (Recommended for all data at once)
 
+**This is now a two-part process:**
+
+#### Part 1: Import Post Data
 1. Go to CPanal → **phpMyAdmin**
 2. Select your WordPress database
 3. Click **Import** tab
 4. Click **Choose File**
-5. Select **`solutions-tools-data.sql`** from this repo
+5. Select **`solutions-tools-data-FIXED.sql`** from this repo
 6. Click **Import**
 
-**Note:** The SQL file has correct IDs (135-154), so no conflicts should occur.
+**Note:** The SQL file has correct IDs (135-154), so no conflicts should occur. If posts already exist, you can run a DELETE query first or skip to Part 2 to just populate missing meta fields.
+
+#### Part 2: Import Custom Field Meta Data (IMPORTANT!)
+1. Go to CPanal → **phpMyAdmin**
+2. Select your WordPress database
+3. Click **Import** tab
+4. Click **Choose File**
+5. Select **`solutions-tools-postmeta.sql`** from this repo
+6. Click **Import**
+
+**This step is CRITICAL** — it populates:
+- Solutions: Problem Statement, Key Benefits, CTA Button Text
+- Tools: Key Features, Integrations, Pricing Model
 
 ---
 
@@ -165,16 +180,38 @@ const tools = await fetchFromAPI('/tools');
 - Ensure it's NOT set to "Plain"
 - Click **Save Changes**
 
+### Custom Meta Fields Are Empty (Problem Statement, Benefits, Features, etc.)
+- **Most Common Cause:** `solutions-tools-postmeta.sql` was not imported
+- **Solution:** Import the postmeta SQL file (see Step 3, Part 2 above)
+- If posts exist but fields are empty, the postmeta was not populated
+- Double-check in phpMyAdmin by querying `wp_postmeta` table for posts 135-154:
+  ```sql
+  SELECT * FROM wp_postmeta WHERE post_id BETWEEN 135 AND 154;
+  ```
+  If no results, import solutions-tools-postmeta.sql
+
+### Frontend Still Shows Incomplete Data
+- Ensure both SQL files were imported (posts + postmeta)
+- Verify posts are **Published** (not Draft)
+- Check Next.js environment variables are pointing to correct WordPress URL
+- Rebuild Next.js after database changes: `npm run build`
+- Clear browser cache (Ctrl+F5)
+
 ---
 
 ## File Structure
 
 ```
-├── wordpress-cpt-code.php          # PHP code to add to WordPress
-├── solutions-tools-data.sql        # SQL data to import
-├── WORDPRESS-CPT-SETUP.md          # This file
-└── CLAUDE.md                       # Project documentation
+├── wordpress-cpt-code.php             # PHP code to add to WordPress
+├── solutions-tools-data-FIXED.sql     # SQL data for posts (15 Solutions + 5 Tools)
+├── solutions-tools-postmeta.sql       # SQL data for custom meta fields (REQUIRED!)
+├── WORDPRESS-CPT-SETUP.md             # This file
+└── CLAUDE.md                          # Project documentation
 ```
+
+**Key Files:**
+- **solutions-tools-data-FIXED.sql** - Contains post titles, content, excerpts (IDs 135-154)
+- **solutions-tools-postmeta.sql** - Contains custom field values (_solution_problem, _solution_benefits, _solution_cta, _tool_features, _tool_integrations, _tool_pricing)
 
 ---
 
