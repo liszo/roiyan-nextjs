@@ -146,7 +146,14 @@ function uae_solution_details_callback_v2($post) {
         $value = get_post_meta($post->ID, $field, true);
         $is_textarea = in_array($field, array('problem_description', 'solution_overview', 'key_benefits'));
         echo '<p style="margin-bottom:15px;"><label style="display:block;font-weight:bold;margin-bottom:5px;">' . esc_html($label) . '</label>';
-        if ($is_textarea) {
+        if ($field === 'pricing_range') {
+            $pricing_options = array('budget' => 'Budget', 'standard' => 'Standard', 'premium' => 'Premium');
+            echo '<select name="pricing_range" style="width:100%;padding:6px;">';
+            foreach ($pricing_options as $option => $option_label) {
+                echo '<option value="' . esc_attr($option) . '"' . selected($value, $option, false) . '>' . esc_html($option_label) . '</option>';
+            }
+            echo '</select>';
+        } elseif ($is_textarea) {
             echo '<textarea name="' . esc_attr($field) . '" rows="4" style="width:100%;">' . esc_textarea($value) . '</textarea>';
         } else {
             echo '<input type="text" name="' . esc_attr($field) . '" value="' . esc_attr($value) . '" style="width:100%;padding:6px;" />';
@@ -157,11 +164,25 @@ function uae_solution_details_callback_v2($post) {
 
 function uae_tool_details_callback_v2($post) {
     wp_nonce_field('uae_save_solution_tool_meta_v2', 'uae_meta_nonce');
+    $tool_type_options = array('automation', 'dashboard', 'ai', 'widget', 'integration', 'template');
     foreach (uae_get_tool_fields() as $field => $label) {
         $value = get_post_meta($post->ID, $field, true);
         $is_textarea = ($field === 'tool_features');
         echo '<p style="margin-bottom:15px;"><label style="display:block;font-weight:bold;margin-bottom:5px;">' . esc_html($label) . '</label>';
-        if ($is_textarea) {
+        if ($field === 'tool_type') {
+            echo '<select name="tool_type" style="width:100%;padding:6px;">';
+            foreach ($tool_type_options as $option) {
+                echo '<option value="' . esc_attr($option) . '"' . selected($value, $option, false) . '>' . esc_html(ucfirst($option)) . '</option>';
+            }
+            echo '</select>';
+        } elseif ($field === 'pricing_model') {
+            $pricing_options = array('monthly' => 'Monthly', 'one_time' => 'One-time', 'freemium' => 'Freemium');
+            echo '<select name="pricing_model" style="width:100%;padding:6px;">';
+            foreach ($pricing_options as $option => $option_label) {
+                echo '<option value="' . esc_attr($option) . '"' . selected($value, $option, false) . '>' . esc_html($option_label) . '</option>';
+            }
+            echo '</select>';
+        } elseif ($is_textarea) {
             echo '<textarea name="' . esc_attr($field) . '" rows="6" style="width:100%;font-family:monospace;">' . esc_textarea($value) . '</textarea>';
         } else {
             echo '<input type="text" name="' . esc_attr($field) . '" value="' . esc_attr($value) . '" style="width:100%;padding:6px;" />';

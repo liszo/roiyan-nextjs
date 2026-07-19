@@ -128,9 +128,9 @@ const getPricingModelColor = (model: string) => {
 const parseToolFeatures = (featuresString: string | null | undefined): Array<{icon: string, title: string, description: string}> => {
  if (!featuresString || typeof featuresString !== 'string') return [];
  
- const lines = featuresString.split('\n').filter(Boolean);
+ const lines = featuresString.split(/\r\n|\n|\r/).filter(Boolean);
  return lines.map(line => {
- const parts = line.split(' | ');
+ const parts = line.split('|');
  if (parts.length >= 3) {
  return {
  icon: parts[0].trim(),
