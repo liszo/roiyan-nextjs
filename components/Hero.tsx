@@ -9,7 +9,7 @@ import { FiArrowRight, FiZap, FiTrendingUp, FiCpu, FiPlay } from 'react-icons/fi
 import { useTranslations } from '@/hooks/useTranslations';
 
 export default function Hero() {
-  const { t } = useTranslations();
+  const { t, locale } = useTranslations();
   const containerRef = useRef<HTMLDivElement>(null);
   const headingRef = useRef<HTMLHeadingElement>(null);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -66,6 +66,10 @@ export default function Hero() {
       }
     };
   }, [isMobile]);
+
+  const heroWords = locale === 'fa'
+    ? t('hero.title').split(' ')
+    : ['We', 'craft', 'digital', 'experiences'];
 
   const floatingCards = [
     {
@@ -226,55 +230,76 @@ export default function Hero() {
               <span className={`inline-block bg-white/10 backdrop-blur-sm rounded-full font-medium border border-white/20 ${
                 isMobile ? 'px-4 py-2 text-sm' : 'px-3 py-1.5 md:px-4 md:py-2 text-xs md:text-sm'
               }`}>
-                Next-Gen Digital Solutions
+                {t('hero.badge')}
               </span>
             </motion.div>
 
-            <h1 
+            <h1
               ref={headingRef}
               className={`font-black mb-4 md:mb-6 ${
-                isMobile 
-                  ? 'text-4xl sm:text-5xl' 
+                isMobile
+                  ? 'text-4xl sm:text-5xl'
                   : 'text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl'
               }`}
-              style={{ 
-                fontFamily: "'Inter', 'Helvetica Neue', sans-serif",
+              style={{
+                fontFamily: locale === 'fa' ? "'Vazirmatn', sans-serif" : "'Inter', 'Helvetica Neue', sans-serif",
                 fontWeight: '900',
-                letterSpacing: '-0.02em',
+                letterSpacing: locale === 'fa' ? 'normal' : '-0.02em',
                 lineHeight: '1.2',
                 paddingBottom: '0.1em'
               }}
             >
-              {['We', 'craft', 'digital', 'experiences'].map((word, wordIndex) => (
-                <span 
-                  key={wordIndex} 
+              {heroWords.map((word, wordIndex) => (
+                <span
+                  key={wordIndex}
                   className={`inline-block ${isMobile ? 'mr-3 mb-1' : 'mr-2 md:mr-4'}`}
-                  style={{ 
+                  style={{
                     paddingBottom: '0.05em',
                     overflow: 'visible'
                   }}
                 >
-                  {word.split('').map((letter, letterIndex) => (
+                  {locale === 'fa' ? (
                     <span
-                      key={letterIndex}
                       className="letter inline-block"
-                      style={{ 
+                      style={{
                         display: 'inline-block',
-                        background: wordIndex < 2 
-                          ? 'linear-gradient(135deg, #ffffff 0%, #e5e7eb 100%)' 
+                        background: wordIndex < Math.ceil(heroWords.length / 2)
+                          ? 'linear-gradient(135deg, #ffffff 0%, #e5e7eb 100%)'
                           : 'linear-gradient(135deg, #8B5CF6 0%, #3B82F6 100%)',
                         WebkitBackgroundClip: 'text',
                         WebkitTextFillColor: 'transparent',
                         backgroundClip: 'text',
-                        textShadow: wordIndex >= 2 ? '0 0 30px rgba(139, 92, 246, 0.5)' : 'none',
+                        textShadow: wordIndex >= Math.ceil(heroWords.length / 2) ? '0 0 30px rgba(139, 92, 246, 0.5)' : 'none',
                         paddingBottom: '0.08em',
                         overflow: 'visible',
                         position: 'relative'
                       }}
                     >
-                      {letter}
+                      {word}
                     </span>
-                  ))}
+                  ) : (
+                    word.split('').map((letter, letterIndex) => (
+                      <span
+                        key={letterIndex}
+                        className="letter inline-block"
+                        style={{
+                          display: 'inline-block',
+                          background: wordIndex < 2
+                            ? 'linear-gradient(135deg, #ffffff 0%, #e5e7eb 100%)'
+                            : 'linear-gradient(135deg, #8B5CF6 0%, #3B82F6 100%)',
+                          WebkitBackgroundClip: 'text',
+                          WebkitTextFillColor: 'transparent',
+                          backgroundClip: 'text',
+                          textShadow: wordIndex >= 2 ? '0 0 30px rgba(139, 92, 246, 0.5)' : 'none',
+                          paddingBottom: '0.08em',
+                          overflow: 'visible',
+                          position: 'relative'
+                        }}
+                      >
+                        {letter}
+                      </span>
+                    ))
+                  )}
                 </span>
               ))}
             </h1>
@@ -287,8 +312,7 @@ export default function Hero() {
                 isMobile ? 'text-base px-2' : 'text-sm sm:text-base md:text-lg lg:text-xl'
               }`}
             >
-              Transform your business with AI-powered solutions that drive innovation, 
-              boost performance, and deliver exceptional results.
+              {t('hero.description')}
             </motion.p>
 
             <motion.div
@@ -309,7 +333,7 @@ export default function Hero() {
                       : 'w-full sm:w-auto px-6 md:px-8 py-3 md:py-4 text-sm md:text-base'
                   }`}
                 >
-                  Start Your Project
+                  {t('hero.cta.primary')}
                   <FiArrowRight className="w-4 h-4 md:w-5 md:h-5" />
                 </motion.button>
               </Link>
@@ -318,12 +342,12 @@ export default function Hero() {
                   whileHover={{ scale: isMobile ? 1.02 : 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   className={`bg-white/10 backdrop-blur-sm rounded-full font-semibold border border-white/20 hover:bg-white/20 transition-all duration-300 ${
-                    isMobile 
-                      ? 'w-full px-6 py-4 text-base' 
+                    isMobile
+                      ? 'w-full px-6 py-4 text-base'
                       : 'w-full sm:w-auto px-6 md:px-8 py-3 md:py-4 text-sm md:text-base'
                   }`}
                 >
-                  View Our Work
+                  {t('hero.cta.secondary')}
                 </motion.button>
               </Link>
             </motion.div>

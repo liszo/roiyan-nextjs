@@ -4,10 +4,10 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import Image from 'next/image';
-import { 
- FiMail, 
- FiPhone, 
- FiMapPin, 
+import {
+ FiMail,
+ FiPhone,
+ FiMapPin,
  FiArrowRight,
  FiLinkedin,
  FiTwitter,
@@ -38,8 +38,12 @@ import {
  FiTool,
  FiPackage
 } from 'react-icons/fi';
+import { useTranslations } from '@/hooks/useTranslations';
+import { useLocale } from '@/components/LocaleProvider';
 
 const Footer = () => {
+ const { t } = useTranslations();
+ const { isRTL } = useLocale();
  const [email, setEmail] = useState('');
  const [isSubmitting, setIsSubmitting] = useState(false);
  const [subscriptionSuccess, setSubscriptionSuccess] = useState(false);
@@ -71,27 +75,27 @@ const Footer = () => {
 
  // Services with icons and real links
  const services = [
- { name: 'Website Design & Redesign', href: '/services/website-design-redesign', icon: FiCode, color: 'from-blue-500 to-cyan-500' },
- { name: 'E-commerce Enhancement', href: '/services/ecommerce-enhancement-marketing', icon: FiShoppingCart, color: 'from-green-500 to-emerald-500' },
- { name: 'AI Process Automation', href: '/services/ai-process-automation', icon: FiCpu, color: 'from-purple-500 to-pink-500' },
- { name: 'Performance Optimization', href: '/services/website-performance-optimization', icon: FiZap, color: 'from-yellow-500 to-orange-500' },
- { name: 'UI/UX Design & Branding', href: '/services/ui-ux-design-branding', icon: FiPenTool, color: 'from-rose-500 to-red-500' },
- { name: 'Online Booking Systems', href: '/services/online-booking-systems', icon: FiCalendar, color: 'from-indigo-500 to-purple-500' },
- { name: 'SEO Services', href: '/services/search-engine-optimization-seo', icon: FiSearch, color: 'from-teal-500 to-cyan-500' },
- { name: 'Website Security', href: '/services/website-security-services', icon: FiShield, color: 'from-gray-500 to-slate-500' }
+ { name: t('footer.websiteDesign'), href: '/services/website-design-redesign', icon: FiCode, color: 'from-blue-500 to-cyan-500' },
+ { name: t('footer.ecommerceEnhancement'), href: '/services/ecommerce-enhancement-marketing', icon: FiShoppingCart, color: 'from-green-500 to-emerald-500' },
+ { name: t('footer.aiAutomation'), href: '/services/ai-process-automation', icon: FiCpu, color: 'from-purple-500 to-pink-500' },
+ { name: t('footer.performanceOptimization'), href: '/services/website-performance-optimization', icon: FiZap, color: 'from-yellow-500 to-orange-500' },
+ { name: t('footer.uiuxBranding'), href: '/services/ui-ux-design-branding', icon: FiPenTool, color: 'from-rose-500 to-red-500' },
+ { name: t('footer.onlineBooking'), href: '/services/online-booking-systems', icon: FiCalendar, color: 'from-indigo-500 to-purple-500' },
+ { name: t('footer.seo'), href: '/services/search-engine-optimization-seo', icon: FiSearch, color: 'from-teal-500 to-cyan-500' },
+ { name: t('footer.websiteSecurity'), href: '/services/website-security-services', icon: FiShield, color: 'from-gray-500 to-slate-500' }
  ];
 
  // Company links - updated with Solutions and Tools
  const companyLinks = [
- { name: 'About Us', href: '/about', icon: FiUsers },
- { name: 'Solutions', href: '/solutions', icon: FiPackage },
- { name: 'Tools', href: '/tools', icon: FiTool },
- { name: 'Contact Us', href: '/contact', icon: FiMessageCircle }
+ { key: 'about', name: t('pages.about.title'), href: '/about', icon: FiUsers },
+ { key: 'solutions', name: t('nav.solutions'), href: '/solutions', icon: FiPackage },
+ { key: 'tools', name: t('nav.tools'), href: '/tools', icon: FiTool },
+ { key: 'contact', name: t('nav.contact'), href: '/contact', icon: FiMessageCircle }
  ];
 
  // Quick links
  const quickLinks = [
- { name: 'Portfolio', href: '/cases', icon: FiTarget }
+ { key: 'portfolio', name: t('nav.portfolio'), href: '/cases', icon: FiTarget }
  ];
 
  // Social media links with colors
@@ -106,29 +110,29 @@ const Footer = () => {
 
  // Contact information with enhanced styling
  const contactInfo = [
- { 
- icon: FiPhone, 
- label: 'Phone', 
- value: '+971 50 123 4567', 
+ {
+ icon: FiPhone,
+ label: t('footer.phoneLabel'),
+ value: '+971 50 123 4567',
  href: 'tel:+971501234567',
  color: 'from-green-500 to-emerald-500',
- description: 'Call us anytime'
+ description: t('footer.phoneDescription')
  },
- { 
- icon: FiMail, 
- label: 'Email', 
- value: 'hello@uaedigital.com', 
+ {
+ icon: FiMail,
+ label: t('footer.emailLabel'),
+ value: 'hello@uaedigital.com',
  href: 'mailto:hello@uaedigital.com',
  color: 'from-blue-500 to-cyan-500',
- description: 'Drop us a line'
+ description: t('footer.emailDescription')
  },
- { 
- icon: FiMapPin, 
- label: 'Address', 
- value: 'Dubai, UAE', 
+ {
+ icon: FiMapPin,
+ label: t('footer.addressLabel'),
+ value: t('cta.dubai'),
  href: 'https://maps.google.com/?q=Dubai,UAE',
  color: 'from-purple-500 to-pink-500',
- description: 'Visit our office'
+ description: t('footer.addressDescription')
  }
  ];
 
@@ -194,10 +198,10 @@ const Footer = () => {
  <FiSend className="w-8 h-8 text-white" />
  </div>
  <h2 className="text-3xl lg:text-4xl font-bold mb-4 bg-gradient-to-r from-white via-purple-200 to-blue-200 bg-clip-text text-transparent">
- Stay in the Loop
+ {t('footer.newsletter.title')}
  </h2>
  <p className="text-lg text-gray-300 max-w-2xl mx-auto">
- Get exclusive insights, industry trends, and the latest updates from our digital experts delivered to your inbox.
+ {t('footer.newsletter.description')}
  </p>
  </motion.div>
 
@@ -207,12 +211,12 @@ const Footer = () => {
  initial={{ opacity: 0, scale: 0.8 }}
  animate={{ opacity: 1, scale: 1 }}
  exit={{ opacity: 0, scale: 0.8 }}
- className="flex items-center justify-center space-x-3 text-green-400 text-lg font-semibold"
+ className={`flex items-center justify-center space-x-3 ${isRTL ? 'space-x-reverse' : ''} text-green-400 text-lg font-semibold`}
  >
  <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
  <FiCheck className="w-5 h-5 text-white" />
  </div>
- <span>Successfully subscribed! Welcome aboard! 🎉</span>
+ <span>{t('footer.newsletter.success')}</span>
  </motion.div>
  ) : (
  <motion.form
@@ -228,25 +232,25 @@ const Footer = () => {
  type="email"
  value={email}
  onChange={(e) => setEmail(e.target.value)}
- placeholder="Enter your email address"
+ placeholder={t('footer.newsletter.placeholder')}
  required
- className="w-full px-6 py-4 bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl text-white placeholder-gray-300 focus:outline-none focus:border-purple-400 focus:ring-2 focus:ring-purple-400/20 transition-all duration-300 pr-12"
+ className={`w-full px-6 py-4 bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl text-white placeholder-gray-300 focus:outline-none focus:border-purple-400 focus:ring-2 focus:ring-purple-400/20 transition-all duration-300 ${isRTL ? 'pl-12' : 'pr-12'}`}
  />
- <FiMail className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+ <FiMail className={`absolute ${isRTL ? 'left-4' : 'right-4'} top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5`} />
  </div>
  <motion.button
  type="submit"
  disabled={isSubmitting}
  whileHover={{ scale: 1.05 }}
  whileTap={{ scale: 0.95 }}
- className="px-8 py-4 bg-gradient-to-r from-purple-600 to-blue-600 rounded-2xl font-semibold hover:shadow-xl hover:shadow-purple-500/25 transition-all duration-300 flex items-center justify-center space-x-2 disabled:opacity-50 min-w-[140px]"
+ className={`px-8 py-4 bg-gradient-to-r from-purple-600 to-blue-600 rounded-2xl font-semibold hover:shadow-xl hover:shadow-purple-500/25 transition-all duration-300 flex items-center justify-center space-x-2 ${isRTL ? 'space-x-reverse' : ''} disabled:opacity-50 min-w-[140px]`}
  >
  {isSubmitting ? (
  <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
  ) : (
  <>
  <FiSend className="w-5 h-5" />
- <span>Subscribe</span>
+ <span>{t('footer.newsletter.subscribe')}</span>
  </>
  )}
  </motion.button>
@@ -270,8 +274,8 @@ const Footer = () => {
  viewport={{ once: true }}
  className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl p-8 h-full"
  >
- <Link href="/" className="flex items-center space-x-4 mb-6">
- <motion.div 
+ <Link href="/" className={`flex items-center space-x-4 ${isRTL ? 'space-x-reverse' : ''} mb-6`}>
+ <motion.div
  className="w-16 h-16 bg-gradient-to-br from-purple-600 to-blue-600 rounded-2xl flex items-center justify-center p-2 relative overflow-hidden"
  whileHover={{ scale: 1.05 }}
  >
@@ -289,13 +293,13 @@ const Footer = () => {
  />
  </motion.div>
  <div>
- <h3 className="text-xl font-bold text-white">UAE Digital Solutions</h3>
- <p className="text-purple-300 text-sm">Digital Innovation Partner</p>
+ <h3 className="text-xl font-bold text-white">{t('footer.companyName')}</h3>
+ <p className="text-purple-300 text-sm">{t('footer.digitalInnovationPartner')}</p>
  </div>
  </Link>
- 
+
  <p className="text-gray-300 mb-6 leading-relaxed">
- Empowering businesses through cutting-edge digital solutions. We transform ideas into powerful web experiences, mobile applications, and AI-driven automation that accelerate growth and success.
+ {t('footer.companyDescription')}
  </p>
 
  {/* Contact Cards */}
@@ -309,7 +313,7 @@ const Footer = () => {
  transition={{ duration: 0.6, delay: index * 0.1 }}
  viewport={{ once: true }}
  whileHover={{ x: 5 }}
- className="flex items-center space-x-4 p-4 bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl hover:bg-white/10 transition-all duration-300 group"
+ className={`flex items-center space-x-4 ${isRTL ? 'space-x-reverse' : ''} p-4 bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl hover:bg-white/10 transition-all duration-300 group`}
  >
  <div className={`w-12 h-12 bg-gradient-to-br ${info.color} rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300`}>
  <info.icon className="w-6 h-6 text-white" />
@@ -346,24 +350,24 @@ const Footer = () => {
  >
  <Link
  href={service.href}
- className="flex items-center space-x-3 p-3 rounded-xl hover:bg-white/5 transition-all duration-300 group"
+ className={`flex items-center space-x-3 ${isRTL ? 'space-x-reverse' : ''} p-3 rounded-xl hover:bg-white/5 transition-all duration-300 group`}
  >
  <div className={`w-8 h-8 bg-gradient-to-br ${service.color} rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-300`}>
  <service.icon className="w-4 h-4 text-white" />
  </div>
  <span className="text-gray-300 group-hover:text-white transition-colors flex-1 text-sm">{service.name}</span>
- <FiArrowRight className="w-4 h-4 text-gray-500 group-hover:text-white group-hover:translate-x-1 transition-all duration-300" />
+ <FiArrowRight className={`w-4 h-4 text-gray-500 group-hover:text-white group-hover:translate-x-1 transition-all duration-300 ${isRTL ? 'rotate-180' : ''}`} />
  </Link>
  </motion.div>
  ))}
  </div>
- 
+
  <Link
  href="/services"
- className="flex items-center justify-center space-x-2 w-full py-3 bg-gradient-to-r from-purple-600/20 to-blue-600/20 border border-purple-500/30 rounded-xl text-purple-300 hover:bg-gradient-to-r hover:from-purple-600 hover:to-blue-600 hover:text-white transition-all duration-300 group"
+ className={`flex items-center justify-center space-x-2 ${isRTL ? 'space-x-reverse' : ''} w-full py-3 bg-gradient-to-r from-purple-600/20 to-blue-600/20 border border-purple-500/30 rounded-xl text-purple-300 hover:bg-gradient-to-r hover:from-purple-600 hover:to-blue-600 hover:text-white transition-all duration-300 group`}
  >
- <span className="font-medium">View All Services</span>
- <FiExternalLink className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
+ <span className="font-medium">{t('footer.viewAllServices')}</span>
+ <FiExternalLink className={`w-4 h-4 group-hover:translate-x-1 transition-transform duration-300 ${isRTL ? 'rotate-180' : ''}`} />
  </Link>
  </motion.div>
  </div>
@@ -377,13 +381,13 @@ const Footer = () => {
  viewport={{ once: true }}
  className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl p-8 h-full"
  >
- <div className="flex items-center space-x-3 mb-6">
+ <div className={`flex items-center space-x-3 ${isRTL ? 'space-x-reverse' : ''} mb-6`}>
  <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl flex items-center justify-center">
  <FiTarget className="w-5 h-5 text-white" />
  </div>
- <h4 className="text-xl font-semibold text-white">Quick Links</h4>
+ <h4 className="text-xl font-semibold text-white">{t('footer.quickLinks')}</h4>
  </div>
- 
+
  <div className="space-y-3 mb-8">
  {/* Highlight Solutions and Tools */}
  <motion.div
@@ -394,15 +398,15 @@ const Footer = () => {
  >
  <Link
  href="/solutions"
- className="flex items-center space-x-3 p-3 rounded-xl bg-gradient-to-r from-purple-600/10 to-blue-600/10 border border-purple-500/20 hover:from-purple-600/20 hover:to-blue-600/20 transition-all duration-300 group"
+ className={`flex items-center space-x-3 ${isRTL ? 'space-x-reverse' : ''} p-3 rounded-xl bg-gradient-to-r from-purple-600/10 to-blue-600/10 border border-purple-500/20 hover:from-purple-600/20 hover:to-blue-600/20 transition-all duration-300 group`}
  >
  <FiPackage className="w-5 h-5 text-purple-400 group-hover:text-white transition-colors" />
- <span className="text-white font-medium flex-1">Solutions</span>
- <span className="text-xs text-purple-300 bg-purple-500/20 px-2 py-1 rounded-full">NEW</span>
- <FiArrowRight className="w-4 h-4 text-gray-500 group-hover:text-white group-hover:translate-x-1 transition-all duration-300" />
+ <span className="text-white font-medium flex-1">{t('nav.solutions')}</span>
+ <span className="text-xs text-purple-300 bg-purple-500/20 px-2 py-1 rounded-full">{t('footer.new')}</span>
+ <FiArrowRight className={`w-4 h-4 text-gray-500 group-hover:text-white group-hover:translate-x-1 transition-all duration-300 ${isRTL ? 'rotate-180' : ''}`} />
  </Link>
  </motion.div>
- 
+
  <motion.div
  initial={{ opacity: 0, x: -20 }}
  whileInView={{ opacity: 1, x: 0 }}
@@ -411,19 +415,19 @@ const Footer = () => {
  >
  <Link
  href="/tools"
- className="flex items-center space-x-3 p-3 rounded-xl bg-gradient-to-r from-cyan-600/10 to-blue-600/10 border border-cyan-500/20 hover:from-cyan-600/20 hover:to-blue-600/20 transition-all duration-300 group"
+ className={`flex items-center space-x-3 ${isRTL ? 'space-x-reverse' : ''} p-3 rounded-xl bg-gradient-to-r from-cyan-600/10 to-blue-600/10 border border-cyan-500/20 hover:from-cyan-600/20 hover:to-blue-600/20 transition-all duration-300 group`}
  >
  <FiTool className="w-5 h-5 text-cyan-400 group-hover:text-white transition-colors" />
- <span className="text-white font-medium flex-1">Tools</span>
- <span className="text-xs text-cyan-300 bg-cyan-500/20 px-2 py-1 rounded-full">NEW</span>
- <FiArrowRight className="w-4 h-4 text-gray-500 group-hover:text-white group-hover:translate-x-1 transition-all duration-300" />
+ <span className="text-white font-medium flex-1">{t('nav.tools')}</span>
+ <span className="text-xs text-cyan-300 bg-cyan-500/20 px-2 py-1 rounded-full">{t('footer.new')}</span>
+ <FiArrowRight className={`w-4 h-4 text-gray-500 group-hover:text-white group-hover:translate-x-1 transition-all duration-300 ${isRTL ? 'rotate-180' : ''}`} />
  </Link>
  </motion.div>
- 
+
  {/* Other Links */}
- {[...companyLinks.filter(link => link.name !== 'Solutions' && link.name !== 'Tools'), ...quickLinks.filter(link => link.name !== 'Business Solutions' && link.name !== 'Digital Tools')].map((link, index) => (
+ {[...companyLinks.filter(link => link.key !== 'solutions' && link.key !== 'tools'), ...quickLinks].map((link, index) => (
  <motion.div
- key={link.name}
+ key={link.key}
  initial={{ opacity: 0, x: -20 }}
  whileInView={{ opacity: 1, x: 0 }}
  transition={{ duration: 0.6, delay: (index + 2) * 0.05 }}
@@ -431,22 +435,22 @@ const Footer = () => {
  >
  <Link
  href={link.href}
- className="flex items-center space-x-3 p-3 rounded-xl hover:bg-white/5 transition-all duration-300 group"
+ className={`flex items-center space-x-3 ${isRTL ? 'space-x-reverse' : ''} p-3 rounded-xl hover:bg-white/5 transition-all duration-300 group`}
  >
  <link.icon className="w-5 h-5 text-purple-400 group-hover:text-white transition-colors" />
  <span className="text-gray-300 group-hover:text-white transition-colors flex-1">{link.name}</span>
- <FiArrowRight className="w-4 h-4 text-gray-500 group-hover:text-white group-hover:translate-x-1 transition-all duration-300" />
+ <FiArrowRight className={`w-4 h-4 text-gray-500 group-hover:text-white group-hover:translate-x-1 transition-all duration-300 ${isRTL ? 'rotate-180' : ''}`} />
  </Link>
  </motion.div>
  ))}
  </div>
 
  <div className="space-y-4">
- <h5 className="text-lg font-semibold text-white flex items-center space-x-2">
+ <h5 className={`text-lg font-semibold text-white flex items-center space-x-2 ${isRTL ? 'space-x-reverse' : ''}`}>
  <FiHeart className="w-5 h-5 text-red-400" />
- <span>Follow Us</span>
+ <span>{t('footer.followUs')}</span>
  </h5>
- 
+
  <div className="grid grid-cols-3 gap-3">
  {socialLinks.slice(0, 6).map((social, index) => (
  <motion.a
@@ -469,11 +473,11 @@ const Footer = () => {
 
  <Link
  href="/contact"
- className="flex items-center justify-center space-x-2 w-full py-3 bg-gradient-to-r from-purple-600 to-blue-600 rounded-xl text-white font-semibold hover:shadow-xl hover:shadow-purple-500/25 transition-all duration-300 group mt-6"
+ className={`flex items-center justify-center space-x-2 ${isRTL ? 'space-x-reverse' : ''} w-full py-3 bg-gradient-to-r from-purple-600 to-blue-600 rounded-xl text-white font-semibold hover:shadow-xl hover:shadow-purple-500/25 transition-all duration-300 group mt-6`}
  >
  <FiSend className="w-4 h-4" />
- <span>Start Your Project</span>
- <FiArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
+ <span>{t('footer.startYourProject')}</span>
+ <FiArrowRight className={`w-4 h-4 group-hover:translate-x-1 transition-transform duration-300 ${isRTL ? 'rotate-180' : ''}`} />
  </Link>
  </div>
  </motion.div>
@@ -490,28 +494,28 @@ const Footer = () => {
  whileInView={{ opacity: 1 }}
  transition={{ duration: 0.6 }}
  viewport={{ once: true }}
- className="flex items-center space-x-2 text-gray-400 text-sm"
+ className={`flex items-center space-x-2 ${isRTL ? 'space-x-reverse' : ''} text-gray-400 text-sm`}
  >
- <span>© {currentYear} UAE Digital Solutions.</span>
- <span className="flex items-center space-x-1">
- <span>Made with</span>
+ <span>© {currentYear} {t('footer.companyName')}.</span>
+ <span className={`flex items-center space-x-1 ${isRTL ? 'space-x-reverse' : ''}`}>
+ <span>{t('footer.madeWith')}</span>
  <FiHeart className="w-4 h-4 text-red-400 animate-pulse" />
- <span>in Dubai</span>
+ <span>{t('footer.inDubai')}</span>
  </span>
  </motion.div>
- 
+
  <motion.div
  initial={{ opacity: 0 }}
  whileInView={{ opacity: 1 }}
  transition={{ duration: 0.6, delay: 0.2 }}
  viewport={{ once: true }}
- className="flex items-center space-x-6 text-sm"
+ className={`flex items-center space-x-6 ${isRTL ? 'space-x-reverse' : ''} text-sm`}
  >
  <Link href="/privacy" className="text-gray-400 hover:text-white transition-colors duration-300 flex items-center space-x-1">
- <span>Privacy Policy</span>
+ <span>{t('footer.privacy')}</span>
  </Link>
  <Link href="/terms" className="text-gray-400 hover:text-white transition-colors duration-300 flex items-center space-x-1">
- <span>Terms of Service</span>
+ <span>{t('footer.terms')}</span>
  </Link>
  </motion.div>
  </div>

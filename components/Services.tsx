@@ -18,6 +18,8 @@ import {
   FiGrid
 } from 'react-icons/fi';
 import { getServices } from '@/lib/wordpress';
+import { useTranslations } from '@/hooks/useTranslations';
+import { useLocale } from '@/components/LocaleProvider';
 
 // Service icons mapping (same as before)
 const serviceIcons: { [key: string]: any } = {
@@ -59,6 +61,8 @@ const getServiceIcon = (service: any) => {
 };
 
 export default function Services() {
+  const { t } = useTranslations();
+  const { isRTL } = useLocale();
   const [services, setServices] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
@@ -189,17 +193,16 @@ export default function Services() {
               className="text-center"
             >
               <span className="text-purple-400 text-xs font-medium uppercase tracking-wider">
-                What We Do
+                {t('services.whatWeDo')}
               </span>
               <h2 className="text-3xl sm:text-4xl font-bold text-white mt-3 mb-4 leading-tight">
-                Services that
+                {t('services.servicesHeading')}
                 <span className="block bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-blue-400">
-                  drive growth
+                  {t('services.drivesGrowth')}
                 </span>
               </h2>
               <p className="text-gray-400 text-sm leading-relaxed mb-6">
-                We combine creativity, technology, and strategy to deliver digital solutions 
-                that transform your business.
+                {t('services.description')}
               </p>
 
               {/* View Toggle */}
@@ -285,7 +288,7 @@ export default function Services() {
               </div>
             ) : (
               <div className="text-center py-8">
-                <p className="text-gray-400">No services found.</p>
+                <p className="text-gray-400">{t('services.noServices')}</p>
               </div>
             )}
 
@@ -297,8 +300,8 @@ export default function Services() {
                   whileTap={{ scale: 0.95 }}
                   className="px-6 py-3 bg-white text-black font-semibold rounded-full flex items-center gap-2 mx-auto hover:gap-4 transition-all text-sm"
                 >
-                  View All Services
-                  <FiArrowRight className="w-4 h-4" />
+                  {t('services.viewAll')}
+                  <FiArrowRight className={`w-4 h-4 ${isRTL ? 'rotate-180' : ''}`} />
                 </motion.button>
               </Link>
             </div>
@@ -317,17 +320,16 @@ export default function Services() {
                 transition={{ duration: 0.6 }}
               >
                 <span className="text-purple-400 text-sm font-medium uppercase tracking-wider">
-                  What We Do
+                  {t('services.whatWeDo')}
                 </span>
                 <h2 className="text-5xl md:text-6xl font-bold text-white mt-4 mb-6">
-                  Services that
+                  {t('services.servicesHeading')}
                   <span className="block bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-blue-400">
-                    drive growth
+                    {t('services.drivesGrowth')}
                   </span>
                 </h2>
                 <p className="text-gray-400 text-lg mb-8 leading-relaxed">
-                  We combine creativity, technology, and strategy to deliver digital solutions 
-                  that transform your business and exceed expectations.
+                  {t('services.description')}
                 </p>
                 <Link href="/services">
                   <motion.button
@@ -335,8 +337,8 @@ export default function Services() {
                     whileTap={{ scale: 0.95 }}
                     className="px-6 py-3 bg-white text-black font-semibold rounded-full flex items-center gap-2 hover:gap-4 transition-all"
                   >
-                    View All Services
-                    <FiArrowRight />
+                    {t('services.viewAll')}
+                    <FiArrowRight className={isRTL ? 'rotate-180' : ''} />
                   </motion.button>
                 </Link>
               </motion.div>
@@ -355,7 +357,7 @@ export default function Services() {
                     className="w-1 h-3 bg-gray-600 rounded-full mt-2"
                   />
                 </div>
-                <span className="text-sm">Scroll to explore services</span>
+                <span className="text-sm">{t('services.scrollToExplore')}</span>
               </motion.div>
             </motion.div>
 
@@ -418,7 +420,7 @@ export default function Services() {
                 })
               ) : (
                 <div className="text-center py-12">
-                  <p className="text-gray-400">No services found.</p>
+                  <p className="text-gray-400">{t('services.noServices')}</p>
                 </div>
               )}
             </div>

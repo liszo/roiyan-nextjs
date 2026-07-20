@@ -2,39 +2,21 @@
 import { useEffect, useState, useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import CountUp from 'react-countup';
+import { useTranslations } from '@/hooks/useTranslations';
 
-const stats = [
-  {
-    value: 150,
-    suffix: '+',
-    label: 'Projects Completed',
-    description: 'Successful digital transformations',
-    icon: '🚀'
-  },
-  {
-    value: 98,
-    suffix: '%',
-    label: 'Client Satisfaction',
-    description: 'Average client satisfaction rate',
-    icon: '⭐'
-  },
-  {
-    value: 10,
-    suffix: 'x',
-    label: 'ROI Increase',
-    description: 'Average return on investment',
-    icon: '📈'
-  },
-  {
-    value: 24,
-    suffix: '/7',
-    label: 'Support Available',
-    description: 'Round-the-clock assistance',
-    icon: '🛠️'
-  }
+const statValues = [
+  { value: 150, suffix: '+', icon: '🚀' },
+  { value: 98, suffix: '%', icon: '⭐' },
+  { value: 10, suffix: 'x', icon: '📈' },
+  { value: 24, suffix: '/7', icon: '🛠️' }
 ];
 
+type StatItem = { label: string; description: string };
+
 export default function Stats() {
+  const { t, tRaw } = useTranslations();
+  const statItems = tRaw<StatItem[]>('stats.items') || [];
+  const stats = statValues.map((v, i) => ({ ...v, ...statItems[i] }));
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true });
   const [hasAnimated, setHasAnimated] = useState(false);
@@ -75,12 +57,12 @@ export default function Stats() {
           className="text-center mb-8 md:mb-16"
         >
           <span className="text-purple-400 text-xs md:text-sm font-medium uppercase tracking-wider">
-            Our Impact
+            {t('stats.ourImpact')}
           </span>
           <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mt-3 md:mt-4 leading-tight">
-            Numbers that
+            {t('stats.numbersThat')}
             <span className="block bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-blue-400">
-              speak volumes
+              {t('stats.speakVolumes')}
             </span>
           </h2>
         </motion.div>
@@ -146,7 +128,7 @@ export default function Stats() {
             className="mt-8 text-center"
           >
             <p className="text-gray-400 text-sm leading-relaxed">
-              Trusted by businesses worldwide to deliver exceptional digital experiences
+              {t('stats.trustedBy')}
             </p>
           </motion.div>
         )}

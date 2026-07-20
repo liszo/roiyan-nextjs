@@ -8,8 +8,12 @@ import { FaQuoteLeft, FaStar, FaLinkedin, FaTwitter, FaChevronLeft, FaChevronRig
 import { FiUser } from 'react-icons/fi';
 import Image from 'next/image';
 import { getTestimonials } from '@/lib/wordpress';
+import { useTranslations } from '@/hooks/useTranslations';
+import { useLocale } from '@/components/LocaleProvider';
 
 export default function Testimonials() {
+  const { t } = useTranslations();
+  const { isRTL } = useLocale();
   const containerRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
@@ -157,16 +161,16 @@ export default function Testimonials() {
           className="text-center mb-8 md:mb-20"
         >
           <span className="inline-block px-3 py-1.5 md:px-4 md:py-2 bg-white/10 backdrop-blur-md rounded-full text-white/80 text-xs md:text-sm font-medium mb-4 md:mb-6 border border-white/20">
-            Testimonials
+            {t('testimonials.badge')}
           </span>
           <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white mb-4 md:mb-6 leading-tight">
-            What our
+            {t('testimonials.whatOur')}
             <span className="block text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-blue-400">
-              clients say
+              {t('testimonials.clientsSay')}
             </span>
           </h2>
           <p className="text-sm md:text-lg lg:text-xl text-white/60 max-w-3xl mx-auto leading-relaxed">
-            Don&apos;t just take our word for it. Here&apos;s what industry leaders have to say about working with us.
+            {t('testimonials.subtitle')}
           </p>
         </motion.div>
 
@@ -234,7 +238,7 @@ export default function Testimonials() {
                         </p>
                         {testimonials[activeIndex].projectType && (
                           <p className={`text-white/40 mt-1 ${isMobile ? 'text-xs' : 'text-sm'}`}>
-                            Project: {testimonials[activeIndex].projectType}
+                            {t('testimonials.project')} {testimonials[activeIndex].projectType}
                           </p>
                         )}
                       </div>
@@ -334,10 +338,10 @@ export default function Testimonials() {
           className={`grid ${isMobile ? 'grid-cols-2 gap-4' : 'grid-cols-2 md:grid-cols-4 gap-6 md:gap-8'}`}
         >
           {[
-            { number: '98%', label: 'Client Satisfaction' },
-            { number: '150+', label: 'Projects Completed' },
-            { number: `${testimonials.length}+`, label: 'Happy Clients' },
-            { number: '5★', label: 'Average Rating' }
+            { number: '98%', label: t('testimonials.statLabels.clientSatisfaction') },
+            { number: '150+', label: t('testimonials.statLabels.projectsCompleted') },
+            { number: `${testimonials.length}+`, label: t('testimonials.statLabels.happyClients') },
+            { number: '5★', label: t('testimonials.statLabels.averageRating') }
           ].map((stat, index) => (
             <div key={index} className="text-center">
               <div className={`font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-blue-400 mb-1 md:mb-2 ${isMobile ? 'text-2xl' : 'text-2xl md:text-3xl lg:text-4xl'}`}>
