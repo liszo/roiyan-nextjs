@@ -4,8 +4,9 @@ import './globals.css';
 import ChatWidget from '@/components/ChatWidget';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import LocaleProvider from '@/components/LocaleProvider';
 
-const inter = Inter({ 
+const inter = Inter({
  subsets: ['latin'],
  variable: '--font-inter'
 });
@@ -23,10 +24,12 @@ export default function RootLayout({
  return (
  <html lang="en" suppressHydrationWarning={true} className={inter.variable}>
  <body suppressHydrationWarning={true}>
- <Header />
- <main>{children}</main>
- <Footer />
- <ChatWidget />
+  <LocaleProvider>
+   <Header />
+   <main>{children}</main>
+   <Footer />
+   <ChatWidget />
+  </LocaleProvider>
  </body>
  </html>
  );
