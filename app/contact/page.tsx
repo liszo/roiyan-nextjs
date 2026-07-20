@@ -33,8 +33,11 @@ import {
 import Calendar from '@/components/booking/Calendar';
 import TimeSlots from '@/components/booking/TimeSlots';
 import BookingForm from '@/components/booking/BookingForm';
+import { useTranslations } from '@/hooks/useTranslations';
+import { toFarsiDigits } from '@/lib/farsiNumerals';
 
 export default function ContactPage() {
+ const { t } = useTranslations();
  const [activeTab, setActiveTab] = useState('quote');
  const [bookingStep, setBookingStep] = useState(1);
  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
@@ -154,11 +157,11 @@ export default function ContactPage() {
  } else {
  const data = await response.json();
  console.error('Server response:', data);
- alert('Failed to send quote request. Please try again or contact us directly.');
+ alert('ارسال درخواست پیشنهاد قیمت با خطا مواجه شد. لطفاً دوباره تلاش کنید یا مستقیماً با ما تماس بگیرید.');
  }
  } catch (error) {
  console.error('Quote submission error:', error);
- alert('Failed to send quote request. Please try again or contact us directly.');
+ alert('ارسال درخواست پیشنهاد قیمت با خطا مواجه شد. لطفاً دوباره تلاش کنید یا مستقیماً با ما تماس بگیرید.');
  } finally {
  setIsSubmitting(false);
  }
@@ -188,22 +191,22 @@ export default function ContactPage() {
  const contactMethods = [
  {
  icon: FiMail,
- title: 'Email Us',
+ title: t('cta.sendEmail'),
  details: ['hello@uaedigitalteam.com', 'support@uaedigitalteam.com'],
  gradient: 'from-purple-600 to-blue-600',
  action: 'mailto:hello@uaedigitalteam.com'
  },
  {
  icon: FiPhone,
- title: 'Call Us',
+ title: t('cta.callUs'),
  details: ['+971 50 123 4567', '+971 4 123 4567'],
  gradient: 'from-blue-600 to-green-600',
  action: 'tel:+971501234567'
  },
  {
  icon: FiMapPin,
- title: 'Visit Us',
- details: ['Dubai Internet City', 'Building 123, Office 456', 'Dubai, UAE'],
+ title: t('cta.visitUs'),
+ details: [`سیتی اینترنت دبی`, `ساختمان ${toFarsiDigits('123')}، دفتر ${toFarsiDigits('456')}`, 'دبی، امارات متحده عربی'],
  gradient: 'from-green-600 to-yellow-600',
  action: 'https://maps.google.com'
  }
@@ -241,7 +244,7 @@ export default function ContactPage() {
  className="fixed top-24 left-1/2 transform -translate-x-1/2 z-50 bg-green-600 text-white px-6 py-3 rounded-2xl shadow-2xl flex items-center gap-3"
  >
  <FiCheckCircle className="w-5 h-5" />
- <span className="font-semibold">Quote request sent successfully!</span>
+ <span className="font-semibold">درخواست پیشنهاد قیمت با موفقیت ارسال شد!</span>
  </motion.div>
  )}
  </AnimatePresence>
@@ -297,22 +300,22 @@ export default function ContactPage() {
  <span className={`px-6 py-3 bg-gradient-to-r from-purple-500/20 to-blue-500/20 backdrop-blur-sm rounded-full text-purple-300 border border-purple-500/30 font-medium ${
  isMobile ? 'text-sm' : ''
  }`}>
- Let&apos;s Connect & Create Magic
+ بیایید ارتباط برقرار کنیم و جادو بیافرینیم
  </span>
  </motion.div>
 
  <h1 className={`font-bold bg-gradient-to-r from-white via-purple-200 to-blue-200 bg-clip-text text-transparent leading-tight ${
  isMobile ? 'text-4xl mb-6' : 'text-6xl md:text-8xl lg:text-9xl mb-8'
  }`}>
- Get In Touch
+ {t('pages.contact.title')}
  </h1>
- 
+
  <p className={`text-gray-300 max-w-4xl mx-auto leading-relaxed ${
  isMobile ? 'text-base px-4' : 'text-xl md:text-2xl'
  }`}>
- Ready to transform your business? Let&apos;s discuss your project and create something 
- <span className="bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent font-semibold"> extraordinary </span>
- together.
+ آماده‌اید کسب‌وکار خود را متحول کنید؟ بیایید درباره پروژه شما گفتگو کنیم و با هم چیزی
+ <span className="bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent font-semibold"> خارق‌العاده </span>
+ بسازیم.
  </p>
 
  {/* Mobile: Quick Contact Cards */}
@@ -329,7 +332,7 @@ export default function ContactPage() {
  className="flex flex-col items-center gap-2 p-3 bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10 hover:border-purple-500/30 transition-all duration-300"
  >
  <FiMail className="w-5 h-5 text-purple-400" />
- <span className="text-gray-300 text-xs font-medium">Email</span>
+ <span className="text-gray-300 text-xs font-medium">{t('pages.contact.email')}</span>
  </motion.a>
  <motion.a
  href="tel:+971501234567"
@@ -337,7 +340,7 @@ export default function ContactPage() {
  className="flex flex-col items-center gap-2 p-3 bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10 hover:border-blue-500/30 transition-all duration-300"
  >
  <FiPhone className="w-5 h-5 text-blue-400" />
- <span className="text-gray-300 text-xs font-medium">Call</span>
+ <span className="text-gray-300 text-xs font-medium">تماس</span>
  </motion.a>
  <motion.a
  href="https://maps.google.com"
@@ -347,7 +350,7 @@ export default function ContactPage() {
  className="flex flex-col items-center gap-2 p-3 bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10 hover:border-green-500/30 transition-all duration-300"
  >
  <FiMapPin className="w-5 h-5 text-green-400" />
- <span className="text-gray-300 text-xs font-medium">Visit</span>
+ <span className="text-gray-300 text-xs font-medium">بازدید</span>
  </motion.a>
  </motion.div>
  )}
@@ -365,21 +368,21 @@ export default function ContactPage() {
  className="flex items-center gap-3 px-6 py-3 bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10 hover:border-purple-500/30 transition-all duration-300"
  >
  <FiHeart className="w-5 h-5 text-red-400" />
- <span className="text-gray-300">Trusted by 50+ Clients</span>
+ <span className="text-gray-300">مورد اعتماد بیش از {toFarsiDigits('50+')} مشتری</span>
  </motion.div>
  <motion.div
  whileHover={{ scale: 1.05, y: -5 }}
  className="flex items-center gap-3 px-6 py-3 bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10 hover:border-blue-500/30 transition-all duration-300"
  >
  <FiShield className="w-5 h-5 text-green-400" />
- <span className="text-gray-300">24/7 Support</span>
+ <span className="text-gray-300">پشتیبانی {toFarsiDigits('24/7')}</span>
  </motion.div>
  <motion.div
  whileHover={{ scale: 1.05, y: -5 }}
  className="flex items-center gap-3 px-6 py-3 bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10 hover:border-green-500/30 transition-all duration-300"
  >
  <FiGlobe className="w-5 h-5 text-blue-400" />
- <span className="text-gray-300">Global Reach</span>
+ <span className="text-gray-300">دسترسی جهانی</span>
  </motion.div>
  </motion.div>
  )}
@@ -407,9 +410,9 @@ export default function ContactPage() {
  isMobile ? 'text-2xl text-center' : 'text-4xl lg:text-5xl'
  }`}
  >
- Let&apos;s Start a Conversation
+ بیایید گفتگو را شروع کنیم
  </motion.h2>
- <motion.p 
+ <motion.p
  initial={{ opacity: 0, y: 20 }}
  whileInView={{ opacity: 1, y: 0 }}
  transition={{ duration: 0.6, delay: 0.1 }}
@@ -417,7 +420,7 @@ export default function ContactPage() {
  isMobile ? 'text-base text-center px-4' : 'text-lg'
  }`}
  >
- We&apos;re here to help you achieve your digital goals. Reach out to us through any of the channels below or fill out the form to get started.
+ ما اینجا هستیم تا به شما در دستیابی به اهداف دیجیتال کمک کنیم. از طریق هر یک از راه‌های زیر با ما در تماس باشید یا فرم را پر کنید تا شروع کنیم.
  </motion.p>
  </div>
 
@@ -444,7 +447,7 @@ export default function ContactPage() {
  </div>
  <div className="flex-1">
  <h3 className="text-white font-semibold text-base">{item.title}</h3>
- <p className="text-gray-400 text-sm">{item.details[0]}</p>
+ <p className="text-gray-400 text-sm" dir={item.icon === FiPhone ? 'ltr' : undefined}>{item.details[0]}</p>
  </div>
  <motion.div
  animate={{ rotate: expandedContact === index ? 180 : 0 }}
@@ -465,7 +468,7 @@ export default function ContactPage() {
  >
  <div className="p-4 space-y-2">
  {item.details.slice(1).map((detail, i) => (
- <p key={i} className="text-gray-400 text-sm">{detail}</p>
+ <p key={i} className="text-gray-400 text-sm" dir={item.icon === FiPhone ? 'ltr' : undefined}>{detail}</p>
  ))}
  <a
  href={item.action}
@@ -473,8 +476,8 @@ export default function ContactPage() {
  rel={item.action.startsWith('http') ? 'noopener noreferrer' : undefined}
  className="inline-flex items-center gap-2 mt-3 px-4 py-2 bg-gradient-to-r from-purple-600 to-blue-600 text-white text-sm font-semibold rounded-full hover:shadow-lg transition-all duration-300"
  >
- <span>Contact Now</span>
- <FiArrowRight className="w-3 h-3" />
+ <span>اکنون تماس بگیرید</span>
+ <FiArrowRight className="w-3 h-3 rotate-180" />
  </a>
  </div>
  </motion.div>
@@ -490,7 +493,7 @@ export default function ContactPage() {
  <div>
  <h3 className="text-white font-semibold mb-2 text-lg">{item.title}</h3>
  {item.details.map((detail, i) => (
- <p key={i} className="text-gray-400 leading-relaxed">{detail}</p>
+ <p key={i} className="text-gray-400 leading-relaxed" dir={item.icon === FiPhone ? 'ltr' : undefined}>{detail}</p>
  ))}
  </div>
  </div>
@@ -512,13 +515,13 @@ export default function ContactPage() {
  isMobile ? 'text-base' : 'text-lg'
  }`}>
  <FiClock className={`text-purple-400 ${isMobile ? 'w-5 h-5' : 'w-6 h-6'}`} />
- Working Hours
+ {t('cta.workingHours')}
  </h3>
  <div className={`space-y-3 text-gray-300 ${isMobile ? 'text-sm' : ''}`}>
  {[
- { day: 'Monday - Friday', time: '9:00 AM - 6:00 PM' },
- { day: 'Saturday', time: '10:00 AM - 4:00 PM' },
- { day: 'Sunday', time: 'Closed' }
+ { day: 'دوشنبه تا جمعه', time: `${toFarsiDigits('9:00')} صبح تا ${toFarsiDigits('6:00')} عصر` },
+ { day: 'شنبه', time: `${toFarsiDigits('10:00')} صبح تا ${toFarsiDigits('4:00')} عصر` },
+ { day: 'یکشنبه', time: 'تعطیل' }
  ].map((schedule, i) => (
  <div key={i} className="flex justify-between items-center py-2 border-b border-white/10 last:border-b-0">
  <span className="font-medium">{schedule.day}</span>
@@ -562,7 +565,7 @@ export default function ContactPage() {
  }`}
  >
  <FiSend className={`${isMobile ? 'w-4 h-4' : 'w-5 h-5'}`} />
- <span>Request Quote</span>
+ <span>درخواست پیشنهاد قیمت</span>
  </button>
  
  <button
@@ -579,7 +582,7 @@ export default function ContactPage() {
  }`}
  >
  <FiCalendar className={`${isMobile ? 'w-4 h-4' : 'w-5 h-5'}`} />
- <span>Book Meeting</span>
+ <span>رزرو جلسه</span>
  </button>
  </div>
  </div>
@@ -599,12 +602,12 @@ export default function ContactPage() {
  <h3 className={`font-bold text-white mb-2 ${
  isMobile ? 'text-xl' : 'text-2xl'
  }`}>
- Get Your Project Quote
+ پیشنهاد قیمت پروژه خود را دریافت کنید
  </h3>
  <p className={`text-gray-400 ${
  isMobile ? 'text-sm' : ''
  }`}>
- Tell us about your project and we&apos;ll provide you with a detailed quote within 24 hours.
+ درباره پروژه خود به ما بگویید و ما ظرف {toFarsiDigits('24')} ساعت پیشنهاد قیمت دقیقی برای شما ارسال می‌کنیم.
  </p>
  </div>
 
@@ -618,7 +621,7 @@ export default function ContactPage() {
  <label className={`block text-white font-semibold mb-2 ${
  isMobile ? 'text-sm' : ''
  }`}>
- Full Name *
+ نام کامل *
  </label>
  <input
  type="text"
@@ -627,7 +630,7 @@ export default function ContactPage() {
  className={`w-full bg-white/5 backdrop-blur-sm border border-white/20 rounded-2xl text-white placeholder-gray-400 focus:border-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-500/20 transition-all duration-300 ${
  isMobile ? 'px-4 py-3 text-sm' : 'px-6 py-4'
  }`}
- placeholder="Enter your full name"
+ placeholder="نام و نام خانوادگی خود را وارد کنید"
  required
  />
  </motion.div>
@@ -640,7 +643,7 @@ export default function ContactPage() {
  <label className={`block text-white font-semibold mb-2 ${
  isMobile ? 'text-sm' : ''
  }`}>
- Email Address *
+ آدرس ایمیل *
  </label>
  <input
  type="email"
@@ -649,7 +652,8 @@ export default function ContactPage() {
  className={`w-full bg-white/5 backdrop-blur-sm border border-white/20 rounded-2xl text-white placeholder-gray-400 focus:border-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-500/20 transition-all duration-300 ${
  isMobile ? 'px-4 py-3 text-sm' : 'px-6 py-4'
  }`}
- placeholder="Enter your email address"
+ placeholder="آدرس ایمیل خود را وارد کنید"
+ dir="ltr"
  required
  />
  </motion.div>
@@ -664,7 +668,7 @@ export default function ContactPage() {
  <label className={`block text-white font-semibold mb-2 ${
  isMobile ? 'text-sm' : ''
  }`}>
- Company Name
+ نام شرکت
  </label>
  <input
  type="text"
@@ -673,7 +677,7 @@ export default function ContactPage() {
  className={`w-full bg-white/5 backdrop-blur-sm border border-white/20 rounded-2xl text-white placeholder-gray-400 focus:border-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-500/20 transition-all duration-300 ${
  isMobile ? 'px-4 py-3 text-sm' : 'px-6 py-4'
  }`}
- placeholder="Enter your company name"
+ placeholder="نام شرکت خود را وارد کنید"
  />
  </motion.div>
 
@@ -685,7 +689,7 @@ export default function ContactPage() {
  <label className={`block text-white font-semibold mb-2 ${
  isMobile ? 'text-sm' : ''
  }`}>
- Service Needed *
+ خدمت مورد نیاز *
  </label>
  <select
  value={quoteForm.service}
@@ -695,15 +699,15 @@ export default function ContactPage() {
  }`}
  required
  >
- <option value="">Select a service</option>
- <option value="Website Design & Redesign">Website Design & Redesign</option>
- <option value="E-commerce Enhancement & Marketing">E-commerce Enhancement & Marketing</option>
- <option value="AI Process Automation">AI Process Automation</option>
- <option value="Website Performance Optimization">Website Performance Optimization</option>
- <option value="UI/UX Design & Branding">UI/UX Design & Branding</option>
- <option value="Online Booking Systems">Online Booking Systems</option>
- <option value="Search Engine Optimization (SEO)">Search Engine Optimization (SEO)</option>
- <option value="Website Security Services">Website Security Services</option>
+ <option value="">یک خدمت را انتخاب کنید</option>
+ <option value="Website Design & Redesign">{t('footer.websiteDesign')}</option>
+ <option value="E-commerce Enhancement & Marketing">{t('footer.ecommerceEnhancement')}</option>
+ <option value="AI Process Automation">{t('footer.aiAutomation')}</option>
+ <option value="Website Performance Optimization">{t('footer.performanceOptimization')}</option>
+ <option value="UI/UX Design & Branding">{t('footer.uiuxBranding')}</option>
+ <option value="Online Booking Systems">{t('footer.onlineBooking')}</option>
+ <option value="Search Engine Optimization (SEO)">{t('footer.seo')}</option>
+ <option value="Website Security Services">{t('footer.websiteSecurity')}</option>
  </select>
  </motion.div>
  </div>
@@ -717,7 +721,7 @@ export default function ContactPage() {
  <label className={`block text-white font-semibold mb-2 ${
  isMobile ? 'text-sm' : ''
  }`}>
- Budget Range
+ محدوده بودجه
  </label>
  <select
  value={quoteForm.budget}
@@ -726,12 +730,12 @@ export default function ContactPage() {
  isMobile ? 'px-4 py-3 text-sm' : 'px-6 py-4'
  }`}
  >
- <option value="">Select budget range</option>
- <option value="Under $5,000">Under $5,000</option>
- <option value="$5,000 - $10,000">$5,000 - $10,000</option>
- <option value="$10,000 - $25,000">$10,000 - $25,000</option>
- <option value="$25,000 - $50,000">$25,000 - $50,000</option>
- <option value="$50,000+">$50,000+</option>
+ <option value="">محدوده بودجه را انتخاب کنید</option>
+ <option value="Under $5,000">{`کمتر از ${toFarsiDigits('5,000')} دلار`}</option>
+ <option value="$5,000 - $10,000">{`${toFarsiDigits('5,000')} تا ${toFarsiDigits('10,000')} دلار`}</option>
+ <option value="$10,000 - $25,000">{`${toFarsiDigits('10,000')} تا ${toFarsiDigits('25,000')} دلار`}</option>
+ <option value="$25,000 - $50,000">{`${toFarsiDigits('25,000')} تا ${toFarsiDigits('50,000')} دلار`}</option>
+ <option value="$50,000+">{`بیش از ${toFarsiDigits('50,000')} دلار`}</option>
  </select>
  </motion.div>
 
@@ -743,7 +747,7 @@ export default function ContactPage() {
  <label className={`block text-white font-semibold mb-2 ${
  isMobile ? 'text-sm' : ''
  }`}>
- Timeline
+ بازه زمانی
  </label>
  <select
  value={quoteForm.timeline}
@@ -752,13 +756,13 @@ export default function ContactPage() {
  isMobile ? 'px-4 py-3 text-sm' : 'px-6 py-4'
  }`}
  >
- <option value="">Select timeline</option>
- <option value="ASAP">ASAP</option>
- <option value="1-2 weeks">1-2 weeks</option>
- <option value="1 month">1 month</option>
- <option value="2-3 months">2-3 months</option>
- <option value="3-6 months">3-6 months</option>
- <option value="6+ months">6+ months</option>
+ <option value="">بازه زمانی را انتخاب کنید</option>
+ <option value="ASAP">در اسرع وقت</option>
+ <option value="1-2 weeks">{`${toFarsiDigits('1')} تا ${toFarsiDigits('2')} هفته`}</option>
+ <option value="1 month">{`${toFarsiDigits('1')} ماه`}</option>
+ <option value="2-3 months">{`${toFarsiDigits('2')} تا ${toFarsiDigits('3')} ماه`}</option>
+ <option value="3-6 months">{`${toFarsiDigits('3')} تا ${toFarsiDigits('6')} ماه`}</option>
+ <option value="6+ months">{`بیش از ${toFarsiDigits('6')} ماه`}</option>
  </select>
  </motion.div>
  </div>
@@ -771,7 +775,7 @@ export default function ContactPage() {
  <label className={`block text-white font-semibold mb-2 ${
  isMobile ? 'text-sm' : ''
  }`}>
- Project Details *
+ جزئیات پروژه *
  </label>
  <textarea
  value={quoteForm.message}
@@ -780,7 +784,7 @@ export default function ContactPage() {
  className={`w-full bg-white/5 backdrop-blur-sm border border-white/20 rounded-2xl text-white placeholder-gray-400 focus:border-purple-500 focus:outline-none focus:ring-2 focus:ring-purple-500/20 transition-all duration-300 resize-none ${
  isMobile ? 'px-4 py-3 text-sm' : 'px-6 py-4'
  }`}
- placeholder="Tell us about your project, goals, and any specific requirements..."
+ placeholder="درباره پروژه، اهداف و هرگونه نیاز خاص خود برای ما بنویسید..."
  required
  />
  </motion.div>
@@ -806,11 +810,11 @@ export default function ContactPage() {
  transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
  className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full"
  />
- <span>Sending Request...</span>
+ <span>در حال ارسال درخواست...</span>
  </>
  ) : (
  <>
- <span>Send Quote Request</span>
+ <span>ارسال درخواست پیشنهاد قیمت</span>
  <FiSend className="w-5 h-5" />
  </>
  )}
@@ -830,21 +834,21 @@ export default function ContactPage() {
  <h3 className={`font-bold text-white mb-2 ${
  isMobile ? 'text-xl' : 'text-2xl'
  }`}>
- Book a Meeting
+ رزرو جلسه
  </h3>
  <p className={`text-gray-400 ${
  isMobile ? 'text-sm' : ''
  }`}>
- Schedule a free consultation to discuss your project in detail.
+ یک مشاوره رایگان رزرو کنید تا درباره پروژه شما به‌طور مفصل گفتگو کنیم.
  </p>
  </div>
 
  {/* Mobile-Optimized Booking Steps */}
  <div className={`mb-6 ${isMobile ? 'space-y-2' : 'flex items-center gap-4'}`}>
  {[
- { step: 1, label: 'Select Date', icon: FiCalendar },
- { step: 2, label: 'Choose Time', icon: FiClock },
- { step: 3, label: 'Your Details', icon: FiUsers }
+ { step: 1, label: 'انتخاب تاریخ', icon: FiCalendar },
+ { step: 2, label: 'انتخاب زمان', icon: FiClock },
+ { step: 3, label: 'اطلاعات شما', icon: FiUsers }
  ].map((item, index) => (
  <div key={index} className={`flex items-center gap-3 ${
  isMobile ? 'p-2 rounded-xl' : ''
@@ -867,7 +871,7 @@ export default function ContactPage() {
  {bookingStep > item.step ? (
  <FiCheckCircle className={`${isMobile ? 'w-4 h-4' : 'w-5 h-5'}`} />
  ) : (
- <span className={`font-bold ${isMobile ? 'text-xs' : 'text-sm'}`}>{item.step}</span>
+ <span className={`font-bold ${isMobile ? 'text-xs' : 'text-sm'}`}>{toFarsiDigits(item.step)}</span>
  )}
  </div>
  <span className={`font-semibold ${
@@ -876,7 +880,7 @@ export default function ContactPage() {
  {item.label}
  </span>
  {!isMobile && index < 2 && (
- <FiArrowRight className="w-4 h-4 text-gray-600 ml-2" />
+ <FiArrowRight className="w-4 h-4 text-gray-600 mr-2 rotate-180" />
  )}
  </div>
  ))}
@@ -912,7 +916,7 @@ export default function ContactPage() {
  className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors"
  >
  <FiArrowLeft className="w-4 h-4" />
- <span className={`${isMobile ? 'text-sm' : ''}`}>Back to Calendar</span>
+ <span className={`${isMobile ? 'text-sm' : ''}`}>بازگشت به تقویم</span>
  </button>
  </div>
  <TimeSlots
@@ -939,7 +943,7 @@ export default function ContactPage() {
  className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors"
  >
  <FiArrowLeft className="w-4 h-4" />
- <span className={`${isMobile ? 'text-sm' : ''}`}>Back to Time Slots</span>
+ <span className={`${isMobile ? 'text-sm' : ''}`}>بازگشت به بازه‌های زمانی</span>
  </button>
  </div>
  <BookingForm
@@ -971,36 +975,36 @@ export default function ContactPage() {
  <h2 className={`font-bold bg-gradient-to-r from-white via-purple-200 to-blue-200 bg-clip-text text-transparent mb-6 ${
  isMobile ? 'text-3xl' : 'text-4xl md:text-5xl'
  }`}>
- Frequently Asked Questions
+ سوالات متداول
  </h2>
  <p className={`text-gray-400 ${
  isMobile ? 'text-base px-4' : 'text-lg'
  }`}>
- Got questions? We&apos;ve got answers. Here are the most common questions our clients ask.
+ سوالی دارید؟ ما پاسخ داریم. در ادامه رایج‌ترین سوالاتی که مشتریان از ما می‌پرسند را می‌بینید.
  </p>
  </motion.div>
 
  <div className="space-y-4">
  {[
  {
- question: "How long does it take to complete a project?",
- answer: "Project timelines vary depending on complexity and scope. A simple website redesign might take 2-4 weeks, while a complex e-commerce platform could take 2-3 months. We'll provide you with a detailed timeline during our initial consultation."
+ question: "تکمیل یک پروژه چقدر طول می‌کشد؟",
+ answer: `زمان‌بندی پروژه بسته به پیچیدگی و دامنه کار متفاوت است. بازطراحی یک وب‌سایت ساده معمولاً ${toFarsiDigits('2')} تا ${toFarsiDigits('4')} هفته زمان می‌برد، در حالی که یک پلتفرم تجارت الکترونیکی پیچیده می‌تواند ${toFarsiDigits('2')} تا ${toFarsiDigits('3')} ماه طول بکشد. ما در مشاوره اولیه، زمان‌بندی دقیقی در اختیار شما قرار می‌دهیم.`
  },
  {
- question: "Do you provide ongoing support after project completion?",
- answer: "Yes! We offer comprehensive support packages including maintenance, updates, security monitoring, and technical support. Our team is available 24/7 to ensure your digital presence runs smoothly."
+ question: "آیا پس از تکمیل پروژه، پشتیبانی مستمر ارائه می‌دهید؟",
+ answer: "بله! ما بسته‌های پشتیبانی جامعی شامل نگهداری، به‌روزرسانی، پایش امنیتی و پشتیبانی فنی ارائه می‌دهیم. تیم ما به‌صورت شبانه‌روزی در دسترس است تا از عملکرد روان حضور دیجیتال شما اطمینان حاصل کند."
  },
  {
- question: "What's your pricing structure?",
- answer: "Our pricing is project-based and depends on your specific requirements. We offer competitive rates and flexible payment plans. Contact us for a detailed quote tailored to your needs."
+ question: "ساختار قیمت‌گذاری شما چگونه است؟",
+ answer: "قیمت‌گذاری ما بر اساس پروژه و نیازهای خاص شما تعیین می‌شود. ما نرخ‌های رقابتی و طرح‌های پرداخت انعطاف‌پذیر ارائه می‌دهیم. برای دریافت پیشنهاد قیمت متناسب با نیاز خود با ما تماس بگیرید."
  },
  {
- question: "Do you work with businesses outside the UAE?",
- answer: "Absolutely! While we're based in Dubai, we work with clients globally. Our remote collaboration tools and processes ensure seamless communication regardless of location."
+ question: "آیا با کسب‌وکارهای خارج از امارات نیز همکاری می‌کنید؟",
+ answer: "قطعاً! اگرچه دفتر ما در دبی است، اما با مشتریانی در سراسر جهان همکاری می‌کنیم. ابزارها و فرآیندهای همکاری از راه دور ما، ارتباطی روان و بدون محدودیت مکانی را تضمین می‌کند."
  },
  {
- question: "What makes UAE Digital Team different?",
- answer: "We combine cutting-edge technology with creative excellence, backed by years of experience. Our team focuses on delivering measurable results and building long-term partnerships with our clients."
+ question: "چه چیزی تیم راهکارهای دیجیتال امارات را متمایز می‌کند؟",
+ answer: "ما فناوری پیشرفته را با خلاقیت برجسته و سال‌ها تجربه ترکیب می‌کنیم. تیم ما بر ارائه نتایج قابل‌اندازه‌گیری و ایجاد همکاری‌های بلندمدت با مشتریان تمرکز دارد."
  }
  ].map((faq, index) => (
  <motion.div
@@ -1012,11 +1016,11 @@ export default function ContactPage() {
  >
  <button
  onClick={() => setExpandedContact(expandedContact === index + 10 ? null : index + 10)}
- className={`w-full text-left flex items-center justify-between transition-all duration-300 ${
+ className={`w-full text-right flex items-center justify-between transition-all duration-300 ${
  isMobile ? 'p-4' : 'p-6'
  }`}
  >
- <h3 className={`font-semibold text-white pr-4 ${
+ <h3 className={`font-semibold text-white pl-4 ${
  isMobile ? 'text-base' : 'text-lg'
  }`}>
  {faq.question}
@@ -1099,13 +1103,13 @@ export default function ContactPage() {
  </motion.div>
 
  <h2 className="text-3xl font-bold bg-gradient-to-r from-white via-purple-200 to-blue-200 bg-clip-text text-transparent mb-4">
- Ready to Get Started?
+ آماده شروع هستید؟
  </h2>
 
  <p className="text-gray-300 mb-8 leading-relaxed px-4 text-base">
- Let&apos;s turn your vision into reality. Our team is ready to help you achieve your digital goals.
+ بیایید چشم‌انداز شما را به واقعیت تبدیل کنیم. تیم ما آماده است تا به شما در دستیابی به اهداف دیجیتال کمک کند.
  </p>
- 
+
  <div className="space-y-4">
  <motion.button
  onClick={() => setActiveTab('quote')}
@@ -1113,17 +1117,17 @@ export default function ContactPage() {
  whileTap={{ scale: 0.98 }}
  className="w-full px-8 py-4 bg-gradient-to-r from-purple-600 to-blue-600 text-white font-bold rounded-full flex items-center justify-center gap-3 hover:shadow-lg transition-all duration-300"
  >
- <span>Get Your Quote</span>
+ <span>دریافت پیشنهاد قیمت</span>
  <FiSend className="w-5 h-5" />
  </motion.button>
- 
+
  <motion.button
  onClick={() => setActiveTab('meeting')}
  whileHover={{ scale: 1.02 }}
  whileTap={{ scale: 0.98 }}
  className="w-full px-8 py-4 bg-white/5 backdrop-blur-sm border-2 border-white/20 text-white font-semibold rounded-full hover:border-purple-500/50 transition-all duration-300"
  >
- Book a Meeting
+ رزرو جلسه
  </motion.button>
  </div>
  </div>
@@ -1131,34 +1135,34 @@ export default function ContactPage() {
  // Desktop CTA Layout
  <div>
  <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-white via-purple-200 to-blue-200 bg-clip-text text-transparent mb-6">
- Ready to Get Started?
+ آماده شروع هستید؟
  </h2>
  <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
- Let&apos;s turn your vision into reality. Our team is ready to help you achieve your digital goals.
+ بیایید چشم‌انداز شما را به واقعیت تبدیل کنیم. تیم ما آماده است تا به شما در دستیابی به اهداف دیجیتال کمک کند.
  </p>
  <div className="flex flex-wrap gap-4 justify-center">
  <motion.button
  onClick={() => setActiveTab('quote')}
- whileHover={{ 
- scale: 1.05, 
- boxShadow: '0 25px 50px rgba(139, 92, 246, 0.5)' 
+ whileHover={{
+ scale: 1.05,
+ boxShadow: '0 25px 50px rgba(139, 92, 246, 0.5)'
  }}
  whileTap={{ scale: 0.95 }}
  className="px-8 py-4 bg-gradient-to-r from-purple-600 to-blue-600 text-white font-semibold rounded-full flex items-center gap-2 hover:shadow-2xl transition-all duration-300"
  >
- Get Your Quote
+ دریافت پیشنهاد قیمت
  <FiSend className="w-5 h-5" />
  </motion.button>
  <motion.button
  onClick={() => setActiveTab('meeting')}
- whileHover={{ 
+ whileHover={{
  scale: 1.05,
  backgroundColor: 'rgba(255, 255, 255, 0.15)'
  }}
  whileTap={{ scale: 0.95 }}
  className="px-8 py-4 bg-white/5 backdrop-blur-sm border-2 border-white/20 text-white font-semibold rounded-full hover:border-purple-500/50 transition-all duration-300"
  >
- Book a Meeting
+ رزرو جلسه
  </motion.button>
  </div>
  </div>
@@ -1206,10 +1210,10 @@ export default function ContactPage() {
  className="bg-white/10 backdrop-blur-md rounded-3xl p-4 border border-white/20"
  >
  <div className="flex items-center justify-between mb-3">
- <h3 className="text-white font-semibold text-sm">Quick Contact</h3>
+ <h3 className="text-white font-semibold text-sm">تماس سریع</h3>
  <div className="flex gap-2">
  <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
- <span className="text-green-400 text-xs font-medium">Online</span>
+ <span className="text-green-400 text-xs font-medium">آنلاین</span>
  </div>
  </div>
  <div className="grid grid-cols-3 gap-2">
@@ -1219,7 +1223,7 @@ export default function ContactPage() {
  className="flex flex-col items-center gap-1 p-2 bg-white/10 rounded-xl hover:bg-white/20 transition-all duration-300"
  >
  <FiMail className="w-4 h-4 text-purple-400" />
- <span className="text-white text-xs font-medium">Email</span>
+ <span className="text-white text-xs font-medium">{t('pages.contact.email')}</span>
  </motion.a>
  <motion.a
  href="tel:+971501234567"
@@ -1227,7 +1231,7 @@ export default function ContactPage() {
  className="flex flex-col items-center gap-1 p-2 bg-white/10 rounded-xl hover:bg-white/20 transition-all duration-300"
  >
  <FiPhone className="w-4 h-4 text-blue-400" />
- <span className="text-white text-xs font-medium">Call</span>
+ <span className="text-white text-xs font-medium">تماس</span>
  </motion.a>
  <motion.button
  onClick={() => setActiveTab('meeting')}
@@ -1235,7 +1239,7 @@ export default function ContactPage() {
  className="flex flex-col items-center gap-1 p-2 bg-white/10 rounded-xl hover:bg-white/20 transition-all duration-300"
  >
  <FiCalendar className="w-4 h-4 text-green-400" />
- <span className="text-white text-xs font-medium">Meet</span>
+ <span className="text-white text-xs font-medium">جلسه</span>
  </motion.button>
  </div>
  </motion.div>

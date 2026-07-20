@@ -42,6 +42,8 @@ import {
 } from 'react-icons/fi';
 import { getToolBySlug, getRelatedTools, getRelatedSolutions, cleanHtmlContent, getTargetAudienceName, getCategoryName } from '@/lib/wordpress';
 import BodylabChatWidget from '@/components/BodylabChatWidget';
+import { useTranslations } from '@/hooks/useTranslations';
+import { toFarsiDigits } from '@/lib/farsiNumerals';
 
 // Tool type icons
 const getToolTypeIcon = (type: string) => {
@@ -111,6 +113,7 @@ const parseTechStack = (techString: string | string[] | null | undefined): strin
 
 export default function ToolSinglePage() {
   const params = useParams();
+  const { t } = useTranslations();
   const [tool, setTool] = useState<any>(null);
   const [relatedTools, setRelatedTools] = useState<any[]>([]);
   const [relatedSolutions, setRelatedSolutions] = useState<any[]>([]);
@@ -179,7 +182,7 @@ export default function ToolSinglePage() {
             transition={{ duration: 2, repeat: Infinity }}
             className="text-gray-400 text-lg"
           >
-            Loading tool...
+            در حال بارگذاری ابزار...
           </motion.p>
         </div>
       </div>
@@ -191,15 +194,15 @@ export default function ToolSinglePage() {
       <div className="min-h-screen bg-black flex items-center justify-center">
         <div className="text-center">
           <FiAlertCircle className="w-16 h-16 text-red-500 mx-auto mb-4" />
-          <h1 className="text-2xl font-bold text-white mb-2">Tool Not Found</h1>
-          <p className="text-gray-400 mb-6">The tool you&apos;re looking for doesn&apos;t exist.</p>
+          <h1 className="text-2xl font-bold text-white mb-2">ابزار یافت نشد</h1>
+          <p className="text-gray-400 mb-6">ابزاری که به دنبال آن هستید وجود ندارد.</p>
           <Link href="/tools">
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className="px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold rounded-xl"
             >
-              Back to Tools
+              بازگشت به ابزارها
             </motion.button>
           </Link>
         </div>
@@ -226,10 +229,10 @@ export default function ToolSinglePage() {
             animate={{ opacity: 1, y: 0 }}
             className="flex items-center gap-2 text-sm text-gray-400 mb-8"
           >
-            <Link href="/" className="hover:text-white transition-colors">Home</Link>
-            <FiChevronRight className="w-4 h-4" />
-            <Link href="/tools" className="hover:text-white transition-colors">Tools</Link>
-            <FiChevronRight className="w-4 h-4" />
+            <Link href="/" className="hover:text-white transition-colors">{t('nav.home')}</Link>
+            <FiChevronRight className="w-4 h-4 rotate-180" />
+            <Link href="/tools" className="hover:text-white transition-colors">{t('nav.tools')}</Link>
+            <FiChevronRight className="w-4 h-4 rotate-180" />
             <span className="text-white">{cleanHtmlContent(tool.title?.rendered || tool.title)}</span>
           </motion.nav>
 
@@ -251,12 +254,12 @@ export default function ToolSinglePage() {
                     <ToolTypeIcon className="w-6 h-6 text-white" />
                   </motion.div>
                   <span className="px-4 py-2 bg-purple-500/20 text-purple-300 rounded-full text-sm font-medium border border-purple-500/30">
-                    Tool
+                    ابزار
                   </span>
                   {tool.demo_available === "1" && (
                     <span className="px-4 py-2 bg-green-500/20 text-green-300 rounded-full text-sm font-medium border border-green-500/30 flex items-center gap-2">
                       <FiPlay className="w-3 h-3" />
-                      Demo Available
+                      {t('pages.tools.demoAvailable')}
                     </span>
                   )}
                 </div>
@@ -279,7 +282,7 @@ export default function ToolSinglePage() {
               <div className="space-y-8">
                 {tool.content?.rendered && (
                   <div>
-                    <h3 className="text-2xl font-bold text-white mb-4">Description</h3>
+                    <h3 className="text-2xl font-bold text-white mb-4">توضیحات</h3>
                     <div className="prose prose-lg prose-invert max-w-none">
                       <div 
                         dangerouslySetInnerHTML={{ __html: tool.content.rendered }}
@@ -290,7 +293,7 @@ export default function ToolSinglePage() {
                 )}
 
                 <div>
-                  <h3 className="text-2xl font-bold text-white mb-4">Tool Type</h3>
+                  <h3 className="text-2xl font-bold text-white mb-4">نوع ابزار</h3>
                   <div className="flex items-center gap-3 p-4 bg-gradient-to-r from-purple-600/20 to-pink-600/20 rounded-2xl border border-purple-500/30">
                     <ToolTypeIcon className="w-8 h-8 text-purple-400" />
                     <span className="text-white text-lg font-semibold capitalize">{tool.tool_type}</span>
@@ -299,7 +302,7 @@ export default function ToolSinglePage() {
 
                 {toolFeatures.length > 0 && (
                   <div>
-                    <h3 className="text-2xl font-bold text-white mb-6">Key Features</h3>
+                    <h3 className="text-2xl font-bold text-white mb-6">ویژگی‌های کلیدی</h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       {toolFeatures.map((feature, index) => (
                         <motion.div
@@ -329,7 +332,7 @@ export default function ToolSinglePage() {
 
                 {techStack.length > 0 && (
                   <div>
-                    <h3 className="text-2xl font-bold text-white mb-4">Technology Stack</h3>
+                    <h3 className="text-2xl font-bold text-white mb-4">فناوری‌های مورد استفاده</h3>
                     <div className="flex flex-wrap gap-3">
                       {techStack.map((tech, index) => (
                         <motion.span
@@ -349,7 +352,7 @@ export default function ToolSinglePage() {
 
                 {tool.support_included && (
                   <div>
-                    <h3 className="text-2xl font-bold text-white mb-4">Support Included</h3>
+                    <h3 className="text-2xl font-bold text-white mb-4">{t('pages.tools.support')}</h3>
                     <div className="p-6 bg-gradient-to-br from-green-600/20 to-emerald-600/20 rounded-2xl border border-green-500/30">
                       <div className="flex items-start gap-4">
                         <FiHeadphones className="w-8 h-8 text-green-400 flex-shrink-0 mt-1" />
@@ -372,7 +375,7 @@ export default function ToolSinglePage() {
                   <div className="relative h-64 md:h-96 rounded-2xl overflow-hidden">
                     <Image
                       src={tool.featured_image_url}
-                      alt={tool.title?.rendered || 'Tool image'}
+                      alt={tool.title?.rendered || 'تصویر ابزار'}
                       fill
                       className="object-cover"
                     />
@@ -390,37 +393,37 @@ export default function ToolSinglePage() {
                 className={`bg-gradient-to-br ${getPricingModelColor(tool.pricing_model)}/20 backdrop-blur-sm rounded-3xl p-6 border border-white/20`}
               >
                 <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-lg font-semibold text-white">Pricing</h3>
+                  <h3 className="text-lg font-semibold text-white">{t('pages.tools.pricing')}</h3>
                   <FiDollarSign className="w-6 h-6 text-green-400" />
                 </div>
-                
+
                 <div className="space-y-4">
                   {tool.base_price && (
                     <div>
                       <div className="text-3xl font-bold text-white mb-1">
-                        ${tool.base_price}
+                        ${toFarsiDigits(tool.base_price)}
                       </div>
                       <p className="text-gray-300 text-sm capitalize">
-                        {tool.pricing_model === 'one_time' ? 'One-time payment' : 
-                         tool.pricing_model === 'monthly' ? 'Per month' : 
-                         tool.pricing_model === 'freemium' ? 'Freemium model' : 'Custom pricing'}
+                        {tool.pricing_model === 'one_time' ? 'پرداخت یک‌باره' :
+                         tool.pricing_model === 'monthly' ? 'ماهانه' :
+                         tool.pricing_model === 'freemium' ? 'مدل رایگان (فریمیوم)' : 'قیمت‌گذاری سفارشی'}
                       </p>
                     </div>
                   )}
-                  
+
                   {tool.setup_fee && (
                     <div className="pt-4 border-t border-white/10">
                       <div className="flex justify-between items-center">
-                        <span className="text-gray-400">Setup Fee</span>
-                        <span className="text-white font-semibold">${tool.setup_fee}</span>
+                        <span className="text-gray-400">هزینه راه‌اندازی</span>
+                        <span className="text-white font-semibold">${toFarsiDigits(tool.setup_fee)}</span>
                       </div>
                     </div>
                   )}
-                  
+
                   {tool.monthly_fee && (
                     <div className="flex justify-between items-center">
-                      <span className="text-gray-400">Monthly Fee</span>
-                      <span className="text-white font-semibold">${tool.monthly_fee}</span>
+                      <span className="text-gray-400">هزینه ماهانه</span>
+                      <span className="text-white font-semibold">${toFarsiDigits(tool.monthly_fee)}</span>
                     </div>
                   )}
                 </div>
@@ -434,11 +437,11 @@ export default function ToolSinglePage() {
                 className="bg-gradient-to-br from-blue-600/20 to-cyan-600/20 backdrop-blur-sm rounded-3xl p-6 border border-blue-500/30"
               >
                 <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-lg font-semibold text-white">Setup Time</h3>
+                  <h3 className="text-lg font-semibold text-white">زمان راه‌اندازی</h3>
                   <FiClock className="w-6 h-6 text-blue-400" />
                 </div>
                 <div className="text-3xl font-bold text-blue-400 mb-2">{tool.setup_time}</div>
-                <p className="text-gray-300 text-sm">From purchase to deployment</p>
+                <p className="text-gray-300 text-sm">از خرید تا راه‌اندازی</p>
               </motion.div>
 
               <motion.div
@@ -451,7 +454,7 @@ export default function ToolSinglePage() {
                   <div className="bg-white/5 rounded-2xl p-6 border border-white/10">
                     <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
                       <FiUsers className="w-5 h-5 text-purple-400" />
-                      Perfect For
+                      مناسب برای
                     </h3>
                     <div className="flex flex-wrap gap-2">
                       {tool.target_audience.map((audienceId: number, index: number) => (
@@ -459,7 +462,7 @@ export default function ToolSinglePage() {
                           key={index}
                           className="px-3 py-1 bg-purple-500/20 text-purple-300 rounded-full text-sm font-medium border border-purple-500/30"
                         >
-                          {audienceNames[audienceId] || `Loading...`}
+                          {audienceNames[audienceId] || t('common.loading')}
                         </span>
                       ))}
                     </div>
@@ -470,7 +473,7 @@ export default function ToolSinglePage() {
                   <div className="bg-white/5 rounded-2xl p-6 border border-white/10">
                     <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
                       <FiTag className="w-5 h-5 text-blue-400" />
-                      Categories
+                      دسته‌بندی‌ها
                     </h3>
                     <div className="flex flex-wrap gap-2">
                       {tool.tool_category.map((categoryId: number, index: number) => (
@@ -478,7 +481,7 @@ export default function ToolSinglePage() {
                           key={index}
                           className="px-3 py-1 bg-blue-500/20 text-blue-300 rounded-full text-sm font-medium border border-blue-500/30"
                         >
-                          {categoryNames[categoryId] || `Loading...`}
+                          {categoryNames[categoryId] || t('common.loading')}
                         </span>
                       ))}
                     </div>
@@ -498,8 +501,8 @@ export default function ToolSinglePage() {
                     whileTap={{ scale: 0.98 }}
                     className="w-full px-6 py-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold rounded-2xl flex items-center justify-center gap-3 hover:shadow-lg transition-all"
                   >
-                    <span>Get This Tool</span>
-                    <FiArrowRight className="w-5 h-5" />
+                    <span>دریافت این ابزار</span>
+                    <FiArrowRight className="w-5 h-5 rotate-180" />
                   </motion.button>
                 </Link>
 
@@ -512,7 +515,7 @@ export default function ToolSinglePage() {
                       className="w-full px-6 py-4 bg-gradient-to-r from-blue-600 to-cyan-600 text-white font-semibold rounded-2xl flex items-center justify-center gap-3 hover:shadow-lg transition-all"
                     >
                       <FiPlay className="w-5 h-5" />
-                      <span>Live Demo</span>
+                      <span>نسخه نمایشی زنده</span>
                     </motion.button>
                   ) : tool.demo_link ? (
                     <Link href={tool.demo_link} target="_blank">
@@ -522,7 +525,7 @@ export default function ToolSinglePage() {
                         className="w-full px-6 py-4 bg-gradient-to-r from-blue-600 to-cyan-600 text-white font-semibold rounded-2xl flex items-center justify-center gap-3 hover:shadow-lg transition-all"
                       >
                         <FiPlay className="w-5 h-5" />
-                        <span>View Demo</span>
+                        <span>مشاهده نسخه نمایشی</span>
                         <FiExternalLink className="w-4 h-4" />
                       </motion.button>
                     </Link>
@@ -537,7 +540,7 @@ export default function ToolSinglePage() {
                     className="px-4 py-3 bg-white/10 backdrop-blur-sm border border-white/20 text-white font-medium rounded-xl flex items-center justify-center gap-2 hover:bg-white/20 transition-all"
                   >
                     <FiBookmark className={`w-4 h-4 ${bookmarked ? 'fill-current' : ''}`} />
-                    <span className="hidden sm:inline">Save</span>
+                    <span className="hidden sm:inline">{t('common.save')}</span>
                   </motion.button>
 
                   <motion.button
@@ -546,7 +549,7 @@ export default function ToolSinglePage() {
                     className="px-4 py-3 bg-white/10 backdrop-blur-sm border border-white/20 text-white font-medium rounded-xl flex items-center justify-center gap-2 hover:bg-white/20 transition-all"
                   >
                     <FiShare2 className="w-4 h-4" />
-                    <span className="hidden sm:inline">Share</span>
+                    <span className="hidden sm:inline">اشتراک‌گذاری</span>
                   </motion.button>
                 </div>
               </motion.div>
@@ -561,7 +564,7 @@ export default function ToolSinglePage() {
               viewport={{ once: true }}
               className="mt-16"
             >
-              <h2 className="text-3xl font-bold text-white mb-8">Related Solutions</h2>
+              <h2 className="text-3xl font-bold text-white mb-8">راهکارهای مرتبط</h2>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {relatedSolutions.map((solution, index) => (
                   <motion.div
@@ -586,10 +589,10 @@ export default function ToolSinglePage() {
                           {cleanHtmlContent(solution.problem_description || solution.excerpt?.rendered || '')}
                         </p>
                         <div className="flex items-center justify-between">
-                          <span className="text-blue-400 text-sm">{solution.implementation_time || '2-4 weeks'}</span>
+                          <span className="text-blue-400 text-sm">{solution.implementation_time || '۲ تا ۴ هفته'}</span>
                           <div className="flex items-center gap-2 text-blue-400 text-sm font-medium">
-                            <span>Learn More</span>
-                            <FiArrowRight className="w-4 h-4" />
+                            <span>{t('pages.tools.learn')}</span>
+                            <FiArrowRight className="w-4 h-4 rotate-180" />
                           </div>
                         </div>
                       </div>
@@ -608,7 +611,7 @@ export default function ToolSinglePage() {
               viewport={{ once: true }}
               className="mt-16"
             >
-              <h2 className="text-3xl font-bold text-white mb-8">Similar Tools</h2>
+              <h2 className="text-3xl font-bold text-white mb-8">ابزارهای مشابه</h2>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {relatedTools.map((relatedTool, index) => (
                   <motion.div
@@ -634,12 +637,12 @@ export default function ToolSinglePage() {
                         </p>
                         <div className="flex items-center justify-between">
                           <span className="text-purple-400 text-sm">
-                            {relatedTool.pricing_model === 'freemium' ? 'Free to Start' : 
-                             relatedTool.base_price ? `$${relatedTool.base_price}` : 'Custom'}
+                            {relatedTool.pricing_model === 'freemium' ? 'رایگان برای شروع' :
+                             relatedTool.base_price ? `$${toFarsiDigits(relatedTool.base_price)}` : 'سفارشی'}
                           </span>
                           <div className="flex items-center gap-2 text-purple-400 text-sm font-medium">
-                            <span>Explore</span>
-                            <FiArrowRight className="w-4 h-4" />
+                            <span>مشاهده</span>
+                            <FiArrowRight className="w-4 h-4 rotate-180" />
                           </div>
                         </div>
                       </div>
@@ -666,10 +669,10 @@ export default function ToolSinglePage() {
             viewport={{ once: true }}
           >
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-              Ready to Get This Tool?
+              آماده دریافت این ابزار هستید؟
             </h2>
             <p className="text-xl text-gray-300 mb-8">
-              Join thousands of professionals who are already using our tools to streamline their workflows.
+              به هزاران متخصص بپیوندید که همین حالا از ابزارهای ما برای ساده‌سازی روند کاری خود استفاده می‌کنند.
             </p>
             <div className="flex flex-wrap gap-4 justify-center">
               <Link href="/contact">
@@ -679,7 +682,7 @@ export default function ToolSinglePage() {
                   className="px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold rounded-full flex items-center gap-3 hover:shadow-lg transition-all"
                 >
                   <FiMessageCircle className="w-6 h-6" />
-                  <span>Get Started Today</span>
+                  <span>همین امروز شروع کنید</span>
                 </motion.button>
               </Link>
               <Link href="/solutions">
@@ -688,7 +691,7 @@ export default function ToolSinglePage() {
                   whileTap={{ scale: 0.95 }}
                   className="px-8 py-4 bg-white/10 backdrop-blur-sm border border-white/20 text-white font-bold rounded-full hover:bg-white/20 transition-all"
                 >
-                  Browse Solutions
+                  مشاهده راهکارها
                 </motion.button>
               </Link>
             </div>

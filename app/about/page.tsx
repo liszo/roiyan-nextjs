@@ -40,6 +40,8 @@ import {
 } from 'react-icons/fi';
 import { getTeamMembers } from '@/lib/wordpress';
 import React from 'react';
+import { useTranslations } from '@/hooks/useTranslations';
+import { toFarsiDigits } from '@/lib/farsiNumerals';
 
 interface TeamMember {
   id: number;
@@ -61,6 +63,7 @@ interface TeamMember {
 }
 
 export default function AboutPage() {
+  const { t } = useTranslations();
   const [teamMembers, setTeamMembers] = useState<TeamMember[]>([]);
   const [loading, setLoading] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
@@ -107,7 +110,7 @@ export default function AboutPage() {
   }, [isMobile, isPlaying]);
 
   const getTeamMemberName = (member: TeamMember) => {
-    const name = member?.name || member?.title || 'Team Member';
+    const name = member?.name || member?.title || 'عضو تیم';
     return name.replace(/&#038;/g, '&').replace(/&amp;/g, '&');
   };
 
@@ -117,7 +120,7 @@ export default function AboutPage() {
   };
 
   const getTeamMemberPosition = (member: TeamMember) => {
-    return member?.role || member?.acf?.position || 'Team Member';
+    return member?.role || member?.acf?.position || 'عضو تیم';
   };
 
   const getFeaturedImage = (member: TeamMember) => {
@@ -149,26 +152,26 @@ export default function AboutPage() {
 
   const stories = [
     {
-      title: "Our Beginning",
-      content: "Started with a vision to transform businesses through digital innovation",
+      title: "آغاز ما",
+      content: "با چشم‌اندازی برای متحول کردن کسب‌وکارها از طریق نوآوری دیجیتال آغاز کردیم",
       icon: FiZap,
       color: "from-purple-600 to-blue-600"
     },
     {
-      title: "First Success",
-      content: "Delivered our first major project and gained recognition in the industry",
+      title: "اولین موفقیت",
+      content: "اولین پروژه بزرگ خود را به انجام رساندیم و در صنعت شناخته شدیم",
       icon: FiAward,
       color: "from-blue-600 to-green-600"
     },
     {
-      title: "Team Growth",
-      content: "Expanded our team with talented professionals from diverse backgrounds",
+      title: "رشد تیم",
+      content: "تیم خود را با متخصصانی با استعداد از پیشینه‌های متنوع گسترش دادیم",
       icon: FiUsers,
       color: "from-green-600 to-yellow-600"
     },
     {
-      title: "Global Reach",
-      content: "Now serving clients worldwide with cutting-edge digital solutions",
+      title: "دسترسی جهانی",
+      content: "اکنون با راهکارهای دیجیتال پیشرفته به مشتریانی در سراسر جهان خدمت می‌کنیم",
       icon: FiGlobe,
       color: "from-yellow-600 to-red-600"
     }
@@ -245,30 +248,30 @@ export default function AboutPage() {
               >
                 <FiUsers className="w-4 h-4 text-blue-400" />
                 <span className={`px-4 py-2 bg-gradient-to-r from-blue-500/20 to-purple-500/20 backdrop-blur-sm rounded-full text-blue-300 border border-blue-500/30 font-medium ${isMobile ? 'text-sm' : 'text-sm'}`}>
-                  About Our Team
+                  درباره تیم ما
                 </span>
               </motion.div>
 
               <h1 className={`font-bold bg-gradient-to-r from-white via-purple-200 to-blue-200 bg-clip-text text-transparent leading-tight ${
                 isMobile ? 'text-4xl' : 'text-5xl md:text-7xl'
               }`}>
-                UAE Digital Team
+                تیم راهکارهای دیجیتال امارات
               </h1>
-              
+
               <p className={`text-gray-300 leading-relaxed ${
                 isMobile ? 'text-base px-2' : 'text-xl'
               }`}>
-                We&apos;re a passionate team of digital innovators, strategists, and creators dedicated to transforming businesses through cutting-edge technology and creative excellence.
+                ما تیمی پرشور از نوآوران دیجیتال، استراتژیست‌ها و خلاقان هستیم که به تحول کسب‌وکارها از طریق فناوری پیشرفته و برتری خلاقانه متعهدیم.
               </p>
-              
+
               {/* Mobile: Key Points Grid */}
               {isMobile ? (
                 <div className="grid grid-cols-2 gap-3 max-w-sm mx-auto">
                   {[
-                    { icon: FiZap, text: 'Innovation Driven', color: 'purple' },
-                    { icon: FiAward, text: 'Award Winning', color: 'blue' },
-                    { icon: FiGlobe, text: 'Global Reach', color: 'green' },
-                    { icon: FiHeart, text: 'Client Focused', color: 'red' }
+                    { icon: FiZap, text: 'نوآوری‌محور', color: 'purple' },
+                    { icon: FiAward, text: 'برنده جوایز', color: 'blue' },
+                    { icon: FiGlobe, text: 'دسترسی جهانی', color: 'green' },
+                    { icon: FiHeart, text: 'مشتری‌محور', color: 'red' }
                   ].map((item, index) => (
                     <motion.div
                       key={index}
@@ -286,10 +289,10 @@ export default function AboutPage() {
                 // Desktop: Key Points
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
                   {[
-                    { icon: FiZap, text: 'Innovation Driven', color: 'purple' },
-                    { icon: FiAward, text: 'Award Winning', color: 'blue' },
-                    { icon: FiGlobe, text: 'Global Reach', color: 'green' },
-                    { icon: FiHeart, text: 'Client Focused', color: 'red' }
+                    { icon: FiZap, text: 'نوآوری‌محور', color: 'purple' },
+                    { icon: FiAward, text: 'برنده جوایز', color: 'blue' },
+                    { icon: FiGlobe, text: 'دسترسی جهانی', color: 'green' },
+                    { icon: FiHeart, text: 'مشتری‌محور', color: 'red' }
                   ].map((item, index) => (
                     <div key={index} className="flex items-center gap-3 p-3 bg-white/5 backdrop-blur-sm rounded-xl border border-white/10">
                       <item.icon className={`w-5 h-5 text-${item.color}-400`} />
@@ -309,8 +312,8 @@ export default function AboutPage() {
                       isMobile ? 'px-6 py-3 text-sm' : 'px-8 py-4'
                     }`}
                   >
-                    Work With Us
-                    <FiArrowRight className="w-5 h-5" />
+                    همکاری با ما
+                    <FiArrowRight className="w-5 h-5 rotate-180" />
                   </motion.button>
                 </Link>
                 <Link href="/services">
@@ -321,7 +324,7 @@ export default function AboutPage() {
                       isMobile ? 'px-6 py-3 text-sm' : 'px-8 py-4'
                     }`}
                   >
-                    Our Services
+                    {t('nav.services')}
                   </motion.button>
                 </Link>
               </div>
@@ -383,7 +386,7 @@ export default function AboutPage() {
                   <div className="absolute inset-0">
                     <Image
                       src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&h=600&fit=crop"
-                      alt="UAE Digital Team"
+                      alt="تیم راهکارهای دیجیتال امارات"
                       fill
                       className="object-cover opacity-80"
                       sizes="(max-width: 768px) 100vw, 50vw"
@@ -400,9 +403,9 @@ export default function AboutPage() {
                   >
                     <div className="flex items-center gap-3 mb-2">
                       <FiUsers className="w-6 h-6 text-blue-400" />
-                      <span className="text-2xl font-bold text-white">10+</span>
+                      <span className="text-2xl font-bold text-white">{toFarsiDigits('10+')}</span>
                     </div>
-                    <p className="text-white text-sm font-semibold">Expert Team</p>
+                    <p className="text-white text-sm font-semibold">تیم متخصص</p>
                   </motion.div>
 
                   <motion.div
@@ -412,9 +415,9 @@ export default function AboutPage() {
                   >
                     <div className="flex items-center gap-3 mb-2">
                       <FiTrendingUp className="w-6 h-6 text-green-400" />
-                      <span className="text-2xl font-bold text-white">200+</span>
+                      <span className="text-2xl font-bold text-white">{toFarsiDigits('200+')}</span>
                     </div>
-                    <p className="text-white text-sm font-semibold">Projects Done</p>
+                    <p className="text-white text-sm font-semibold">پروژه انجام‌شده</p>
                   </motion.div>
 
                   <motion.div
@@ -424,9 +427,9 @@ export default function AboutPage() {
                   >
                     <div className="flex items-center gap-3 mb-2">
                       <FiAward className="w-6 h-6 text-purple-400" />
-                      <span className="text-2xl font-bold text-white">5+</span>
+                      <span className="text-2xl font-bold text-white">{toFarsiDigits('5+')}</span>
                     </div>
-                    <p className="text-white text-sm font-semibold">Years Experience</p>
+                    <p className="text-white text-sm font-semibold">سال تجربه</p>
                   </motion.div>
 
                   {/* Tech Stack Icons */}
@@ -474,10 +477,10 @@ export default function AboutPage() {
             }`}
           >
             {[
-              { icon: FiUsers, number: '10+', label: 'Team Members', gradient: 'from-purple-600 to-blue-600' },
-              { icon: FiTrendingUp, number: '200+', label: 'Projects Completed', gradient: 'from-blue-600 to-green-600' },
-              { icon: FiAward, number: '50+', label: 'Happy Clients', gradient: 'from-green-600 to-yellow-600' },
-              { icon: FiGlobe, number: '5+', label: 'Years Experience', gradient: 'from-yellow-600 to-red-600' }
+              { icon: FiUsers, number: '10+', label: 'اعضای تیم', gradient: 'from-purple-600 to-blue-600' },
+              { icon: FiTrendingUp, number: '200+', label: 'پروژه تکمیل‌شده', gradient: 'from-blue-600 to-green-600' },
+              { icon: FiAward, number: '50+', label: 'مشتری راضی', gradient: 'from-green-600 to-yellow-600' },
+              { icon: FiGlobe, number: '5+', label: 'سال تجربه', gradient: 'from-yellow-600 to-red-600' }
             ].map((stat, index) => (
               <motion.div
                 key={index}
@@ -495,7 +498,7 @@ export default function AboutPage() {
                 }`}>
                   <stat.icon className={`text-white ${isMobile ? 'w-6 h-6' : 'w-8 h-8'}`} />
                 </div>
-                <div className={`font-bold text-white mb-1 ${isMobile ? 'text-2xl' : 'text-4xl'}`}>{stat.number}</div>
+                <div className={`font-bold text-white mb-1 ${isMobile ? 'text-2xl' : 'text-4xl'}`}>{toFarsiDigits(stat.number)}</div>
                 <div className={`text-gray-400 ${isMobile ? 'text-xs' : ''}`}>{stat.label}</div>
               </motion.div>
             ))}
@@ -515,12 +518,12 @@ export default function AboutPage() {
             <h2 className={`font-bold bg-gradient-to-r from-white via-purple-200 to-blue-200 bg-clip-text text-transparent mb-6 ${
               isMobile ? 'text-3xl' : 'text-4xl md:text-6xl'
             }`}>
-              Meet The Team
+              با تیم ما آشنا شوید
             </h2>
             <p className={`text-gray-400 max-w-3xl mx-auto ${
               isMobile ? 'text-base px-4' : 'text-xl'
             }`}>
-              Our diverse team of experts brings together years of experience in design, development, marketing, and strategy
+              تیم متنوع ما، سال‌ها تجربه در طراحی، توسعه، بازاریابی و استراتژی را گرد هم آورده است
             </p>
           </motion.div>
 
@@ -531,13 +534,13 @@ export default function AboutPage() {
                 transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
                 className="w-16 h-16 border-4 border-purple-500/30 border-t-purple-500 rounded-full mx-auto mb-6"
               />
-              <p className="text-gray-400">Loading team members...</p>
+              <p className="text-gray-400">در حال بارگذاری اعضای تیم...</p>
             </div>
           ) : teamMembers.length === 0 ? (
             <div className="text-center py-20">
               <FiUsers className="w-16 h-16 text-gray-600 mx-auto mb-4" />
-              <h3 className="text-2xl font-semibold text-white mb-2">No Team Members Found</h3>
-              <p className="text-gray-400 mb-4">Team member profiles will appear here once added to WordPress</p>
+              <h3 className="text-2xl font-semibold text-white mb-2">عضوی از تیم یافت نشد</h3>
+              <p className="text-gray-400 mb-4">به‌زودی پروفایل اعضای تیم در این بخش نمایش داده می‌شود</p>
             </div>
           ) : (
             <div className={`${
@@ -671,7 +674,7 @@ export default function AboutPage() {
                   onClick={() => setSelectedTeamMember(null)}
                   className="w-full py-3 bg-gradient-to-r from-purple-600 to-blue-600 text-white font-semibold rounded-2xl hover:shadow-lg transition-all duration-300"
                 >
-                  Close
+                  {t('common.close')}
                 </button>
               </div>
             </motion.div>
@@ -691,55 +694,55 @@ export default function AboutPage() {
             <h2 className={`font-bold bg-gradient-to-r from-white via-purple-200 to-blue-200 bg-clip-text text-transparent mb-6 ${
               isMobile ? 'text-3xl' : 'text-4xl md:text-6xl'
             }`}>
-              Our Values
+              ارزش‌های ما
             </h2>
             <p className={`text-gray-400 max-w-3xl mx-auto ${
               isMobile ? 'text-base px-4' : 'text-xl'
             }`}>
-              The principles that guide everything we do and drive our commitment to excellence
+              اصولی که راهنمای همه کارهای ما هستند و تعهد ما به برتری را شکل می‌دهند
             </p>
           </motion.div>
 
           <div className={`${
-            isMobile 
-              ? 'space-y-4' 
+            isMobile
+              ? 'space-y-4'
               : 'grid md:grid-cols-2 lg:grid-cols-3 gap-8'
           }`}>
             {[
               {
                 icon: FiTarget,
-                title: 'Excellence',
-                description: 'We strive for perfection in every project, delivering solutions that exceed expectations.',
+                title: 'برتری',
+                description: 'ما در هر پروژه به دنبال کمال هستیم و راهکارهایی ارائه می‌دهیم که فراتر از انتظارات باشند.',
                 gradient: 'from-purple-600 to-blue-600'
               },
               {
                 icon: FiHeart,
-                title: 'Passion',
-                description: 'We love what we do and it shows in the quality and creativity of our work.',
+                title: 'اشتیاق',
+                description: 'ما عاشق کاری که انجام می‌دهیم هستیم و این در کیفیت و خلاقیت کارمان مشهود است.',
                 gradient: 'from-blue-600 to-green-600'
               },
               {
                 icon: FiShield,
-                title: 'Integrity',
-                description: 'We build trust through honest communication and reliable delivery on our promises.',
+                title: 'صداقت',
+                description: 'ما از طریق ارتباط صادقانه و تحویل قابل‌اعتماد تعهداتمان، اعتماد می‌سازیم.',
                 gradient: 'from-green-600 to-yellow-600'
               },
               {
                 icon: FiZap,
-                title: 'Innovation',
-                description: 'We embrace new technologies and creative approaches to solve complex challenges.',
+                title: 'نوآوری',
+                description: 'ما فناوری‌های جدید و رویکردهای خلاقانه را برای حل چالش‌های پیچیده به کار می‌گیریم.',
                 gradient: 'from-yellow-600 to-red-600'
               },
               {
                 icon: FiUsers,
-                title: 'Collaboration',
-                description: 'We work closely with our clients as partners in their success journey.',
+                title: 'همکاری',
+                description: 'ما به عنوان شریک در مسیر موفقیت، از نزدیک با مشتریان خود کار می‌کنیم.',
                 gradient: 'from-red-600 to-pink-600'
               },
               {
                 icon: FiTrendingUp,
-                title: 'Growth',
-                description: 'We are committed to continuous learning and helping our clients achieve sustainable growth.',
+                title: 'رشد',
+                description: 'ما به یادگیری مستمر و کمک به مشتریان خود برای دستیابی به رشد پایدار متعهدیم.',
                 gradient: 'from-pink-600 to-purple-600'
               }
             ].map((value, index) => (
@@ -852,13 +855,13 @@ export default function AboutPage() {
                 </motion.div>
 
                 <h2 className="text-3xl font-bold bg-gradient-to-r from-white via-purple-200 to-blue-200 bg-clip-text text-transparent mb-4">
-                  Ready to Work Together?
+                  آماده همکاری با ما هستید؟
                 </h2>
 
                 <p className="text-gray-300 mb-8 leading-relaxed px-4 text-base">
-                  Let&apos;s create something amazing together. Get in touch and let&apos;s discuss how we can help transform your business.
+                  بیایید با هم چیزی فوق‌العاده بسازیم. با ما در تماس باشید تا درباره تحول کسب‌وکار شما گفتگو کنیم.
                 </p>
-                
+
                 <div className="space-y-4">
                   <Link href="/contact">
                     <motion.button
@@ -866,18 +869,18 @@ export default function AboutPage() {
                       whileTap={{ scale: 0.98 }}
                       className="w-full px-8 py-4 bg-gradient-to-r from-purple-600 to-blue-600 text-white font-bold rounded-full flex items-center justify-center gap-3 hover:shadow-lg transition-all duration-300"
                     >
-                      <span>Start a Project</span>
-                      <FiArrowRight className="w-5 h-5" />
+                      <span>شروع پروژه</span>
+                      <FiArrowRight className="w-5 h-5 rotate-180" />
                     </motion.button>
                   </Link>
-                  
+
                   <Link href="/cases">
                     <motion.button
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
                       className="w-full px-8 py-4 bg-white/5 backdrop-blur-sm border-2 border-white/20 text-white font-semibold rounded-full hover:border-purple-500/50 transition-all duration-300"
                     >
-                      View Our Work
+                      مشاهده نمونه‌کارها
                     </motion.button>
                   </Link>
                 </div>
@@ -886,35 +889,35 @@ export default function AboutPage() {
               // Desktop CTA Layout
               <div>
                 <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-white via-purple-200 to-blue-200 bg-clip-text text-transparent mb-6">
-                  Ready to Work Together?
+                  آماده همکاری با ما هستید؟
                 </h2>
                 <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
-                  Let&apos;s create something amazing together. Get in touch and let&apos;s discuss how we can help transform your business.
+                  بیایید با هم چیزی فوق‌العاده بسازیم. با ما در تماس باشید تا درباره تحول کسب‌وکار شما گفتگو کنیم.
                 </p>
                 <div className="flex flex-wrap gap-4 justify-center">
                   <Link href="/contact">
                     <motion.button
-                      whileHover={{ 
-                        scale: 1.05, 
-                        boxShadow: '0 25px 50px rgba(139, 92, 246, 0.5)' 
+                      whileHover={{
+                        scale: 1.05,
+                        boxShadow: '0 25px 50px rgba(139, 92, 246, 0.5)'
                       }}
                       whileTap={{ scale: 0.95 }}
                       className="px-8 py-4 bg-gradient-to-r from-purple-600 to-blue-600 text-white font-semibold rounded-full flex items-center gap-2 hover:shadow-2xl transition-all duration-300"
                     >
-                      Start a Project
-                      <FiArrowRight className="w-5 h-5" />
+                      شروع پروژه
+                      <FiArrowRight className="w-5 h-5 rotate-180" />
                     </motion.button>
                   </Link>
                   <Link href="/cases">
                     <motion.button
-                      whileHover={{ 
+                      whileHover={{
                         scale: 1.05,
                         backgroundColor: 'rgba(255, 255, 255, 0.15)'
                       }}
                       whileTap={{ scale: 0.95 }}
                       className="px-8 py-4 bg-white/5 backdrop-blur-sm border-2 border-white/20 text-white font-semibold rounded-full hover:border-purple-500/50 transition-all duration-300"
                     >
-                      View Our Work
+                      مشاهده نمونه‌کارها
                     </motion.button>
                   </Link>
                 </div>

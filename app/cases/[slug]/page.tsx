@@ -37,6 +37,8 @@ import {
 } from 'react-icons/fi';
 import { FaRobot, FaPalette, FaWordpress, FaGoogle } from 'react-icons/fa';
 import { getCaseBySlug, getCases, getServices, cleanHtmlContent } from '@/lib/wordpress';
+import { useTranslations } from '@/hooks/useTranslations';
+import { toFarsiDigits } from '@/lib/farsiNumerals';
 
 // Industry icons mapping
 const getIndustryIcon = (industry: string) => {
@@ -99,7 +101,8 @@ interface CasePageProps {
 export default function CasePage({ params }: CasePageProps) {
   // Fix Next.js 15 params issue
   const resolvedParams = use(params);
-  
+  const { t } = useTranslations();
+
   const [caseStudy, setCaseStudy] = useState<any>(null);
   const [relatedCases, setRelatedCases] = useState<any[]>([]);
   const [relatedServices, setRelatedServices] = useState<any[]>([]);
@@ -284,7 +287,7 @@ export default function CasePage({ params }: CasePageProps) {
             transition={{ duration: 2, repeat: Infinity }}
             className="text-gray-400 text-lg"
           >
-            Loading case study...
+            در حال بارگذاری مطالعه موردی...
           </motion.p>
         </div>
       </div>
@@ -314,7 +317,7 @@ export default function CasePage({ params }: CasePageProps) {
               whileTap={{ scale: 0.95 }}
               className="w-12 h-12 bg-white/10 backdrop-blur-md rounded-full flex items-center justify-center border border-white/20 hover:bg-white/20 transition-all duration-300"
             >
-              <FiArrowLeft className="w-5 h-5 text-white" />
+              <FiArrowLeft className="w-5 h-5 text-white rotate-180" />
             </motion.button>
           </Link>
         </motion.div>
@@ -406,7 +409,7 @@ export default function CasePage({ params }: CasePageProps) {
                 >
                   <FiUsers className="w-6 h-6 text-purple-400" />
                   <div>
-                    <div className={`text-gray-400 ${isMobile ? 'text-sm' : 'text-sm'}`}>Client</div>
+                    <div className={`text-gray-400 ${isMobile ? 'text-sm' : 'text-sm'}`}>مشتری</div>
                     <div className={`font-semibold text-white ${isMobile ? 'text-base' : 'text-lg'}`}>{cleanHtmlContent(caseStudy.client)}</div>
                   </div>
                 </motion.div>
@@ -428,7 +431,7 @@ export default function CasePage({ params }: CasePageProps) {
                         isMobile ? 'px-5 py-3 text-sm' : 'px-6 py-3'
                       }`}
                     >
-                      <span>View Live Project</span>
+                      <span>مشاهده پروژه زنده</span>
                       <FiExternalLink className="w-4 h-4" />
                     </motion.button>
                   </a>
@@ -442,7 +445,7 @@ export default function CasePage({ params }: CasePageProps) {
                       isMobile ? 'px-5 py-3 text-sm' : 'px-6 py-3'
                     }`}
                   >
-                    Start Similar Project
+                    شروع پروژه مشابه
                   </motion.button>
                 </Link>
               </motion.div>
@@ -513,8 +516,8 @@ export default function CasePage({ params }: CasePageProps) {
                 {/* Year Badge */}
                 <div className={`absolute top-4 right-4 bg-white/10 backdrop-blur-md rounded-xl p-3 border border-white/20 ${isMobile ? 'hidden' : ''}`}>
                   <div className="text-white font-semibold text-center">
-                    <div className="text-xl">{caseStudy.year}</div>
-                    <div className="text-xs text-gray-300">Project Year</div>
+                    <div className="text-xl">{toFarsiDigits(caseStudy.year)}</div>
+                    <div className="text-xs text-gray-300">سال پروژه</div>
                   </div>
                 </div>
               </div>
@@ -572,9 +575,9 @@ export default function CasePage({ params }: CasePageProps) {
               <h2 className={`font-bold bg-gradient-to-r from-white via-purple-200 to-blue-200 bg-clip-text text-transparent mb-4 ${
                 isMobile ? 'text-2xl' : 'text-4xl md:text-5xl'
               }`}>
-                Services Provided
+                خدمات ارائه‌شده
               </h2>
-              <p className={`text-gray-400 ${isMobile ? 'text-sm px-4' : 'text-lg'}`}>Technologies and services used in this project</p>
+              <p className={`text-gray-400 ${isMobile ? 'text-sm px-4' : 'text-lg'}`}>فناوری‌ها و خدمات استفاده‌شده در این پروژه</p>
             </motion.div>
 
             <div className={`${
@@ -616,8 +619,8 @@ export default function CasePage({ params }: CasePageProps) {
                               {cleanHtmlContent(service.excerpt)}
                             </p>
                             <div className={`flex items-center gap-2 text-purple-400 font-medium ${isMobile ? 'text-xs' : 'text-sm'}`}>
-                              <span>Learn More</span>
-                              <FiArrowRight className={`group-hover:translate-x-1 transition-transform duration-300 ${isMobile ? 'w-3 h-3' : 'w-4 h-4'}`} />
+                              <span>{t('common.more')}</span>
+                              <FiArrowRight className={`group-hover:-translate-x-1 rotate-180 transition-transform duration-300 ${isMobile ? 'w-3 h-3' : 'w-4 h-4'}`} />
                             </div>
                           </div>
                         </div>
@@ -683,12 +686,12 @@ export default function CasePage({ params }: CasePageProps) {
               // Desktop: Centered Tab Navigation
               <div className="flex flex-wrap justify-center gap-2">
                 {[
-                  { id: 'overview', label: 'Overview', icon: FiGlobe },
-                  { id: 'challenge', label: 'Challenge', icon: FiTarget },
-                  { id: 'solution', label: 'Solution', icon: FiZap },
-                  { id: 'results', label: 'Results', icon: FiAward },
-                  { id: 'process', label: 'Process', icon: FiClock },
-                  { id: 'gallery', label: 'Gallery', icon: FiImage }
+                  { id: 'overview', label: 'بررسی کلی', icon: FiGlobe },
+                  { id: 'challenge', label: t('pages.cases.challenge'), icon: FiTarget },
+                  { id: 'solution', label: t('pages.cases.solution'), icon: FiZap },
+                  { id: 'results', label: t('pages.cases.results'), icon: FiAward },
+                  { id: 'process', label: t('pages.cases.process'), icon: FiClock },
+                  { id: 'gallery', label: 'گالری', icon: FiImage }
                 ].map((tab, index) => (
                   <motion.button
                     key={tab.id}
@@ -747,7 +750,7 @@ export default function CasePage({ params }: CasePageProps) {
                     <div 
                       className={`text-gray-300 leading-relaxed ${isMobile ? 'text-base' : 'text-lg'}`}
                       dangerouslySetInnerHTML={{ 
-                        __html: caseStudy.challenge?.replace(/&#038;/g, '&').replace(/&amp;/g, '&').replace(/\n/g, '<br>').replace(/•/g, '<br>•') || 'Challenge details will be available soon.'
+                        __html: caseStudy.challenge?.replace(/&#038;/g, '&').replace(/&amp;/g, '&').replace(/\n/g, '<br>').replace(/•/g, '<br>•') || 'جزئیات چالش به‌زودی در دسترس خواهد بود.'
                       }}
                     />
                   </div>
@@ -762,7 +765,7 @@ export default function CasePage({ params }: CasePageProps) {
                     <div 
                       className={`text-gray-300 leading-relaxed ${isMobile ? 'text-base' : 'text-lg'}`}
                       dangerouslySetInnerHTML={{ 
-                        __html: caseStudy.solution?.replace(/&#038;/g, '&').replace(/&amp;/g, '&').replace(/\n/g, '<br>').replace(/•/g, '<br>•') || 'Solution details will be available soon.'
+                        __html: caseStudy.solution?.replace(/&#038;/g, '&').replace(/&amp;/g, '&').replace(/\n/g, '<br>').replace(/•/g, '<br>•') || 'جزئیات راهکار به‌زودی در دسترس خواهد بود.'
                       }}
                     />
                   </div>
@@ -777,7 +780,7 @@ export default function CasePage({ params }: CasePageProps) {
                     <div 
                       className={`text-gray-300 leading-relaxed ${isMobile ? 'text-base' : 'text-lg'}`}
                       dangerouslySetInnerHTML={{ 
-                        __html: caseStudy.impact?.replace(/&#038;/g, '&').replace(/&amp;/g, '&').replace(/\n/g, '<br>').replace(/•/g, '<br>•') || 'Results will be available soon.'
+                        __html: caseStudy.impact?.replace(/&#038;/g, '&').replace(/&amp;/g, '&').replace(/\n/g, '<br>').replace(/•/g, '<br>•') || 'نتایج به‌زودی در دسترس خواهد بود.'
                       }}
                     />
                   </div>
@@ -793,7 +796,7 @@ export default function CasePage({ params }: CasePageProps) {
                       className={`text-gray-300 leading-relaxed [&>br]:leading-[1.2] [&>br]:mb-1 ${isMobile ? 'text-base' : 'text-lg'}`}
                       style={{ lineHeight: '1.4' }}
                       dangerouslySetInnerHTML={{ 
-                        __html: caseStudy.process?.replace(/&#038;/g, '&').replace(/&amp;/g, '&').replace(/\n/g, '<br>').replace(/Month \d+:/g, '<br><strong>$&</strong>').replace(/•/g, '<br>• ') || 'Process details will be available soon.'
+                        __html: caseStudy.process?.replace(/&#038;/g, '&').replace(/&amp;/g, '&').replace(/\n/g, '<br>').replace(/Month \d+:/g, '<br><strong>$&</strong>').replace(/•/g, '<br>• ') || 'جزئیات فرآیند به‌زودی در دسترس خواهد بود.'
                       }}
                     />
                   </div>
@@ -805,8 +808,8 @@ export default function CasePage({ params }: CasePageProps) {
                   {galleryImages.length > 0 ? (
                     <>
                       <div className="text-center mb-8">
-                        <h3 className={`font-bold text-white mb-2 ${isMobile ? 'text-xl' : 'text-2xl'}`}>Project Gallery</h3>
-                        <p className={`text-gray-400 ${isMobile ? 'text-sm' : ''}`}>Click on any image to view in full size</p>
+                        <h3 className={`font-bold text-white mb-2 ${isMobile ? 'text-xl' : 'text-2xl'}`}>گالری پروژه</h3>
+                        <p className={`text-gray-400 ${isMobile ? 'text-sm' : ''}`}>برای مشاهده در اندازه کامل، روی هر تصویر کلیک کنید</p>
                       </div>
 
                       <div className={`${
@@ -830,7 +833,7 @@ export default function CasePage({ params }: CasePageProps) {
                           >
                             <Image
                               src={imageUrl}
-                              alt={`Project gallery ${index + 1}`}
+                              alt={`تصویر گالری پروژه ${toFarsiDigits(index + 1)}`}
                               fill
                               className="object-cover group-hover:scale-110 transition-transform duration-500"
                               sizes={isMobile ? "100vw" : "(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"}
@@ -864,7 +867,7 @@ export default function CasePage({ params }: CasePageProps) {
                             >
                               <Image
                                 src={selectedGalleryImage}
-                                alt="Gallery image"
+                                alt="تصویر گالری"
                                 fill
                                 className="object-contain rounded-2xl"
                                 sizes="100vw"
@@ -885,7 +888,7 @@ export default function CasePage({ params }: CasePageProps) {
                   ) : (
                     <div className="text-center py-20">
                       <FiImage className="w-16 h-16 text-gray-600 mx-auto mb-4" />
-                      <p className={`text-gray-400 ${isMobile ? 'text-base' : 'text-lg'}`}>Project gallery will be available soon.</p>
+                      <p className={`text-gray-400 ${isMobile ? 'text-base' : 'text-lg'}`}>گالری پروژه به‌زودی در دسترس خواهد بود.</p>
                     </div>
                   )}
                 </div>
@@ -914,10 +917,10 @@ export default function CasePage({ params }: CasePageProps) {
               <h2 className={`font-bold bg-gradient-to-r from-white via-purple-200 to-blue-200 bg-clip-text text-transparent mb-6 ${
                 isMobile ? 'text-3xl' : 'text-5xl md:text-7xl'
               }`}>
-                Related Services
+                خدمات مرتبط
               </h2>
               <p className={`text-gray-400 max-w-2xl mx-auto ${isMobile ? 'text-base px-4' : 'text-xl'}`}>
-                Discover services that can complement your project
+                خدماتی را کشف کنید که می‌توانند مکمل پروژه شما باشند
               </p>
             </motion.div>
 
@@ -951,7 +954,7 @@ export default function CasePage({ params }: CasePageProps) {
                                 <ServiceIcon className="w-5 h-5 text-white" />
                               </div>
                               <div className="absolute bottom-3 right-3">
-                                <FiArrowRight className="w-4 h-4 text-white/70 group-hover:text-white transition-colors duration-300" />
+                                <FiArrowRight className="w-4 h-4 text-white/70 group-hover:text-white transition-colors duration-300 rotate-180" />
                               </div>
                             </div>
                             <div className="p-4">
@@ -977,7 +980,7 @@ export default function CasePage({ params }: CasePageProps) {
                     whileTap={{ scale: 0.9 }}
                     className="w-14 h-14 bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl flex items-center justify-center text-white hover:border-purple-500/50 transition-all duration-300 z-10"
                   >
-                    <FiChevronLeft className="w-6 h-6" />
+                    <FiChevronRight className="w-6 h-6" />
                   </motion.button>
 
                   <div className="flex-1 overflow-hidden">
@@ -1011,7 +1014,7 @@ export default function CasePage({ params }: CasePageProps) {
                                   <ServiceIcon className="w-6 h-6 text-white" />
                                 </div>
                                 <div className="absolute bottom-4 right-4">
-                                  <FiArrowRight className="w-5 h-5 text-white/70 group-hover:text-white transition-colors duration-300" />
+                                  <FiArrowRight className="w-5 h-5 text-white/70 group-hover:text-white transition-colors duration-300 rotate-180" />
                                 </div>
                               </div>
                               <div className="p-8">
@@ -1035,7 +1038,7 @@ export default function CasePage({ params }: CasePageProps) {
                     whileTap={{ scale: 0.9 }}
                     className="w-14 h-14 bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl flex items-center justify-center text-white hover:border-purple-500/50 transition-all duration-300 z-10"
                   >
-                    <FiChevronRight className="w-6 h-6" />
+                    <FiChevronLeft className="w-6 h-6" />
                   </motion.button>
                 </div>
               )}
@@ -1057,12 +1060,12 @@ export default function CasePage({ params }: CasePageProps) {
             <h2 className={`font-bold bg-gradient-to-r from-white via-purple-200 to-blue-200 bg-clip-text text-transparent mb-6 ${
               isMobile ? 'text-3xl' : 'text-5xl md:text-7xl'
             }`}>
-              Similar Projects
+              پروژه‌های مشابه
             </h2>
             <p className={`text-gray-400 max-w-2xl mx-auto ${isMobile ? 'text-base px-4' : 'text-xl'}`}>
-              {relatedCases.length > 0 
-                ? `Explore other successful projects${caseStudy.industry ? ` in the ${caseStudy.industry} industry` : ''}`
-                : 'More case studies coming soon'
+              {relatedCases.length > 0
+                ? `پروژه‌های موفق دیگر را کاوش کنید${caseStudy.industry ? ` در صنعت ${caseStudy.industry}` : ''}`
+                : 'به‌زودی مطالعات موردی بیشتری اضافه می‌شود'
               }
             </p>
           </motion.div>
@@ -1132,7 +1135,7 @@ export default function CasePage({ params }: CasePageProps) {
                     whileTap={{ scale: 0.9 }}
                     className="w-14 h-14 bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl flex items-center justify-center text-white hover:border-purple-500/50 transition-all duration-300 z-10"
                   >
-                    <FiChevronLeft className="w-6 h-6" />
+                    <FiChevronRight className="w-6 h-6" />
                   </motion.button>
 
                   <div className="flex-1 overflow-hidden">
@@ -1198,7 +1201,7 @@ export default function CasePage({ params }: CasePageProps) {
                     whileTap={{ scale: 0.9 }}
                     className="w-14 h-14 bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl flex items-center justify-center text-white hover:border-purple-500/50 transition-all duration-300 z-10"
                   >
-                    <FiChevronRight className="w-6 h-6" />
+                    <FiChevronLeft className="w-6 h-6" />
                   </motion.button>
                 </div>
               )}
@@ -1206,7 +1209,7 @@ export default function CasePage({ params }: CasePageProps) {
           ) : (
             <div className="text-center py-20">
               <FiTarget className="w-16 h-16 text-gray-600 mx-auto mb-4" />
-              <p className={`text-gray-400 ${isMobile ? 'text-base' : 'text-lg'}`}>More related case studies coming soon!</p>
+              <p className={`text-gray-400 ${isMobile ? 'text-base' : 'text-lg'}`}>به‌زودی مطالعات موردی مرتبط بیشتری اضافه می‌شود!</p>
             </div>
           )}
         </div>
@@ -1257,13 +1260,13 @@ export default function CasePage({ params }: CasePageProps) {
                 </motion.div>
 
                 <h2 className="text-3xl font-bold bg-gradient-to-r from-white via-purple-200 to-blue-200 bg-clip-text text-transparent mb-4">
-                  Ready for Similar Success?
+                  آماده موفقیت مشابه هستید؟
                 </h2>
 
                 <p className="text-gray-300 mb-8 leading-relaxed px-4">
-                  Let&apos;s create your next success story with a comprehensive consultation.
+                  بیایید با یک مشاوره جامع، داستان موفقیت بعدی شما را بسازیم.
                 </p>
-                
+
                 <div className="space-y-4">
                   <Link href="/contact">
                     <motion.button
@@ -1271,11 +1274,11 @@ export default function CasePage({ params }: CasePageProps) {
                       whileTap={{ scale: 0.98 }}
                       className="w-full max-w-sm mx-auto block px-8 py-4 bg-gradient-to-r from-purple-600 to-blue-600 text-white font-bold rounded-full flex items-center justify-center gap-3 hover:shadow-lg transition-all duration-300 text-lg"
                     >
-                      <span>Start Your Project</span>
-                      <FiArrowRight className="w-5 h-5" />
+                      <span>پروژه خود را شروع کنید</span>
+                      <FiArrowRight className="w-5 h-5 rotate-180" />
                     </motion.button>
                   </Link>
-                  
+
                   <div className="grid grid-cols-2 gap-3 max-w-sm mx-auto">
                     <Link href="/cases">
                       <motion.button
@@ -1283,10 +1286,10 @@ export default function CasePage({ params }: CasePageProps) {
                         whileTap={{ scale: 0.98 }}
                         className="w-full px-4 py-3 bg-white/10 backdrop-blur-sm border border-white/20 text-white font-semibold rounded-full hover:bg-white/20 transition-all duration-300 text-sm"
                       >
-                        View All Cases
+                        {t('nav.viewAllCases')}
                       </motion.button>
                     </Link>
-                    
+
                     <Link href="/contact">
                       <motion.button
                         whileHover={{ scale: 1.02 }}
@@ -1294,7 +1297,7 @@ export default function CasePage({ params }: CasePageProps) {
                         className="w-full px-4 py-3 bg-green-600 text-white font-semibold rounded-full hover:bg-green-700 transition-all duration-300 flex items-center justify-center gap-2 text-sm"
                       >
                         <FiMessageCircle className="w-4 h-4" />
-                        Let&apos;s Talk
+                        بیایید صحبت کنیم
                       </motion.button>
                     </Link>
                   </div>
@@ -1304,36 +1307,36 @@ export default function CasePage({ params }: CasePageProps) {
               // Desktop CTA Layout
               <div>
                 <h2 className="text-5xl md:text-7xl font-bold bg-gradient-to-r from-white via-purple-200 to-blue-200 bg-clip-text text-transparent mb-8">
-                  Ready for Similar Success?
+                  آماده موفقیت مشابه هستید؟
                 </h2>
                 <p className="text-xl text-gray-300 mb-12 max-w-3xl mx-auto leading-relaxed">
-                  Let&apos;s create your next success story. Get started with a comprehensive consultation and transform your business today.
+                  بیایید داستان موفقیت بعدی شما را بسازیم. همین امروز با یک مشاوره جامع شروع کنید و کسب‌وکار خود را متحول کنید.
                 </p>
-                
+
                 <div className="flex flex-wrap gap-6 justify-center">
                   <Link href="/contact">
                     <motion.button
-                      whileHover={{ 
-                        scale: 1.05, 
+                      whileHover={{
+                        scale: 1.05,
                         boxShadow: '0 25px 50px rgba(139, 92, 246, 0.6)',
                         background: 'linear-gradient(135deg, #8B5CF6 0%, #3B82F6 100%)'
                       }}
                       whileTap={{ scale: 0.95 }}
                       className="group px-10 py-5 bg-gradient-to-r from-purple-600 to-blue-600 text-white font-bold rounded-full flex items-center gap-3 hover:shadow-2xl transition-all duration-300 text-lg relative overflow-hidden"
                     >
-                      <span className="relative z-10">Start Your Project</span>
+                      <span className="relative z-10">پروژه خود را شروع کنید</span>
                       <motion.div
-                        whileHover={{ x: 5 }}
+                        whileHover={{ x: -5 }}
                         transition={{ duration: 0.2 }}
                       >
-                        <FiArrowRight className="w-6 h-6" />
+                        <FiArrowRight className="w-6 h-6 rotate-180" />
                       </motion.div>
                     </motion.button>
                   </Link>
-                  
+
                   <Link href="/cases">
                     <motion.button
-                      whileHover={{ 
+                      whileHover={{
                         scale: 1.05,
                         backgroundColor: 'rgba(255, 255, 255, 0.15)',
                         borderColor: 'rgba(139, 92, 246, 0.5)'
@@ -1341,7 +1344,7 @@ export default function CasePage({ params }: CasePageProps) {
                       whileTap={{ scale: 0.95 }}
                       className="px-10 py-5 bg-white/5 backdrop-blur-sm border-2 border-white/20 text-white font-bold rounded-full hover:border-purple-500/50 transition-all duration-300 text-lg"
                     >
-                      View All Cases
+                      {t('nav.viewAllCases')}
                     </motion.button>
                   </Link>
                 </div>
