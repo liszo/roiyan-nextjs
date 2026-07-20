@@ -28,7 +28,7 @@ export default function LocaleProvider({ children }: { children: React.ReactNode
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    const stored = (localStorage.getItem('locale') as Locale) || 'en';
+    const stored = (localStorage.getItem('locale') as Locale) || 'fa';
     setLocaleState(stored);
     setMounted(true);
 

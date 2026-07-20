@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
+import localFont from 'next/font/local';
 import './globals.css';
 import ChatWidget from '@/components/ChatWidget';
 import Header from '@/components/Header';
@@ -10,6 +11,9 @@ const inter = Inter({
  subsets: ['latin'],
  variable: '--font-inter'
 });
+
+// Farsi fonts from Google Fonts (web imports handled via CSS)
+// These fonts will be loaded dynamically based on locale
 
 export const metadata: Metadata = {
  title: 'UAE Digital - Digital Solutions Agency',
