@@ -6,8 +6,10 @@ import { Sphere, MeshDistortMaterial, Float } from '@react-three/drei';
 import Link from 'next/link';
 import gsap from 'gsap';
 import { FiArrowRight, FiZap, FiTrendingUp, FiCpu, FiPlay } from 'react-icons/fi';
+import { useTranslations } from '@/hooks/useTranslations';
 
 export default function Hero() {
+  const { t } = useTranslations();
   const containerRef = useRef<HTMLDivElement>(null);
   const headingRef = useRef<HTMLHeadingElement>(null);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -68,20 +70,20 @@ export default function Hero() {
   const floatingCards = [
     {
       icon: <FiCpu className="w-5 h-5" />,
-      title: "AI-Powered",
-      description: "Smart automation solutions",
+      title: t('hero.floatingCards.aiPowered'),
+      description: t('hero.floatingCards.aiPoweredDesc'),
       color: "from-purple-500 to-pink-500"
     },
     {
       icon: <FiZap className="w-5 h-5" />,
-      title: "Lightning Fast",
-      description: "Optimized performance",
+      title: t('hero.floatingCards.lightningFast'),
+      description: t('hero.floatingCards.lightningFastDesc'),
       color: "from-blue-500 to-cyan-500"
     },
     {
       icon: <FiTrendingUp className="w-5 h-5" />,
-      title: "Growth Focused",
-      description: "10x ROI guaranteed",
+      title: t('hero.floatingCards.growthFocused'),
+      description: t('hero.floatingCards.growthFocusedDesc'),
       color: "from-green-500 to-emerald-500"
     }
   ];

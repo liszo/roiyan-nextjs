@@ -4,9 +4,11 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { FaArrowRight, FaPlay } from 'react-icons/fa';
 import { useState } from 'react';
+import { useTranslations } from '@/hooks/useTranslations';
 
 export default function HeroSection() {
   const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
+  const { t } = useTranslations();
 
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden">
@@ -36,7 +38,7 @@ export default function HeroSection() {
               className="inline-flex items-center px-4 py-2 bg-primary-100 text-primary-700 rounded-full text-sm font-medium mb-6"
             >
               <span className="w-2 h-2 bg-primary-500 rounded-full mr-2 animate-pulse"></span>
-              Welcome to UAE Digital Solutions
+              {t('header.welcomeUAE')}
             </motion.div>
 
             <motion.h1
@@ -45,8 +47,7 @@ export default function HeroSection() {
               transition={{ delay: 0.3 }}
               className="text-5xl lg:text-7xl font-bold mb-6 leading-tight"
             >
-              Transform Your
-              <span className="gradient-text"> Digital Presence</span>
+              {t('hero.title')}
             </motion.h1>
 
             <motion.p
@@ -55,9 +56,7 @@ export default function HeroSection() {
               transition={{ delay: 0.4 }}
               className="text-xl text-gray-600 mb-8 leading-relaxed"
             >
-              We craft exceptional digital experiences that drive growth. 
-              From stunning websites to powerful AI automation, we&apos;re your 
-              partner in digital transformation.
+              {t('hero.description')}
             </motion.p>
 
             <motion.div
@@ -67,7 +66,7 @@ export default function HeroSection() {
               className="flex flex-col sm:flex-row gap-4"
             >
               <Link href="/booking" className="btn-primary group">
-                Start Your Project
+                {t('hero.cta.primary')}
                 <FaArrowRight className="inline-block ml-2 group-hover:translate-x-1 transition-transform" />
               </Link>
               <button
@@ -75,7 +74,7 @@ export default function HeroSection() {
                 className="btn-outline group"
               >
                 <FaPlay className="inline-block mr-2 group-hover:scale-110 transition-transform" />
-                Watch Our Story
+                {t('hero.cta.secondary')}
               </button>
             </motion.div>
 
