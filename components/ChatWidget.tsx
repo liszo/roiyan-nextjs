@@ -11,10 +11,10 @@ export default function ChatWidget() {
   const phoneNumber = '+989363093986'; // Replace with your WhatsApp number
 
   const quickMessages = [
-    "I need a website",
-    "I want to discuss a project",
-    "I need digital marketing services",
-    "I'd like a quote"
+    "به یک وب‌سایت نیاز دارم",
+    "می‌خواهم درباره یک پروژه صحبت کنم",
+    "به خدمات بازاریابی دیجیتال نیاز دارم",
+    "درخواست پیش‌فاکتور دارم"
   ];
 
   const sendMessage = (text: string) => {
@@ -75,21 +75,21 @@ export default function ChatWidget() {
                   <FaWhatsapp className="w-6 h-6" />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-lg">Chat with us</h3>
-                  <p className="text-sm opacity-90">We typically reply instantly</p>
+                  <h3 className="font-semibold text-lg">با ما چت کنید</h3>
+                  <p className="text-sm opacity-90">معمولاً بلافاصله پاسخ می‌دهیم</p>
                 </div>
               </div>
             </div>
 
             {/* Quick Messages */}
             <div className="p-4 border-b">
-              <p className="text-sm text-gray-600 mb-3">Quick messages:</p>
+              <p className="text-sm text-gray-600 mb-3">پیام‌های سریع:</p>
               <div className="space-y-2">
                 {quickMessages.map((msg, index) => (
                   <button
                     key={index}
                     onClick={() => sendMessage(msg)}
-                    className="w-full text-left px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg text-sm transition-colors"
+                    className="w-full text-right px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg text-sm transition-colors"
                   >
                     {msg}
                   </button>
@@ -105,7 +105,7 @@ export default function ChatWidget() {
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
                   onKeyPress={(e) => e.key === 'Enter' && message && sendMessage(message)}
-                  placeholder="Type your message..."
+                  placeholder="پیام خود را بنویسید..."
                   className="flex-1 px-4 py-2 border rounded-lg focus:outline-none focus:border-green-500"
                 />
                 <button

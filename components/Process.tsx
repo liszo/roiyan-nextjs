@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { FiSearch, FiPenTool, FiCode, FiZap, FiChevronDown, FiChevronUp } from 'react-icons/fi';
 import { useTranslations } from '@/hooks/useTranslations';
 import { useLocale } from '@/components/LocaleProvider';
+import { toFarsiDigits } from '@/lib/farsiNumerals';
 
 const stepIcons = [
   <FiSearch key="0" className="w-6 h-6 md:w-8 md:h-8" />,
@@ -120,7 +121,7 @@ export default function Process() {
                           {step.shortTitle}
                         </h3>
                         <div className="text-xs text-purple-400 font-medium">
-                          {t('process.step')} {index + 1}
+                          {t('process.step')} {toFarsiDigits(index + 1)}
                         </div>
                       </div>
                     </div>
@@ -163,8 +164,8 @@ export default function Process() {
                           {/* Progress for expanded step */}
                           <div className="mt-5 pt-4 border-t border-white/10">
                             <div className="flex justify-between text-sm text-gray-300 mb-2 font-medium">
-                              <span>{t('process.step')} {index + 1} {t('process.of')} {processSteps.length}</span>
-                              <span>{Math.round(((index + 1) / processSteps.length) * 100)}%</span>
+                              <span>{t('process.step')} {toFarsiDigits(index + 1)} {t('process.of')} {toFarsiDigits(processSteps.length)}</span>
+                              <span>{toFarsiDigits(Math.round(((index + 1) / processSteps.length) * 100))}٪</span>
                             </div>
                             <div className="h-2 bg-white/10 rounded-full overflow-hidden">
                               <motion.div
@@ -257,8 +258,8 @@ export default function Process() {
                 {/* Progress Bar */}
                 <div className="mt-8">
                   <div className="flex justify-between text-sm text-gray-400 mb-2">
-                    <span>{t('process.step')} {activeStep + 1} {t('process.of')} {processSteps.length}</span>
-                    <span>{Math.round(((activeStep + 1) / processSteps.length) * 100)}%</span>
+                    <span>{t('process.step')} {toFarsiDigits(activeStep + 1)} {t('process.of')} {toFarsiDigits(processSteps.length)}</span>
+                    <span>{toFarsiDigits(Math.round(((activeStep + 1) / processSteps.length) * 100))}٪</span>
                   </div>
                   <div className="h-2 bg-white/10 rounded-full overflow-hidden">
                     <motion.div

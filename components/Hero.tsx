@@ -220,7 +220,7 @@ export default function Hero() {
       >
         <div className={`${isMobile ? 'text-center space-y-8' : 'grid lg:grid-cols-2 gap-8 md:gap-12 items-center'}`}>
           {/* Left Content */}
-          <div className="text-white text-center lg:text-left">
+          <div className="text-white text-center lg:text-right">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}

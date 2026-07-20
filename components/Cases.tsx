@@ -7,6 +7,7 @@ import { FiArrowRight, FiChevronLeft, FiChevronRight, FiEye, FiHeart } from 'rea
 import { getCases } from '@/lib/wordpress';
 import { useTranslations } from '@/hooks/useTranslations';
 import { useLocale } from '@/components/LocaleProvider';
+import { toFarsiDigits } from '@/lib/farsiNumerals';
 
 export default function Cases() {
   const { t } = useTranslations();
@@ -258,7 +259,7 @@ export default function Cases() {
                           
                           {isMobile && (
                             <div className="text-xs text-gray-500">
-                              {index + 1}/{cases.length}
+                              {toFarsiDigits(index + 1)}/{toFarsiDigits(cases.length)}
                             </div>
                           )}
                         </div>
@@ -279,7 +280,7 @@ export default function Cases() {
               className="p-2 md:p-3 bg-white/10 backdrop-blur-sm rounded-full border border-white/20 hover:bg-white/20 transition-colors disabled:opacity-50"
               disabled={cases.length <= (isMobile ? 1 : 2)}
             >
-              <FiChevronLeft className="w-4 h-4 md:w-5 md:h-5 text-white" />
+              <FiChevronRight className="w-4 h-4 md:w-5 md:h-5 text-white" />
             </motion.button>
 
             {/* Dots Indicator */}
@@ -304,7 +305,7 @@ export default function Cases() {
               className="p-2 md:p-3 bg-white/10 backdrop-blur-sm rounded-full border border-white/20 hover:bg-white/20 transition-colors disabled:opacity-50"
               disabled={cases.length <= (isMobile ? 1 : 2)}
             >
-              <FiChevronRight className="w-4 h-4 md:w-5 md:h-5 text-white" />
+              <FiChevronLeft className="w-4 h-4 md:w-5 md:h-5 text-white" />
             </motion.button>
           </div>
         </div>

@@ -66,12 +66,12 @@ export default function FAQ() {
             >
               <button
                 onClick={() => setOpenIndex(openIndex === index ? null : index)}
-                className={`w-full text-left ${isMobile ? 'p-4' : 'p-6'} bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl hover:bg-white/10 transition-all duration-300 ${
+                className={`w-full text-right ${isMobile ? 'p-4' : 'p-6'} bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl hover:bg-white/10 transition-all duration-300 ${
                   openIndex === index ? 'border-purple-500/50 bg-white/10' : ''
                 }`}
               >
                 <div className="flex justify-between items-start">
-                  <div className="flex-1 pr-4">
+                  <div className="flex-1 pl-4">
                     {isMobile && (
                       <span className="text-xs text-purple-400 font-medium uppercase tracking-wider mb-1 block">
                         {faq.category}

@@ -49,7 +49,7 @@ export function FAQAccordion({ faqs, className = '' }: FAQAccordionProps) {
               {/* Question Button */}
               <button
                 onClick={() => toggleFAQ(index)}
-                className="w-full flex items-center justify-between gap-4 p-6 text-left hover:bg-neutral-50 dark:hover:bg-neutral-700/50 transition-colors"
+                className="w-full flex items-center justify-between gap-4 p-6 text-right hover:bg-neutral-50 dark:hover:bg-neutral-700/50 transition-colors"
               >
                 <span className="text-lg sm:text-xl font-bold text-neutral-900 dark:text-white pr-4">
                   {faq.question}

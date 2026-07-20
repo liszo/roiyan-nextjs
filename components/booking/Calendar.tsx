@@ -77,18 +77,18 @@ export default function Calendar({ selectedDate, onSelectDate }: CalendarProps) 
           className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
           disabled={isSameMonth(currentMonth, new Date())}
         >
-          <FaChevronLeft className="text-gray-600" />
+          <FaChevronRight className="text-gray-600" />
         </button>
-        
+
         <h2 className="text-xl font-semibold">
           {format(currentMonth, 'MMMM yyyy')}
         </h2>
-        
+
         <button
           onClick={handleNextMonth}
           className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
         >
-          <FaChevronRight className="text-gray-600" />
+          <FaChevronLeft className="text-gray-600" />
         </button>
       </div>
 
