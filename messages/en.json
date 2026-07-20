@@ -54,7 +54,29 @@
     "loadingTools": "Loading tools...",
     "loadingPortfolio": "Loading portfolio categories...",
     "language": "Language",
-    "english": "English"
+    "english": "English",
+    "digitalTool": "Digital tool",
+    "quickImplementation": "Quick implementation",
+    "fallbackCategories": ["Healthcare", "E-commerce", "Finance", "Education", "Real Estate", "Technology"],
+    "megaServices": [
+      { "title": "Website Design & Redesign", "slug": "website-design-redesign", "description": "Professional website design & redesign services" },
+      { "title": "E-commerce Enhancement & Marketing", "slug": "ecommerce-enhancement-marketing", "description": "Professional e-commerce enhancement & marketing services" },
+      { "title": "AI Process Automation", "slug": "ai-process-automation", "description": "Professional AI process automation services" },
+      { "title": "Website Performance Optimization", "slug": "website-performance-optimization", "description": "Professional website performance optimization services" },
+      { "title": "UI/UX Design & Branding", "slug": "ui-ux-design-branding", "description": "Professional UI/UX design & branding services" },
+      { "title": "Online Booking Systems", "slug": "online-booking-systems", "description": "Professional online booking systems services" },
+      { "title": "Search Engine Optimization (SEO)", "slug": "search-engine-optimization-seo", "description": "Professional SEO services" },
+      { "title": "Website Security Services", "slug": "website-security-services", "description": "Professional website security services" }
+    ],
+    "mobileDescriptions": {
+      "home": "Welcome to UAE Digital",
+      "services": "Our digital solutions",
+      "solutions": "Business solutions",
+      "tools": "Digital tools & resources",
+      "portfolio": "Our latest work",
+      "about": "Learn about our team",
+      "contact": "Get in touch with us"
+    }
   },
   "cta": {
     "letWorkTogether": "Let's work together",
@@ -205,11 +227,11 @@
   },
   "footer": {
     "newsletter": {
-      "title": "Stay Updated",
-      "description": "Get the latest trends and digital best practices",
+      "title": "Stay in the Loop",
+      "description": "Get exclusive insights, industry trends, and the latest updates from our digital experts delivered to your inbox.",
       "placeholder": "Enter your email address",
       "subscribe": "Subscribe",
-      "success": "Thank you for subscribing!"
+      "success": "Successfully subscribed! Welcome aboard! 🎉"
     },
     "services": "Services",
     "company": "Company",
@@ -226,7 +248,23 @@
     "performanceOptimization": "Performance Optimization",
     "uiuxBranding": "UI/UX Design & Branding",
     "onlineBooking": "Online Booking Systems",
-    "seo": "SEO Services"
+    "seo": "SEO Services",
+    "websiteSecurity": "Website Security",
+    "companyName": "UAE Digital Solutions",
+    "digitalInnovationPartner": "Digital Innovation Partner",
+    "companyDescription": "Empowering businesses through cutting-edge digital solutions. We transform ideas into powerful web experiences, mobile applications, and AI-driven automation that accelerate growth and success.",
+    "viewAllServices": "View All Services",
+    "quickLinks": "Quick Links",
+    "new": "NEW",
+    "startYourProject": "Start Your Project",
+    "madeWith": "Made with",
+    "inDubai": "in Dubai",
+    "phoneLabel": "Phone",
+    "phoneDescription": "Call us anytime",
+    "emailLabel": "Email",
+    "emailDescription": "Drop us a line",
+    "addressLabel": "Address",
+    "addressDescription": "Visit our office"
   },
   "pages": {
     "solutions": {
@@ -282,7 +320,122 @@
   },
   "testimonials": {
     "title": "Client Testimonials",
-    "verified": "Verified Customer"
+    "verified": "Verified Customer",
+    "badge": "Testimonials",
+    "whatOur": "What our",
+    "clientsSay": "clients say",
+    "subtitle": "Don't just take our word for it. Here's what industry leaders have to say about working with us.",
+    "project": "Project:",
+    "statLabels": {
+      "clientSatisfaction": "Client Satisfaction",
+      "projectsCompleted": "Projects Completed",
+      "happyClients": "Happy Clients",
+      "averageRating": "Average Rating"
+    }
+  },
+  "process": {
+    "howWeWork": "How We Work",
+    "ourProcess": "Our Process",
+    "perfected": "Perfected",
+    "step": "Step",
+    "of": "of",
+    "steps": [
+      {
+        "title": "Discovery & Strategy",
+        "shortTitle": "Discovery",
+        "description": "We dive deep into your business goals, target audience, and market position to create a tailored digital strategy.",
+        "details": [
+          "Market research & analysis",
+          "Competitor assessment",
+          "User persona development",
+          "Strategic roadmap creation"
+        ]
+      },
+      {
+        "title": "Design & Prototype",
+        "shortTitle": "Design",
+        "description": "Our creative team crafts stunning, user-centric designs that capture your brand essence and engage your audience.",
+        "details": [
+          "UI/UX design",
+          "Interactive prototypes",
+          "Brand identity integration",
+          "User testing & feedback"
+        ]
+      },
+      {
+        "title": "Development & Testing",
+        "shortTitle": "Development",
+        "description": "We build robust, scalable solutions using cutting-edge technologies, ensuring flawless performance across all devices.",
+        "details": [
+          "Agile development",
+          "Quality assurance",
+          "Performance optimization",
+          "Security implementation"
+        ]
+      },
+      {
+        "title": "Launch & Growth",
+        "shortTitle": "Launch",
+        "description": "We deploy your solution and provide ongoing support to ensure continuous improvement and sustained growth.",
+        "details": [
+          "Deployment & go-live",
+          "Performance monitoring",
+          "Continuous optimization",
+          "Growth strategy execution"
+        ]
+      }
+    ]
+  },
+  "stats": {
+    "ourImpact": "Our Impact",
+    "numbersThat": "Numbers that",
+    "speakVolumes": "speak volumes",
+    "trustedBy": "Trusted by businesses worldwide to deliver exceptional digital experiences",
+    "items": [
+      { "label": "Projects Completed", "description": "Successful digital transformations" },
+      { "label": "Client Satisfaction", "description": "Average client satisfaction rate" },
+      { "label": "ROI Increase", "description": "Average return on investment" },
+      { "label": "Support Available", "description": "Round-the-clock assistance" }
+    ]
+  },
+  "faqSection": {
+    "frequentlyAsked": "Frequently Asked",
+    "questions": "Questions",
+    "findAnswers": "Find answers to common questions about our services",
+    "stillHaveQuestions": "Still have questions?",
+    "contactSupport": "Contact Support",
+    "items": [
+      {
+        "question": "How long does it take to build a website?",
+        "answer": "Typically, a custom website takes 4-8 weeks depending on complexity. We'll provide a detailed timeline after understanding your requirements.",
+        "category": "Timeline"
+      },
+      {
+        "question": "Do you provide ongoing support?",
+        "answer": "Yes! We offer comprehensive maintenance packages including updates, security monitoring, and 24/7 support.",
+        "category": "Support"
+      },
+      {
+        "question": "What technologies do you use?",
+        "answer": "We use cutting-edge technologies like Next.js, React, Node.js, and AI-powered tools to build fast, scalable solutions.",
+        "category": "Technology"
+      },
+      {
+        "question": "Can you help with digital marketing?",
+        "answer": "Absolutely! We offer complete digital marketing services including SEO, PPC, social media, and content marketing.",
+        "category": "Services"
+      },
+      {
+        "question": "What's included in your pricing?",
+        "answer": "Our pricing includes design, development, testing, deployment, and 30 days of free support. Additional services are clearly outlined.",
+        "category": "Pricing"
+      },
+      {
+        "question": "Do you work with small businesses?",
+        "answer": "Yes! We work with businesses of all sizes, from startups to enterprises. We have packages tailored for every budget.",
+        "category": "Business"
+      }
+    ]
   },
   "common": {
     "loading": "Loading...",

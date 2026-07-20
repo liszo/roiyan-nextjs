@@ -6,8 +6,12 @@ import { Canvas } from '@react-three/fiber';
 import { Torus, MeshDistortMaterial } from '@react-three/drei';
 import gsap from 'gsap';
 import { FaArrowRight, FaWhatsapp, FaEnvelope, FaPhone, FaClock, FaMapMarkerAlt } from 'react-icons/fa';
+import { useTranslations } from '@/hooks/useTranslations';
+import { useLocale } from '@/components/LocaleProvider';
 
 export default function CTA() {
+  const { t } = useTranslations();
+  const { isRTL } = useLocale();
   const containerRef = useRef<HTMLDivElement>(null);
   const [isMobile, setIsMobile] = useState(false);
   
@@ -116,20 +120,20 @@ export default function CTA() {
           className="inline-flex items-center px-3 py-1.5 md:px-4 md:py-2 bg-black/5 rounded-full text-black/60 text-xs md:text-sm font-medium mb-6 md:mb-8"
         >
           <span className="w-2 h-2 bg-green-500 rounded-full mr-2 animate-pulse"></span>
-          Let&apos;s work together
+          {t('cta.letWorkTogether')}
         </motion.div>
 
         {/* Main Heading */}
         <h2 className="cta-text text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-8xl font-bold text-black mb-4 md:mb-6 leading-tight">
-          Ready to start your
+          {t('cta.readyToStart')}
           <span className="block text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-blue-600">
-            next project?
+            {t('cta.nextProject')}
           </span>
         </h2>
 
         {/* Description */}
         <p className="cta-text text-sm md:text-lg lg:text-xl xl:text-2xl text-black/60 mb-8 md:mb-12 max-w-3xl mx-auto leading-relaxed">
-          Let&apos;s create something extraordinary together. Get in touch and let&apos;s discuss how we can transform your digital presence.
+          {t('cta.description')}
         </p>
 
         {/* CTA Buttons */}
@@ -141,8 +145,8 @@ export default function CTA() {
               className={`group relative ${isMobile ? 'w-full' : ''} px-6 md:px-8 py-3 md:py-4 bg-black text-white font-semibold rounded-full overflow-hidden transition-all hover:scale-105`}
             >
               <span className="relative z-10 flex items-center justify-center text-sm md:text-base">
-                Schedule a Call
-                <FaArrowRight className="ml-2 group-hover:translate-x-2 transition-transform" />
+                {t('cta.scheduleCall')}
+                <FaArrowRight className={`ml-2 group-hover:translate-x-2 transition-transform ${isRTL ? 'rotate-180' : ''}`} />
               </span>
               <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-blue-600 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
             </motion.button>
@@ -159,11 +163,11 @@ export default function CTA() {
                 className={`${isMobile ? 'w-full' : ''} px-4 md:px-8 py-3 md:py-4 bg-green-500 text-white font-semibold rounded-full hover:bg-green-600 transition-all hover:scale-105 flex items-center justify-center text-sm md:text-base`}
               >
                 <FaWhatsapp className="mr-2 text-lg" />
-                {isMobile ? 'WhatsApp' : 'WhatsApp Us'}
+                {isMobile ? t('cta.whatsapp') : t('cta.whatsappUs')}
               </motion.button>
             </a>
 
-            <a 
+            <a
               href="mailto:hello@uaedigital.ae"
               className={`group ${isMobile ? 'block' : ''}`}
             >
@@ -173,7 +177,7 @@ export default function CTA() {
                 className={`${isMobile ? 'w-full' : ''} px-4 md:px-8 py-3 md:py-4 bg-white text-black font-semibold rounded-full border-2 border-black/10 hover:border-black/20 transition-all hover:scale-105 flex items-center justify-center text-sm md:text-base`}
               >
                 <FaEnvelope className="mr-2" />
-                {isMobile ? 'Email' : 'Send Email'}
+                {isMobile ? t('cta.email') : t('cta.sendEmail')}
               </motion.button>
             </a>
           </div>
@@ -191,8 +195,8 @@ export default function CTA() {
               <FaMapMarkerAlt className={`text-white ${isMobile ? 'text-lg' : 'text-2xl'}`} />
             </div>
             <div className={isMobile ? 'flex-1' : ''}>
-              <h3 className={`font-semibold text-black mb-1 ${isMobile ? 'text-base' : 'text-lg'}`}>Visit Us</h3>
-              <p className={`text-black/60 ${isMobile ? 'text-sm' : 'text-base'}`}>Dubai, UAE</p>
+              <h3 className={`font-semibold text-black mb-1 ${isMobile ? 'text-base' : 'text-lg'}`}>{t('cta.visitUs')}</h3>
+              <p className={`text-black/60 ${isMobile ? 'text-sm' : 'text-base'}`}>{t('cta.dubai')}</p>
             </div>
           </motion.div>
 
@@ -206,8 +210,8 @@ export default function CTA() {
               <FaClock className={`text-white ${isMobile ? 'text-lg' : 'text-2xl'}`} />
             </div>
             <div className={isMobile ? 'flex-1' : ''}>
-              <h3 className={`font-semibold text-black mb-1 ${isMobile ? 'text-base' : 'text-lg'}`}>Working Hours</h3>
-              <p className={`text-black/60 ${isMobile ? 'text-sm' : 'text-base'}`}>Sun - Thu: 9AM - 6PM</p>
+              <h3 className={`font-semibold text-black mb-1 ${isMobile ? 'text-base' : 'text-lg'}`}>{t('cta.workingHours')}</h3>
+              <p className={`text-black/60 ${isMobile ? 'text-sm' : 'text-base'}`}>{t('cta.sunThurs')}</p>
             </div>
           </motion.div>
 
@@ -221,8 +225,8 @@ export default function CTA() {
               <FaPhone className={`text-white ${isMobile ? 'text-lg' : 'text-2xl'}`} />
             </div>
             <div className={isMobile ? 'flex-1' : ''}>
-              <h3 className={`font-semibold text-black mb-1 ${isMobile ? 'text-base' : 'text-lg'}`}>Call Us</h3>
-              <p className={`text-black/60 ${isMobile ? 'text-sm' : 'text-base'}`}>+971 50 123 4567</p>
+              <h3 className={`font-semibold text-black mb-1 ${isMobile ? 'text-base' : 'text-lg'}`}>{t('cta.callUs')}</h3>
+              <p className={`text-black/60 ${isMobile ? 'text-sm' : 'text-base'}`} dir="ltr">+971 50 123 4567</p>
             </div>
           </motion.div>
         </div>
@@ -236,7 +240,7 @@ export default function CTA() {
             className="mt-8 pt-8 border-t border-black/10"
           >
             <p className="text-black/60 text-sm mb-4">
-              Or explore our services
+              {t('cta.exploreServices')}
             </p>
             <div className="flex gap-2 justify-center">
               <Link href="/services">
@@ -244,7 +248,7 @@ export default function CTA() {
                   whileTap={{ scale: 0.95 }}
                   className="px-4 py-2 bg-black/5 text-black text-sm rounded-full hover:bg-black/10 transition-colors"
                 >
-                  Our Services
+                  {t('cta.ourServices')}
                 </motion.button>
               </Link>
               <Link href="/cases">
@@ -252,7 +256,7 @@ export default function CTA() {
                   whileTap={{ scale: 0.95 }}
                   className="px-4 py-2 bg-black/5 text-black text-sm rounded-full hover:bg-black/10 transition-colors"
                 >
-                  Case Studies
+                  {t('cta.caseStudies')}
                 </motion.button>
               </Link>
             </div>
@@ -267,7 +271,7 @@ export default function CTA() {
           className={`inline-flex items-center px-4 py-2 bg-green-50 border border-green-200 rounded-full text-green-700 text-xs md:text-sm font-medium ${isMobile ? 'mt-6' : 'mt-12'}`}
         >
           <div className="w-2 h-2 bg-green-500 rounded-full mr-2 animate-pulse"></div>
-          We typically respond within 2 hours
+          {t('cta.responseTime')}
         </motion.div>
       </motion.div>
     </section>

@@ -5,8 +5,12 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { FiArrowRight, FiChevronLeft, FiChevronRight, FiEye, FiHeart } from 'react-icons/fi';
 import { getCases } from '@/lib/wordpress';
+import { useTranslations } from '@/hooks/useTranslations';
+import { useLocale } from '@/components/LocaleProvider';
 
 export default function Cases() {
+  const { t } = useTranslations();
+  const { isRTL } = useLocale();
   const [cases, setCases] = useState<any[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [loading, setLoading] = useState(true);
@@ -137,7 +141,7 @@ export default function Cases() {
     return (
       <section className="py-12 md:py-20 bg-gradient-to-b from-black to-gray-900/50">
         <div className="max-w-7xl mx-auto px-4 md:px-6 text-center">
-          <p className="text-gray-400">No case studies found.</p>
+          <p className="text-gray-400">{t('cases.noCases')}</p>
         </div>
       </section>
     );
@@ -154,17 +158,16 @@ export default function Cases() {
           className="text-center mb-8 md:mb-16"
         >
           <span className="text-purple-400 text-xs md:text-sm font-medium uppercase tracking-wider">
-            Portfolio Highlights
+            {t('cases.portfolioHighlights')}
           </span>
           <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mt-3 md:mt-4 mb-4 md:mb-6 leading-tight">
-            Success stories that
+            {t('cases.successStories')}
             <span className="block bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-blue-400">
-              inspire growth
+              {t('cases.inspireGrowth')}
             </span>
           </h2>
           <p className="text-sm md:text-lg lg:text-xl text-gray-400 max-w-3xl mx-auto leading-relaxed">
-            Discover how we&apos;ve helped businesses transform their digital presence 
-            and achieve remarkable results through innovative solutions.
+            {t('cases.description')}
           </p>
         </motion.div>
 
@@ -249,8 +252,8 @@ export default function Cases() {
                         {/* CTA */}
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-2 text-purple-400 group-hover:gap-3 transition-all">
-                            <span className="font-medium text-sm md:text-base">View Case Study</span>
-                            <FiArrowRight className="w-4 h-4" />
+                            <span className="font-medium text-sm md:text-base">{t('cases.viewCaseStudy')}</span>
+                            <FiArrowRight className={`w-4 h-4 ${isRTL ? 'rotate-180' : ''}`} />
                           </div>
                           
                           {isMobile && (
@@ -314,8 +317,8 @@ export default function Cases() {
               whileTap={{ scale: 0.95 }}
               className="w-full sm:w-auto px-6 md:px-8 py-3 md:py-4 bg-gradient-to-r from-purple-600 to-blue-600 text-white font-semibold rounded-full flex items-center justify-center gap-2 mx-auto hover:shadow-lg hover:shadow-purple-500/25 transition-all duration-300 text-sm md:text-base"
             >
-              View All Case Studies
-              <FiArrowRight className="w-4 h-4 md:w-5 md:h-5" />
+              {t('cases.viewAll')}
+              <FiArrowRight className={`w-4 h-4 md:w-5 md:h-5 ${isRTL ? 'rotate-180' : ''}`} />
             </motion.button>
           </Link>
         </div>

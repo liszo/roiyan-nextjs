@@ -35,7 +35,7 @@ import {
 } from 'react-icons/fi';
 
 const Header = () => {
-  const { t, locale } = useTranslations();
+  const { t, tRaw, locale } = useTranslations();
   const { setLocale, isRTL } = useLocale();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -104,17 +104,17 @@ const Header = () => {
           });
           
           const uniqueCategories = [...new Set(allCategories.filter(Boolean))];
-          setCaseCategories(uniqueCategories.slice(0, 6));
+          setCaseCategories(uniqueCategories.length > 0 ? uniqueCategories.slice(0, 6) : (tRaw<string[]>('header.fallbackCategories') || []));
         } else {
-          setCaseCategories(['Healthcare', 'E-commerce', 'Finance', 'Education', 'Real Estate', 'Technology']);
+          setCaseCategories(tRaw<string[]>('header.fallbackCategories') || []);
         }
       } catch (error) {
-        setCaseCategories(['Healthcare', 'E-commerce', 'Finance', 'Education', 'Real Estate', 'Technology']);
+        setCaseCategories(tRaw<string[]>('header.fallbackCategories') || []);
       }
     };
 
     fetchCaseCategories();
-  }, []);
+  }, [locale]);
 
 // Fetch tools for dropdown
 useEffect(() => {
@@ -155,57 +155,17 @@ useEffect(() => {
  }
 }, [mounted]);
 
-  // Services with proper titles and unique icons
-  const services = [
-    { 
-      id: 64, 
-      title: 'Website Design & Redesign', 
-      slug: 'website-design-redesign',
-      icon: FiCode
-    },
-    { 
-      id: 70, 
-      title: 'E-commerce Enhancement & Marketing', 
-      slug: 'ecommerce-enhancement-marketing',
-      icon: FiShoppingCart
-    },
-    { 
-      id: 47, 
-      title: 'AI Process Automation', 
-      slug: 'ai-process-automation',
-      icon: FiCpu
-    },
-    { 
-      id: 68, 
-      title: 'Website Performance Optimization', 
-      slug: 'website-performance-optimization',
-      icon: FiZap
-    },
-    { 
-      id: 69, 
-      title: 'UI/UX Design & Branding', 
-      slug: 'ui-ux-design-branding',
-      icon: FiPenTool
-    },
-    { 
-      id: 63, 
-      title: 'Online Booking Systems', 
-      slug: 'online-booking-systems',
-      icon: FiCalendar
-    },
-    { 
-      id: 73, 
-      title: 'Search Engine Optimization (SEO)', 
-      slug: 'search-engine-optimization-seo',
-      icon: FiSearch
-    },
-    { 
-      id: 72, 
-      title: 'Website Security Services', 
-      slug: 'website-security-services',
-      icon: FiShield
-    }
-  ];
+  // Services with proper titles and unique icons (translated)
+  const serviceIcons = [FiCode, FiShoppingCart, FiCpu, FiZap, FiPenTool, FiCalendar, FiSearch, FiShield];
+  const serviceIds = [64, 70, 47, 68, 69, 63, 73, 72];
+  const megaServices = tRaw<{ title: string; slug: string; description: string }[]>('header.megaServices') || [];
+  const services = megaServices.map((s, i) => ({
+    id: serviceIds[i],
+    title: s.title,
+    slug: s.slug,
+    description: s.description,
+    icon: serviceIcons[i]
+  }));
 
   // Function to decode HTML entities
   const decodeHtmlEntities = (text: string): string => {
@@ -225,43 +185,49 @@ useEffect(() => {
   };
 
   const navigation = [
-    { name: 'Home', href: '/', icon: FiHome },
-    { 
-      name: 'Services', 
+    { key: 'home', name: t('nav.home'), href: '/', icon: FiHome },
+    {
+      key: 'services',
+      name: t('nav.services'),
       href: '/services',
       icon: FiBriefcase,
       hasDropdown: true,
       dropdownType: 'services'
     },
-    { 
-      name: 'Solutions', 
+    {
+      key: 'solutions',
+      name: t('nav.solutions'),
       href: '/solutions',
       icon: FiTarget,
       hasDropdown: true,
       dropdownType: 'solutions'
     },
-    { 
-      name: 'Tools', 
+    {
+      key: 'tools',
+      name: t('nav.tools'),
       href: '/tools',
       icon: FiTool,
       hasDropdown: true,
       dropdownType: 'tools'
     },
-    { 
-      name: 'Portfolio', 
+    {
+      key: 'portfolio',
+      name: t('nav.portfolio'),
       href: '/cases',
       icon: FiBriefcase,
       hasDropdown: true,
       dropdownType: 'portfolio'
     },
-    { name: 'About Us', href: '/about', icon: FiUser },
-    { name: 'Contact Us', href: '/contact', icon: FiMail }
+    { key: 'about', name: t('nav.about'), href: '/about', icon: FiUser },
+    { key: 'contact', name: t('nav.contact'), href: '/contact', icon: FiMail }
   ];
 
   const languages = [
     { code: 'en', name: 'English', flag: '🇬🇧' },
     { code: 'fa', name: 'فارسی', flag: '🇮🇷' }
   ];
+
+  const currentLanguage = languages.find((l) => l.code === locale) || languages[1];
 
   // Don't render until mounted to prevent hydration mismatch
   if (!mounted) {
@@ -278,15 +244,15 @@ useEffect(() => {
         className="hidden lg:block fixed top-0 left-0 right-0 z-50"
         style={{ backgroundColor: 'transparent' }}
       >
-        <div className="max-w-screen-2xl mx-auto flex items-center justify-between px-6 pt-4">
+        <div className={`max-w-screen-2xl mx-auto flex items-center justify-between px-6 pt-4 ${isRTL ? 'flex-row-reverse' : ''}`}>
           {/* Left Column - Logo and Navigation */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className={`flex items-center space-x-7 px-3 py-0 rounded-2xl transition-all duration-500 ${
-              isScrolled 
-                ? 'bg-white/80 backdrop-blur-xl border border-gray-100 shadow-lg shadow-gray-900/10' 
+            className={`flex items-center space-x-7 ${isRTL ? 'space-x-reverse flex-row-reverse' : ''} px-3 py-0 rounded-2xl transition-all duration-500 ${
+              isScrolled
+                ? 'bg-white/80 backdrop-blur-xl border border-gray-100 shadow-lg shadow-gray-900/10'
                 : 'bg-white/90 backdrop-blur-sm border border-gray-100 shadow-md'
             }`}
           >
@@ -295,7 +261,7 @@ useEffect(() => {
               whileHover={{ scale: 1.05 }}
               className="flex items-center space-x-3"
             >
-              <Link href="/" className="flex items-center space-x-3">
+              <Link href="/" className={`flex items-center space-x-3 ${isRTL ? 'space-x-reverse' : ''}`}>
                 <div className="relative">
                   <Image
                     src="/logo.png"
@@ -306,19 +272,23 @@ useEffect(() => {
                   />
                 </div>
                 <div>
-                  <h1 className="text-lg font-medium text-gray-900 leading-tight font-sans">UAE Digital</h1>
-                  <h2 className="text-lg font-medium text-gray-900 leading-tight font-sans">Solutions</h2>
+                  <h1 className="text-lg font-medium text-gray-900 leading-tight font-sans">
+                    {locale === 'fa' ? t('footer.companyName') : 'UAE Digital'}
+                  </h1>
+                  {locale !== 'fa' && (
+                    <h2 className="text-lg font-medium text-gray-900 leading-tight font-sans">Solutions</h2>
+                  )}
                 </div>
               </Link>
             </motion.div>
 
             {/* Desktop Navigation */}
-            <nav className="flex items-center space-x-0.5">
+            <nav className={`flex items-center space-x-0.5 ${isRTL ? 'space-x-reverse' : ''}`}>
               {navigation.map((item) => (
                 <div
-                  key={item.name}
+                  key={item.key}
                   className="relative"
-                  onMouseEnter={() => item.hasDropdown && setActiveDropdown(item.name)}
+                  onMouseEnter={() => item.hasDropdown && setActiveDropdown(item.key)}
                   onMouseLeave={() => setActiveDropdown(null)}
                 >
                   <Link
@@ -326,7 +296,7 @@ useEffect(() => {
                     className={`flex items-center px-4 py-2 rounded-xl text-sm font-medium transition-all duration-300 ${
                       pathname === item.href
                         ? 'text-purple-600 bg-purple-50'
-                        : item.name === 'Home'
+                        : item.key === 'home'
                         ? 'text-purple-600 hover:text-purple-700 hover:bg-purple-50'
                         : 'text-gray-700 hover:text-gray-900 hover:bg-gray-50'
                     }`}
@@ -334,27 +304,26 @@ useEffect(() => {
                     {item.name}
                     {item.hasDropdown && (
                       <FiChevronDown className={`ml-1 w-4 h-4 transition-transform duration-300 ${
-                        activeDropdown === item.name ? 'rotate-180' : ''
+                        activeDropdown === item.key ? 'rotate-180' : ''
                       }`} />
                     )}
                   </Link>
 
                   {/* Desktop Dropdowns */}
                   <AnimatePresence>
-                    {item.hasDropdown && activeDropdown === item.name && item.dropdownType === 'services' && (
+                    {item.hasDropdown && activeDropdown === item.key && item.dropdownType === 'services' && (
                       <motion.div
                         initial={{ opacity: 0, y: 10, scale: 0.95 }}
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, y: 10, scale: 0.95 }}
                         transition={{ duration: 0.2 }}
-                        className="absolute top-full left-0 mt-2 w-[600px] bg-white backdrop-blur-xl border border-gray-200 rounded-2xl shadow-2xl overflow-hidden"
+                        className={`absolute top-full ${isRTL ? 'right-0' : 'left-0'} mt-2 w-[600px] bg-white backdrop-blur-xl border border-gray-200 rounded-2xl shadow-2xl overflow-hidden`}
                       >
                         <div className="p-6">
                           <div className="grid grid-cols-2 gap-4">
                             {services.map((service, index) => {
                               const IconComponent = service.icon;
-                              const cleanTitle = decodeHtmlEntities(service.title);
-                              
+
                               return (
                                 <motion.div
                                   key={service.id}
@@ -371,10 +340,10 @@ useEffect(() => {
                                     </div>
                                     <div className="flex-1">
                                       <h3 className="text-gray-900 font-semibold text-sm group-hover:text-purple-600 transition-colors">
-                                        {cleanTitle}
+                                        {service.title}
                                       </h3>
                                       <p className="text-gray-500 text-xs mt-1 group-hover:text-gray-600 transition-colors">
-                                        Professional {cleanTitle.toLowerCase()} services
+                                        {service.description}
                                       </p>
                                     </div>
                                     <FiArrowRight className="text-gray-400 group-hover:text-purple-600 group-hover:translate-x-1 transition-all duration-300" />
@@ -384,13 +353,13 @@ useEffect(() => {
                             })}
                           </div>
                         </div>
-                        
+
                         <div className="border-t border-gray-100 p-4">
                           <Link
                             href="/services"
                             className="flex items-center justify-center py-3 px-4 bg-gradient-to-r from-purple-600 to-blue-600 text-white text-sm font-semibold rounded-xl hover:shadow-lg hover:shadow-purple-500/25 transition-all duration-300 group"
                           >
-                            View All Services
+                            {t('nav.viewAllServices')}
                             <FiArrowRight className="ml-2 group-hover:translate-x-1 transition-transform duration-300" />
                           </Link>
                         </div>
@@ -400,16 +369,16 @@ useEffect(() => {
 
                   {/* Solutions Dropdown */}
                   <AnimatePresence>
-                    {item.hasDropdown && activeDropdown === item.name && item.dropdownType === 'solutions' && (
+                    {item.hasDropdown && activeDropdown === item.key && item.dropdownType === 'solutions' && (
                       <motion.div
                         initial={{ opacity: 0, y: 10, scale: 0.95 }}
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, y: 10, scale: 0.95 }}
                         transition={{ duration: 0.2 }}
-                        className="absolute top-full left-0 mt-2 w-[500px] bg-white backdrop-blur-xl border border-gray-200 rounded-2xl shadow-2xl overflow-hidden"
+                        className={`absolute top-full ${isRTL ? 'right-0' : 'left-0'} mt-2 w-[500px] bg-white backdrop-blur-xl border border-gray-200 rounded-2xl shadow-2xl overflow-hidden`}
                       >
                         <div className="p-6">
-                          <h4 className="text-sm font-semibold text-gray-900 mb-4">Digital Solutions</h4>
+                          <h4 className="text-sm font-semibold text-gray-900 mb-4">{t('header.digitalSolutions')}</h4>
                           <div className="space-y-3">
                             {solutions.length > 0 ? solutions.map((solution, index) => (
                               <motion.div
@@ -432,7 +401,7 @@ useEffect(() => {
                                           {decodeHtmlEntities(solution.title?.rendered || solution.title)}
                                         </h3>
                                         <p className="text-gray-500 text-xs mt-0.5 line-clamp-1">
-                                          {solution.implementation_time || 'Quick implementation'}
+                                          {solution.implementation_time || t('header.quickImplementation')}
                                         </p>
                                       </div>
                                     </div>
@@ -442,18 +411,18 @@ useEffect(() => {
                               </motion.div>
                             )) : (
                               <div className="text-center py-4">
-                                <p className="text-gray-500 text-sm">Loading solutions...</p>
+                                <p className="text-gray-500 text-sm">{t('header.loadingSolutions')}</p>
                               </div>
                             )}
                           </div>
                         </div>
-                        
+
                         <div className="border-t border-gray-100 p-4">
                           <Link
                             href="/solutions"
                             className="flex items-center justify-center py-3 px-4 bg-gradient-to-r from-blue-600 to-cyan-600 text-white text-sm font-semibold rounded-xl hover:shadow-lg hover:shadow-blue-500/25 transition-all duration-300 group"
                           >
-                            View All Solutions
+                            {t('nav.viewAllSolutions')}
                             <FiArrowRight className="ml-2 group-hover:translate-x-1 transition-transform duration-300" />
                           </Link>
                         </div>
@@ -463,16 +432,16 @@ useEffect(() => {
 
                   {/* Tools Dropdown */}
                   <AnimatePresence>
-                    {item.hasDropdown && activeDropdown === item.name && item.dropdownType === 'tools' && (
+                    {item.hasDropdown && activeDropdown === item.key && item.dropdownType === 'tools' && (
                       <motion.div
                         initial={{ opacity: 0, y: 10, scale: 0.95 }}
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, y: 10, scale: 0.95 }}
                         transition={{ duration: 0.2 }}
-                        className="absolute top-full left-0 mt-2 w-[500px] bg-white backdrop-blur-xl border border-gray-200 rounded-2xl shadow-2xl overflow-hidden"
+                        className={`absolute top-full ${isRTL ? 'right-0' : 'left-0'} mt-2 w-[500px] bg-white backdrop-blur-xl border border-gray-200 rounded-2xl shadow-2xl overflow-hidden`}
                       >
                         <div className="p-6">
-                          <h4 className="text-sm font-semibold text-gray-900 mb-4">Digital Tools</h4>
+                          <h4 className="text-sm font-semibold text-gray-900 mb-4">{t('header.digitalTools')}</h4>
                           <div className="space-y-3">
                             {tools.length > 0 ? tools.map((tool, index) => (
                               <motion.div
@@ -495,7 +464,7 @@ useEffect(() => {
                                           {decodeHtmlEntities(tool.title?.rendered || tool.title)}
                                         </h3>
                                         <p className="text-gray-500 text-xs mt-0.5">
-                                          {tool.tool_type || 'Digital tool'}
+                                          {tool.tool_type || t('header.digitalTool')}
                                         </p>
                                       </div>
                                     </div>
@@ -505,18 +474,18 @@ useEffect(() => {
                               </motion.div>
                             )) : (
                               <div className="text-center py-4">
-                                <p className="text-gray-500 text-sm">Loading tools...</p>
+                                <p className="text-gray-500 text-sm">{t('header.loadingTools')}</p>
                               </div>
                             )}
                           </div>
                         </div>
-                        
+
                         <div className="border-t border-gray-100 p-4">
                           <Link
                             href="/tools"
                             className="flex items-center justify-center py-3 px-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white text-sm font-semibold rounded-xl hover:shadow-lg hover:shadow-purple-500/25 transition-all duration-300 group"
                           >
-                            View All Tools
+                            {t('nav.viewAllTools')}
                             <FiArrowRight className="ml-2 group-hover:translate-x-1 transition-transform duration-300" />
                           </Link>
                         </div>
@@ -525,16 +494,16 @@ useEffect(() => {
                   </AnimatePresence>
 
                   <AnimatePresence>
-                    {item.hasDropdown && activeDropdown === item.name && item.dropdownType === 'portfolio' && (
+                    {item.hasDropdown && activeDropdown === item.key && item.dropdownType === 'portfolio' && (
                       <motion.div
                         initial={{ opacity: 0, y: 10, scale: 0.95 }}
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, y: 10, scale: 0.95 }}
                         transition={{ duration: 0.2 }}
-                        className="absolute top-full left-0 mt-2 w-[500px] bg-white backdrop-blur-xl border border-gray-200 rounded-2xl shadow-2xl overflow-hidden"
+                        className={`absolute top-full ${isRTL ? 'right-0' : 'left-0'} mt-2 w-[500px] bg-white backdrop-blur-xl border border-gray-200 rounded-2xl shadow-2xl overflow-hidden`}
                       >
                         <div className="p-6">
-                          <h4 className="text-sm font-semibold text-gray-900 mb-4">Browse by Category</h4>
+                          <h4 className="text-sm font-semibold text-gray-900 mb-4">{t('header.browseByCategory')}</h4>
                           <div className="grid grid-cols-2 gap-3">
                             {caseCategories.length > 0 ? caseCategories.map((category, index) => (
                               <motion.div
@@ -552,28 +521,28 @@ useEffect(() => {
                                       {category}
                                     </h3>
                                     <span className="text-xs text-purple-600 font-medium bg-purple-50 px-2 py-1 rounded-full">
-                                      View
+                                      {t('common.view')}
                                     </span>
                                   </div>
                                   <p className="text-gray-500 text-xs group-hover:text-gray-600 transition-colors">
-                                    {category} industry projects
+                                    {category}
                                   </p>
                                 </Link>
                               </motion.div>
                             )) : (
                               <div className="col-span-2 text-center py-4">
-                                <p className="text-gray-500 text-sm">Loading portfolio categories...</p>
+                                <p className="text-gray-500 text-sm">{t('header.loadingPortfolio')}</p>
                               </div>
                             )}
                           </div>
                         </div>
-                        
+
                         <div className="border-t border-gray-100 p-4">
                           <Link
                             href="/cases"
                             className="flex items-center justify-center py-3 px-4 bg-gradient-to-r from-purple-600 to-blue-600 text-white text-sm font-semibold rounded-xl hover:shadow-lg hover:shadow-purple-500/25 transition-all duration-300 group"
                           >
-                            View All Cases
+                            {t('nav.viewAllCases')}
                             <FiArrowRight className="ml-2 group-hover:translate-x-1 transition-transform duration-300" />
                           </Link>
                         </div>
@@ -590,9 +559,9 @@ useEffect(() => {
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.4 }}
-            className={`flex items-center space-x-4 px-6 py-3 rounded-2xl transition-all duration-500 ${
-              isScrolled 
-                ? 'bg-white/80 backdrop-blur-xl border border-gray-200 shadow-lg shadow-gray-900/10' 
+            className={`flex items-center space-x-4 ${isRTL ? 'space-x-reverse' : ''} px-6 py-3 rounded-2xl transition-all duration-500 ${
+              isScrolled
+                ? 'bg-white/80 backdrop-blur-xl border border-gray-200 shadow-lg shadow-gray-900/10'
                 : 'bg-white/90 backdrop-blur-sm border border-gray-100 shadow-md'
             }`}
           >
@@ -601,10 +570,10 @@ useEffect(() => {
               <motion.button
                 whileHover={{ scale: 1.02 }}
                 onClick={() => setIsLanguageOpen(!isLanguageOpen)}
-                className="flex items-center space-x-2 px-3 py-2 bg-gray-50 hover:bg-gray-100 rounded-xl border border-gray-200 transition-all duration-300"
+                className={`flex items-center space-x-2 ${isRTL ? 'space-x-reverse' : ''} px-3 py-2 bg-gray-50 hover:bg-gray-100 rounded-xl border border-gray-200 transition-all duration-300`}
               >
                 <FiGlobe className="w-4 h-4 text-gray-600" />
-                <span className="text-sm text-gray-700 font-medium">English</span>
+                <span className="text-sm text-gray-700 font-medium">{currentLanguage.flag} {currentLanguage.name}</span>
                 <FiChevronDown className={`w-3 h-3 text-gray-500 transition-transform duration-300 ${
                   isLanguageOpen ? 'rotate-180' : ''
                 }`} />
@@ -617,7 +586,7 @@ useEffect(() => {
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: 10, scale: 0.95 }}
                     transition={{ duration: 0.2 }}
-                    className="absolute top-full right-0 mt-2 w-48 bg-white border border-gray-200 rounded-xl shadow-lg overflow-hidden"
+                    className={`absolute top-full ${isRTL ? 'left-0' : 'right-0'} mt-2 w-48 bg-white border border-gray-200 rounded-xl shadow-lg overflow-hidden`}
                   >
                     {languages.map((lang) => (
                       <button
@@ -688,7 +657,7 @@ useEffect(() => {
 
         {/* Mobile Header Bar - Constrained Width with Smaller Buttons */}
         <div className="relative z-10 w-full px-3 py-3">
-          <div className="flex items-center justify-between max-w-full">
+          <div className={`flex items-center justify-between max-w-full ${isRTL ? 'flex-row-reverse' : ''}`}>
             {/* Enhanced Logo Section - Smaller */}
             <motion.div
               initial={{ opacity: 0, x: -20 }}
@@ -696,7 +665,7 @@ useEffect(() => {
               transition={{ duration: 0.6 }}
               className="flex items-center space-x-2 flex-shrink-0"
             >
-              <Link href="/" className="flex items-center space-x-2">
+              <Link href="/" className={`flex items-center space-x-2 ${isRTL ? 'space-x-reverse' : ''}`}>
                 {/* Smaller Logo */}
                 <motion.div
                   className="relative flex-shrink-0"
@@ -715,26 +684,28 @@ useEffect(() => {
                   {/* Animated ring */}
                   <motion.div
                     className="absolute inset-0 rounded-xl border border-white/50"
-                    animate={{ 
+                    animate={{
                       scale: [1, 1.1, 1],
-                      opacity: [0.5, 0.8, 0.5] 
+                      opacity: [0.5, 0.8, 0.5]
                     }}
-                    transition={{ 
-                      duration: 2, 
+                    transition={{
+                      duration: 2,
                       repeat: Infinity,
                       ease: 'easeInOut'
                     }}
                   />
                 </motion.div>
-                
+
                 {/* Smaller Company Name */}
                 <div className="min-w-0">
                   <h1 className="text-sm font-bold text-white leading-tight">
-                    UAE Digital
+                    {locale === 'fa' ? t('footer.companyName') : 'UAE Digital'}
                   </h1>
-                  <p className="text-xs text-white/80 leading-tight -mt-0.5">
-                    Solutions
-                  </p>
+                  {locale !== 'fa' && (
+                    <p className="text-xs text-white/80 leading-tight -mt-0.5">
+                      Solutions
+                    </p>
+                  )}
                 </div>
               </Link>
             </motion.div>
@@ -744,7 +715,7 @@ useEffect(() => {
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="flex items-center space-x-1.5 flex-shrink-0"
+              className={`flex items-center space-x-1.5 ${isRTL ? 'space-x-reverse' : ''} flex-shrink-0`}
             >
               {/* Smaller CTA Button */}
               <motion.div
@@ -753,10 +724,10 @@ useEffect(() => {
               >
                 <Link
                   href="/contact"
-                  className="flex items-center space-x-1 px-2.5 py-1.5 bg-white/20 backdrop-blur-sm border border-white/30 rounded-lg text-white font-medium text-xs shadow-lg hover:bg-white/30 transition-all duration-300"
+                  className={`flex items-center space-x-1 ${isRTL ? 'space-x-reverse' : ''} px-2.5 py-1.5 bg-white/20 backdrop-blur-sm border border-white/30 rounded-lg text-white font-medium text-xs shadow-lg hover:bg-white/30 transition-all duration-300`}
                 >
                   <FiSend className="w-3 h-3 flex-shrink-0" />
-                  <span>Quote</span>
+                  <span>{t('nav.quote')}</span>
                 </Link>
               </motion.div>
 
@@ -874,7 +845,7 @@ useEffect(() => {
             <nav className="space-y-1 mb-8">
               {navigation.map((item, index) => (
                 <motion.div
-                  key={item.name}
+                  key={item.key}
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: index * 0.1 }}
@@ -882,7 +853,7 @@ useEffect(() => {
                   <Link
                     href={item.href}
                     onClick={() => setIsMenuOpen(false)}
-                    className={`flex items-center space-x-4 p-4 rounded-2xl transition-all duration-300 ${
+                    className={`flex items-center space-x-4 ${isRTL ? 'space-x-reverse' : ''} p-4 rounded-2xl transition-all duration-300 ${
                       pathname === item.href
                         ? 'bg-purple-50 text-purple-600 border-2 border-purple-200'
                         : 'bg-gray-50 text-gray-700 hover:bg-gray-100'
@@ -900,16 +871,10 @@ useEffect(() => {
                     <div className="flex-1 min-w-0">
                       <h3 className="font-semibold text-lg truncate">{item.name}</h3>
                       <p className="text-sm text-gray-500 truncate">
-                        {item.name === 'Home' && 'Welcome to UAE Digital'}
-                        {item.name === 'Services' && 'Our digital solutions'}
-                        {item.name === 'Solutions' && 'Business solutions'}
-                        {item.name === 'Tools' && 'Digital tools & resources'}
-                        {item.name === 'Portfolio' && 'Our latest work'}
-                        {item.name === 'About Us' && 'Learn about our team'}
-                        {item.name === 'Contact Us' && 'Get in touch with us'}
+                        {(tRaw<Record<string, string>>('header.mobileDescriptions') || {})[item.key]}
                       </p>
                     </div>
-                    <FiArrowRight className="w-5 h-5 text-gray-400 flex-shrink-0" />
+                    <FiArrowRight className={`w-5 h-5 text-gray-400 flex-shrink-0 ${isRTL ? 'rotate-180' : ''}`} />
                   </Link>
                 </motion.div>
               ))}
@@ -922,12 +887,11 @@ useEffect(() => {
               transition={{ delay: 0.5 }}
               className="mb-8"
             >
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">Quick Services</h3>
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">{t('header.quickServices')}</h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {services.slice(0, 4).map((service, index) => {
                   const IconComponent = service.icon;
-                  const cleanTitle = decodeHtmlEntities(service.title);
-                  
+
                   return (
                     <Link
                       key={service.id}
@@ -939,10 +903,10 @@ useEffect(() => {
                         <IconComponent className="w-5 h-5 text-purple-600" />
                       </div>
                       <h4 className="font-semibold text-sm text-gray-900 mb-1 line-clamp-2">
-                        {cleanTitle}
+                        {service.title}
                       </h4>
                       <p className="text-xs text-gray-600 line-clamp-2">
-                        Professional {cleanTitle.toLowerCase()} services
+                        {service.description}
                       </p>
                     </Link>
                   );
@@ -953,7 +917,7 @@ useEffect(() => {
                 onClick={() => setIsMenuOpen(false)}
                 className="block text-center mt-4 py-3 bg-gradient-to-r from-purple-600 to-blue-600 text-white font-semibold rounded-xl"
               >
-                View All Services
+                {t('nav.viewAllServices')}
               </Link>
             </motion.div>
 
@@ -964,7 +928,7 @@ useEffect(() => {
               transition={{ delay: 0.55 }}
               className="mb-8"
             >
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">Solutions & Tools</h3>
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">{t('header.solutionsTools')}</h3>
               <div className="grid grid-cols-2 gap-3">
                 <Link
                   href="/solutions"
@@ -975,10 +939,10 @@ useEffect(() => {
                     <FiTarget className="w-5 h-5 text-blue-600" />
                   </div>
                   <h4 className="font-semibold text-sm text-gray-900 mb-1">
-                    Solutions
+                    {t('nav.solutions')}
                   </h4>
                   <p className="text-xs text-gray-600">
-                    Business solutions
+                    {t('header.businessSolutions')}
                   </p>
                 </Link>
                 
@@ -991,10 +955,10 @@ useEffect(() => {
                     <FiTool className="w-5 h-5 text-purple-600" />
                   </div>
                   <h4 className="font-semibold text-sm text-gray-900 mb-1">
-                    Tools
+                    {t('nav.tools')}
                   </h4>
                   <p className="text-xs text-gray-600">
-                    Digital tools
+                    {t('header.digitalToolsResources')}
                   </p>
                 </Link>
               </div>
@@ -1007,45 +971,45 @@ useEffect(() => {
               transition={{ delay: 0.6 }}
               className="space-y-3"
             >
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">Get In Touch</h3>
-              
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">{t('header.getInTouch')}</h3>
+
               <a
                 href="tel:+971501234567"
-                className="flex items-center space-x-4 p-4 bg-green-50 rounded-2xl border border-green-200"
+                className={`flex items-center space-x-4 ${isRTL ? 'space-x-reverse' : ''} p-4 bg-green-50 rounded-2xl border border-green-200`}
               >
                 <div className="w-12 h-12 bg-green-500 rounded-xl flex items-center justify-center flex-shrink-0">
                   <FiPhone className="w-6 h-6 text-white" />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <h4 className="font-semibold text-gray-900">Call Now</h4>
-                  <p className="text-sm text-gray-600 truncate">+971 50 123 4567</p>
+                  <h4 className="font-semibold text-gray-900">{t('header.callNow')}</h4>
+                  <p className="text-sm text-gray-600 truncate" dir="ltr">+971 50 123 4567</p>
                 </div>
               </a>
 
               <a
                 href="mailto:hello@uaedigital.com"
-                className="flex items-center space-x-4 p-4 bg-blue-50 rounded-2xl border border-blue-200"
+                className={`flex items-center space-x-4 ${isRTL ? 'space-x-reverse' : ''} p-4 bg-blue-50 rounded-2xl border border-blue-200`}
               >
                 <div className="w-12 h-12 bg-blue-500 rounded-xl flex items-center justify-center flex-shrink-0">
                   <FiMail className="w-6 h-6 text-white" />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <h4 className="font-semibold text-gray-900">Email Us</h4>
-                  <p className="text-sm text-gray-600 truncate">hello@uaedigital.com</p>
+                  <h4 className="font-semibold text-gray-900">{t('header.emailUs')}</h4>
+                  <p className="text-sm text-gray-600 truncate" dir="ltr">hello@uaedigital.com</p>
                 </div>
               </a>
 
               <Link
                 href="/contact"
                 onClick={() => setIsMenuOpen(false)}
-                className="flex items-center space-x-4 p-4 bg-purple-50 rounded-2xl border border-purple-200"
+                className={`flex items-center space-x-4 ${isRTL ? 'space-x-reverse' : ''} p-4 bg-purple-50 rounded-2xl border border-purple-200`}
               >
                 <div className="w-12 h-12 bg-purple-500 rounded-xl flex items-center justify-center flex-shrink-0">
                   <FiMessageCircle className="w-6 h-6 text-white" />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <h4 className="font-semibold text-gray-900">Contact Form</h4>
-                  <p className="text-sm text-gray-600 truncate">Send us a message</p>
+                  <h4 className="font-semibold text-gray-900">{t('header.contactForm')}</h4>
+                  <p className="text-sm text-gray-600 truncate">{t('header.sendMessage')}</p>
                 </div>
               </Link>
             </motion.div>

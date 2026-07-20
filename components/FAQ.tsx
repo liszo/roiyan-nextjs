@@ -2,41 +2,13 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FiPlus, FiMinus, FiHelpCircle } from 'react-icons/fi';
+import { useTranslations } from '@/hooks/useTranslations';
 
-const faqs = [
-  {
-    question: "How long does it take to build a website?",
-    answer: "Typically, a custom website takes 4-8 weeks depending on complexity. We'll provide a detailed timeline after understanding your requirements.",
-    category: "Timeline"
-  },
-  {
-    question: "Do you provide ongoing support?",
-    answer: "Yes! We offer comprehensive maintenance packages including updates, security monitoring, and 24/7 support.",
-    category: "Support"
-  },
-  {
-    question: "What technologies do you use?",
-    answer: "We use cutting-edge technologies like Next.js, React, Node.js, and AI-powered tools to build fast, scalable solutions.",
-    category: "Technology"
-  },
-  {
-    question: "Can you help with digital marketing?",
-    answer: "Absolutely! We offer complete digital marketing services including SEO, PPC, social media, and content marketing.",
-    category: "Services"
-  },
-  {
-    question: "What's included in your pricing?",
-    answer: "Our pricing includes design, development, testing, deployment, and 30 days of free support. Additional services are clearly outlined.",
-    category: "Pricing"
-  },
-  {
-    question: "Do you work with small businesses?",
-    answer: "Yes! We work with businesses of all sizes, from startups to enterprises. We have packages tailored for every budget.",
-    category: "Business"
-  }
-];
+type FaqItem = { question: string; answer: string; category: string };
 
 export default function FAQ() {
+  const { t, tRaw } = useTranslations();
+  const faqs = tRaw<FaqItem[]>('faqSection.items') || [];
   const [openIndex, setOpenIndex] = useState<number | null>(0);
   const [isMobile, setIsMobile] = useState(false);
 
@@ -71,14 +43,14 @@ export default function FAQ() {
             </div>
           )}
           <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 leading-tight">
-            Frequently Asked
+            {t('faqSection.frequentlyAsked')}
             <span className="block bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-blue-400">
-              Questions
+              {t('faqSection.questions')}
             </span>
           </h2>
           {isMobile && (
             <p className="text-gray-400 text-sm leading-relaxed">
-              Find answers to common questions about our services
+              {t('faqSection.findAnswers')}
             </p>
           )}
         </motion.div>
@@ -160,13 +132,13 @@ export default function FAQ() {
             className="mt-8 text-center"
           >
             <p className="text-gray-400 text-sm mb-4">
-              Still have questions?
+              {t('faqSection.stillHaveQuestions')}
             </p>
             <motion.button
               whileTap={{ scale: 0.95 }}
               className="px-6 py-3 bg-gradient-to-r from-purple-600 to-blue-600 text-white font-semibold rounded-full text-sm"
             >
-              Contact Support
+              {t('faqSection.contactSupport')}
             </motion.button>
           </motion.div>
         )}

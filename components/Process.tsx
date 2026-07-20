@@ -2,63 +2,33 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FiSearch, FiPenTool, FiCode, FiZap, FiChevronDown, FiChevronUp } from 'react-icons/fi';
+import { useTranslations } from '@/hooks/useTranslations';
+import { useLocale } from '@/components/LocaleProvider';
 
-const processSteps = [
-  {
-    icon: <FiSearch className="w-6 h-6 md:w-8 md:h-8" />,
-    title: "Discovery & Strategy",
-    shortTitle: "Discovery",
-    description: "We dive deep into your business goals, target audience, and market position to create a tailored digital strategy.",
-    details: [
-      "Market research & analysis",
-      "Competitor assessment",
-      "User persona development",
-      "Strategic roadmap creation"
-    ],
-    color: "from-purple-500 to-pink-500"
-  },
-  {
-    icon: <FiPenTool className="w-6 h-6 md:w-8 md:h-8" />,
-    title: "Design & Prototype",
-    shortTitle: "Design",
-    description: "Our creative team crafts stunning, user-centric designs that capture your brand essence and engage your audience.",
-    details: [
-      "UI/UX design",
-      "Interactive prototypes",
-      "Brand identity integration",
-      "User testing & feedback"
-    ],
-    color: "from-blue-500 to-cyan-500"
-  },
-  {
-    icon: <FiCode className="w-6 h-6 md:w-8 md:h-8" />,
-    title: "Development & Testing",
-    shortTitle: "Development",
-    description: "We build robust, scalable solutions using cutting-edge technologies, ensuring flawless performance across all devices.",
-    details: [
-      "Agile development",
-      "Quality assurance",
-      "Performance optimization",
-      "Security implementation"
-    ],
-    color: "from-green-500 to-emerald-500"
-  },
-  {
-    icon: <FiZap className="w-6 h-6 md:w-8 md:h-8" />,
-    title: "Launch & Growth",
-    shortTitle: "Launch",
-    description: "We deploy your solution and provide ongoing support to ensure continuous improvement and sustained growth.",
-    details: [
-      "Deployment & go-live",
-      "Performance monitoring",
-      "Continuous optimization",
-      "Growth strategy execution"
-    ],
-    color: "from-orange-500 to-red-500"
-  }
+const stepIcons = [
+  <FiSearch key="0" className="w-6 h-6 md:w-8 md:h-8" />,
+  <FiPenTool key="1" className="w-6 h-6 md:w-8 md:h-8" />,
+  <FiCode key="2" className="w-6 h-6 md:w-8 md:h-8" />,
+  <FiZap key="3" className="w-6 h-6 md:w-8 md:h-8" />
+];
+const stepColors = [
+  "from-purple-500 to-pink-500",
+  "from-blue-500 to-cyan-500",
+  "from-green-500 to-emerald-500",
+  "from-orange-500 to-red-500"
 ];
 
+type ProcessStep = { title: string; shortTitle: string; description: string; details: string[] };
+
 export default function Process() {
+  const { t, tRaw } = useTranslations();
+  const { isRTL } = useLocale();
+  const rawSteps = tRaw<ProcessStep[]>('process.steps') || [];
+  const processSteps = rawSteps.map((step, i) => ({
+    ...step,
+    icon: stepIcons[i],
+    color: stepColors[i]
+  }));
   const [activeStep, setActiveStep] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
   const [expandedStep, setExpandedStep] = useState<number | null>(null);
@@ -106,12 +76,12 @@ export default function Process() {
           className="text-center mb-8 md:mb-16"
         >
           <span className="text-purple-400 text-xs md:text-sm font-medium uppercase tracking-wider">
-            How We Work
+            {t('process.howWeWork')}
           </span>
           <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mt-3 md:mt-4 mb-4 md:mb-6 leading-tight">
-            Our Process
+            {t('process.ourProcess')}
             <span className="block bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-blue-400">
-              Perfected
+              {t('process.perfected')}
             </span>
           </h2>
         </motion.div>
@@ -150,7 +120,7 @@ export default function Process() {
                           {step.shortTitle}
                         </h3>
                         <div className="text-xs text-purple-400 font-medium">
-                          Step {index + 1}
+                          {t('process.step')} {index + 1}
                         </div>
                       </div>
                     </div>
@@ -193,7 +163,7 @@ export default function Process() {
                           {/* Progress for expanded step */}
                           <div className="mt-5 pt-4 border-t border-white/10">
                             <div className="flex justify-between text-sm text-gray-300 mb-2 font-medium">
-                              <span>Step {index + 1} of {processSteps.length}</span>
+                              <span>{t('process.step')} {index + 1} {t('process.of')} {processSteps.length}</span>
                               <span>{Math.round(((index + 1) / processSteps.length) * 100)}%</span>
                             </div>
                             <div className="h-2 bg-white/10 rounded-full overflow-hidden">
@@ -287,7 +257,7 @@ export default function Process() {
                 {/* Progress Bar */}
                 <div className="mt-8">
                   <div className="flex justify-between text-sm text-gray-400 mb-2">
-                    <span>Step {activeStep + 1} of {processSteps.length}</span>
+                    <span>{t('process.step')} {activeStep + 1} {t('process.of')} {processSteps.length}</span>
                     <span>{Math.round(((activeStep + 1) / processSteps.length) * 100)}%</span>
                   </div>
                   <div className="h-2 bg-white/10 rounded-full overflow-hidden">
