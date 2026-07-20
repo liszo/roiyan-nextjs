@@ -42,6 +42,8 @@ import {
  FiPieChart
 } from 'react-icons/fi';
 import { getTools, getToolCategories, getTargetAudiences, cleanHtmlContent } from '@/lib/wordpress';
+import { useTranslations } from '@/hooks/useTranslations';
+import { toFarsiDigits } from '@/lib/farsiNumerals';
 
 // Tool type icon mapping
 const getToolTypeIcon = (type: string) => {
@@ -170,6 +172,7 @@ const getUniqueToolTypes = (tools: any[]) => {
 };
 
 export default function ToolsPage() {
+ const { t } = useTranslations();
  const [tools, setTools] = useState<any[]>([]);
  const [filteredTools, setFilteredTools] = useState<any[]>([]);
  const [categories, setCategories] = useState<any[]>([]);
@@ -368,7 +371,7 @@ export default function ToolsPage() {
  transition={{ duration: 2, repeat: Infinity }}
  className="text-gray-400 text-lg"
  >
- Loading tools...
+ در حال بارگذاری ابزارها...
  </motion.p>
  </div>
  </div>
@@ -454,18 +457,18 @@ export default function ToolsPage() {
  className="w-2 h-2 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full"
  />
  <span className={`px-4 py-2 bg-gradient-to-r from-blue-500/20 to-cyan-500/20 backdrop-blur-sm rounded-full text-blue-300 border border-blue-500/30 font-medium ${isMobile ? 'text-xs' : 'text-sm'}`}>
- Automation Arsenal
+ زرادخانه اتوماسیون
  </span>
  </div>
- 
+
  <h1 className={`font-bold bg-gradient-to-r from-white via-blue-200 to-cyan-200 bg-clip-text text-transparent leading-tight mb-4 md:mb-6 ${isMobile ? 'text-4xl' : 'text-6xl md:text-8xl'}`}>
- Tools
+ {t('pages.tools.title')}
  </h1>
- 
+
  <p className={`text-gray-300 max-w-3xl mx-auto leading-relaxed ${isMobile ? 'text-base px-4' : 'text-xl'}`}>
- {isMobile 
- ? 'Powerful automation tools to supercharge your business'
- : 'Discover our arsenal of powerful automation tools designed to streamline your operations and accelerate growth'
+ {isMobile
+ ? 'ابزارهای قدرتمند اتوماسیون برای تقویت کسب‌وکار شما'
+ : 'مجموعه ابزارهای قدرتمند اتوماسیون ما را کشف کنید؛ طراحی‌شده برای ساده‌سازی عملیات و تسریع رشد کسب‌وکارتان'
  }
  </p>
  </motion.div>
@@ -483,7 +486,7 @@ export default function ToolsPage() {
  <FiSearch className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
  <input
  type="text"
- placeholder="Search tools..."
+ placeholder="جستجوی ابزارها..."
  value={searchTerm}
  onChange={(e) => setSearchTerm(e.target.value)}
  className="w-full pl-12 pr-4 py-4 bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl text-white placeholder-gray-400 focus:outline-none focus:border-blue-500/50 transition-all duration-300"
@@ -498,7 +501,7 @@ export default function ToolsPage() {
  className="w-full px-6 py-4 bg-gradient-to-r from-blue-600/20 to-cyan-600/20 backdrop-blur-sm border border-blue-500/30 rounded-2xl text-white font-semibold flex items-center justify-center gap-3 transition-all duration-300"
  >
  <FiFilter className="w-5 h-5" />
- <span>Filter Tools</span>
+ <span>فیلتر ابزارها</span>
  <motion.div
  animate={{ rotate: showFilters ? 180 : 0 }}
  transition={{ duration: 0.3 }}
@@ -519,7 +522,7 @@ export default function ToolsPage() {
  >
  {/* Category Filter */}
  <div>
- <h4 className="text-white font-semibold mb-2 text-sm">Category ({uniqueCategories.length})</h4>
+ <h4 className="text-white font-semibold mb-2 text-sm">دسته‌بندی ({toFarsiDigits(uniqueCategories.length)})</h4>
  <div className="space-y-2 max-h-48 overflow-y-auto custom-scrollbar">
  <button
  onClick={() => setActiveCategory('all')}
@@ -529,13 +532,13 @@ export default function ToolsPage() {
  : 'bg-white/5 text-gray-400 hover:text-white'
  }`}
  >
- All Categories
+ همه دسته‌بندی‌ها
  </button>
  {uniqueCategories.map(category => (
  <button
  key={category}
  onClick={() => setActiveCategory(category)}
- className={`w-full px-3 py-2 rounded-xl text-sm transition-all text-left ${
+ className={`w-full px-3 py-2 rounded-xl text-sm transition-all text-right ${
  activeCategory === category
  ? 'bg-gradient-to-r from-blue-600 to-cyan-600 text-white'
  : 'bg-white/5 text-gray-400 hover:text-white'
@@ -549,7 +552,7 @@ export default function ToolsPage() {
 
  {/* Tool Type Filter */}
  <div>
- <h4 className="text-white font-semibold mb-2 text-sm">Tool Type ({uniqueTypes.length})</h4>
+ <h4 className="text-white font-semibold mb-2 text-sm">نوع ابزار ({toFarsiDigits(uniqueTypes.length)})</h4>
  <div className="space-y-2 max-h-48 overflow-y-auto custom-scrollbar">
  <button
  onClick={() => setActiveType('all')}
@@ -559,13 +562,13 @@ export default function ToolsPage() {
  : 'bg-white/5 text-gray-400 hover:text-white'
  }`}
  >
- All Types
+ همه انواع
  </button>
  {uniqueTypes.map(type => (
  <button
  key={type}
  onClick={() => setActiveType(type)}
- className={`w-full px-3 py-2 rounded-xl text-sm transition-all text-left ${
+ className={`w-full px-3 py-2 rounded-xl text-sm transition-all text-right ${
  activeType === type
  ? 'bg-gradient-to-r from-blue-600 to-cyan-600 text-white'
  : 'bg-white/5 text-gray-400 hover:text-white'
@@ -579,7 +582,7 @@ export default function ToolsPage() {
 
  {/* Audience Filter */}
  <div>
- <h4 className="text-white font-semibold mb-2 text-sm">Target Audience ({uniqueAudiences.length})</h4>
+ <h4 className="text-white font-semibold mb-2 text-sm">مخاطب هدف ({toFarsiDigits(uniqueAudiences.length)})</h4>
  <div className="space-y-2 max-h-48 overflow-y-auto custom-scrollbar">
  <button
  onClick={() => setActiveAudience('all')}
@@ -589,13 +592,13 @@ export default function ToolsPage() {
  : 'bg-white/5 text-gray-400 hover:text-white'
  }`}
  >
- All Audiences
+ همه مخاطبان
  </button>
  {uniqueAudiences.map(audience => (
  <button
  key={audience}
  onClick={() => setActiveAudience(audience)}
- className={`w-full px-3 py-2 rounded-xl text-sm transition-all text-left ${
+ className={`w-full px-3 py-2 rounded-xl text-sm transition-all text-right ${
  activeAudience === audience
  ? 'bg-gradient-to-r from-blue-600 to-cyan-600 text-white'
  : 'bg-white/5 text-gray-400 hover:text-white'
@@ -652,7 +655,7 @@ export default function ToolsPage() {
  <FiSearch className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
  <input
  type="text"
- placeholder="Search tools..."
+ placeholder="جستجوی ابزارها..."
  value={searchTerm}
  onChange={(e) => setSearchTerm(e.target.value)}
  className="w-full pl-12 pr-4 py-3 bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:border-blue-500/50 transition-all duration-300"
@@ -692,7 +695,7 @@ export default function ToolsPage() {
  {/* Category Filter */}
  <div className="relative">
  <div className="flex items-center gap-3 mb-4">
- <span className="text-gray-400 text-sm font-medium">Category ({uniqueCategories.length}):</span>
+ <span className="text-gray-400 text-sm font-medium">دسته‌بندی ({toFarsiDigits(uniqueCategories.length)}):</span>
  <div className="h-px bg-gradient-to-r from-blue-500/50 to-transparent flex-1"></div>
  </div>
  <div className="flex flex-wrap gap-3">
@@ -704,7 +707,7 @@ export default function ToolsPage() {
  : 'bg-white/5 text-gray-400 hover:text-white hover:bg-white/10 border border-white/10'
  }`}
  >
- All Categories
+ همه دسته‌بندی‌ها
  </button>
  {uniqueCategories.map((category, index) => {
  const Icon = getCategoryIcon(category);
@@ -734,7 +737,7 @@ export default function ToolsPage() {
  {/* Tool Type Filter */}
  <div className="relative">
  <div className="flex items-center gap-3 mb-4">
- <span className="text-gray-400 text-sm font-medium">Tool Type ({uniqueTypes.length}):</span>
+ <span className="text-gray-400 text-sm font-medium">نوع ابزار ({toFarsiDigits(uniqueTypes.length)}):</span>
  <div className="h-px bg-gradient-to-r from-cyan-500/50 to-transparent flex-1"></div>
  </div>
  <div className="flex flex-wrap gap-3">
@@ -746,7 +749,7 @@ export default function ToolsPage() {
  : 'bg-white/5 text-gray-400 hover:text-white hover:bg-white/10 border border-white/10'
  }`}
  >
- All Types
+ همه انواع
  </button>
  {uniqueTypes.map((type, index) => {
  const Icon = getToolTypeIcon(type);
@@ -776,10 +779,10 @@ export default function ToolsPage() {
  {/* Audience Filter */}
  <div className="relative">
  <div className="flex items-center gap-3 mb-4">
- <span className="text-gray-400 text-sm font-medium">Target Audience ({uniqueAudiences.length}):</span>
+ <span className="text-gray-400 text-sm font-medium">مخاطب هدف ({toFarsiDigits(uniqueAudiences.length)}):</span>
  <div className="h-px bg-gradient-to-r from-green-500/50 to-transparent flex-1"></div>
  </div>
- 
+
  <div className="relative">
  <div className={`grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 transition-all duration-500 overflow-hidden ${
  showAllAudiences ? 'max-h-none' : 'max-h-32'
@@ -792,7 +795,7 @@ export default function ToolsPage() {
  : 'bg-white/5 text-gray-400 hover:text-white hover:bg-white/10 border border-white/10'
  }`}
  >
- All Audiences
+ همه مخاطبان
  </button>
  {uniqueAudiences.map((audience, index) => {
  const AudienceIcon = getAudienceIcon(audience);
@@ -828,7 +831,7 @@ export default function ToolsPage() {
  whileTap={{ scale: 0.95 }}
  className="px-6 py-3 bg-gradient-to-r from-green-600/30 to-emerald-600/30 backdrop-blur-sm border border-green-500/40 rounded-full text-green-300 text-sm font-semibold hover:from-green-600/40 hover:to-emerald-600/40 transition-all duration-300 flex items-center gap-3 shadow-lg"
  >
- <span>{showAllAudiences ? 'Show Less Audiences' : `View All ${uniqueAudiences.length} Audiences`}</span>
+ <span>{showAllAudiences ? 'نمایش کمتر' : `مشاهده همه ${toFarsiDigits(uniqueAudiences.length)} مخاطب`}</span>
  <motion.div
  animate={{ rotate: showAllAudiences ? 180 : 0 }}
  transition={{ duration: 0.3 }}
@@ -857,8 +860,8 @@ export default function ToolsPage() {
  className={`text-center ${isMobile ? 'mb-8' : 'mb-16'}`}
  >
  <p className="text-gray-400">
- Showing <span className="text-white font-semibold">{filteredTools.length}</span> of{' '}
- <span className="text-white font-semibold">{tools.length}</span> tools
+ نمایش <span className="text-white font-semibold">{toFarsiDigits(filteredTools.length)}</span> از{' '}
+ <span className="text-white font-semibold">{toFarsiDigits(tools.length)}</span> ابزار
  </p>
  </motion.div>
  </div>
@@ -874,8 +877,8 @@ export default function ToolsPage() {
  className="text-center py-20"
  >
  <FiPackage className="w-16 h-16 text-gray-600 mx-auto mb-4" />
- <h3 className="text-2xl font-bold text-white mb-2">No tools found</h3>
- <p className="text-gray-400">Try adjusting your filters or search term</p>
+ <h3 className="text-2xl font-bold text-white mb-2">ابزاری یافت نشد</h3>
+ <p className="text-gray-400">فیلترها یا عبارت جستجو را تغییر دهید</p>
  </motion.div>
  ) : (
  <div className={
@@ -935,7 +938,7 @@ export default function ToolsPage() {
  window.open(tool.demoUrl, '_blank');
  }}
  className="absolute top-4 right-4 w-10 h-10 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white/30 transition-all duration-300"
- title={`Demo: ${tool.demoUrl}`}
+ title={`نسخه نمایشی: ${tool.demoUrl}`}
  >
  <FiPlay className="w-4 h-4 text-white ml-0.5" />
  </motion.button>
@@ -986,7 +989,7 @@ export default function ToolsPage() {
  e.preventDefault();
  window.open(tool.demoUrl, '_blank');
  }}
- title={tool.demoUrl}
+ title={`نسخه نمایشی: ${tool.demoUrl}`}
  >
  <FiExternalLink className="w-4 h-4 text-white/80" />
  </motion.button>
@@ -1034,18 +1037,18 @@ export default function ToolsPage() {
  <div className="grid grid-cols-3 gap-3 mb-4">
  <div className="text-center p-2 bg-white/5 rounded-lg">
  <FiClock className="w-4 h-4 text-blue-400 mx-auto mb-1" />
- <div className="text-xs text-gray-400">Setup</div>
- <div className="text-xs font-bold text-white">{tool.setupTime || '< 5min'}</div>
+ <div className="text-xs text-gray-400">راه‌اندازی</div>
+ <div className="text-xs font-bold text-white">{toFarsiDigits(tool.setupTime || '< 5min')}</div>
  </div>
  <div className="text-center p-2 bg-white/5 rounded-lg">
  <FiTrendingUp className="w-4 h-4 text-green-400 mx-auto mb-1" />
- <div className="text-xs text-gray-400">ROI</div>
- <div className="text-xs font-bold text-white">{metrics.roi}</div>
+ <div className="text-xs text-gray-400">بازگشت سرمایه</div>
+ <div className="text-xs font-bold text-white">{toFarsiDigits(metrics.roi)}</div>
  </div>
  <div className="text-center p-2 bg-white/5 rounded-lg">
  <FiUsers className="w-4 h-4 text-purple-400 mx-auto mb-1" />
- <div className="text-xs text-gray-400">Users</div>
- <div className="text-xs font-bold text-white">{metrics.users}</div>
+ <div className="text-xs text-gray-400">کاربران</div>
+ <div className="text-xs font-bold text-white">{toFarsiDigits(metrics.users)}</div>
  </div>
  </div>
  </div>
@@ -1057,9 +1060,9 @@ export default function ToolsPage() {
  <div>
  <span className={`inline-flex items-center gap-1 px-3 py-1 bg-gradient-to-r ${pricingColor} bg-opacity-20 backdrop-blur-sm rounded-full text-xs font-medium text-white border border-white/20`}>
  <FiDollarSign className="w-3 h-3" />
- {tool.pricingModel === 'freemium' ? 'Free to Start' : 
- tool.pricingModel === 'monthly' ? (tool.price ? `${tool.price}/mo` : 'Contact Us') :
- tool.pricingModel === 'one_time' ? (tool.price || 'Custom') : 'Custom'}
+ {tool.pricingModel === 'freemium' ? 'رایگان برای شروع' :
+ tool.pricingModel === 'monthly' ? (tool.price ? `${toFarsiDigits(tool.price)}/ماه` : 'تماس بگیرید') :
+ tool.pricingModel === 'one_time' ? (tool.price ? toFarsiDigits(tool.price) : 'سفارشی') : 'سفارشی'}
  </span>
  </div>
  
@@ -1087,8 +1090,8 @@ export default function ToolsPage() {
  className="flex-1"
  >
  <button className="w-full px-4 py-3 bg-gradient-to-r from-blue-600 to-cyan-600 text-white font-semibold rounded-xl flex items-center justify-center gap-2 group-hover:shadow-lg transition-all duration-300">
- <span>Learn More</span>
- <FiArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+ <span>{t('pages.tools.learn')}</span>
+ <FiArrowRight className="w-4 h-4 rotate-180 group-hover:translate-x-1 transition-transform" />
  </button>
  </motion.div>
  
@@ -1101,7 +1104,7 @@ export default function ToolsPage() {
  window.open(tool.demoUrl, '_blank');
  }}
  className="px-4 py-3 bg-white/10 backdrop-blur-sm border border-white/20 text-white font-semibold rounded-xl hover:bg-white/20 transition-all duration-300"
- title={tool.demoUrl}
+ title={`نسخه نمایشی: ${tool.demoUrl}`}
  >
  <FiPlay className="w-4 h-4" />
  </motion.button>
@@ -1163,13 +1166,13 @@ export default function ToolsPage() {
  </motion.div>
 
  <h2 className="text-3xl font-bold bg-gradient-to-r from-white via-blue-200 to-cyan-200 bg-clip-text text-transparent mb-4">
- Need a Custom Tool?
+ به یک ابزار سفارشی نیاز دارید؟
  </h2>
 
  <p className="text-gray-300 mb-8 leading-relaxed px-4">
- Let&apos;s build a custom automation tool tailored to your specific workflow.
+ بیایید یک ابزار اتوماسیون سفارشی متناسب با روند کاری شما بسازیم.
  </p>
- 
+
  <div className="space-y-4">
  <Link href="/contact">
  <motion.button
@@ -1177,11 +1180,11 @@ export default function ToolsPage() {
  whileTap={{ scale: 0.98 }}
  className="w-full max-w-sm mx-auto block px-8 py-4 bg-gradient-to-r from-blue-600 to-cyan-600 text-white font-bold rounded-full flex items-center justify-center gap-3 hover:shadow-lg transition-all duration-300 text-lg"
  >
- <span>Request Custom Tool</span>
- <FiArrowRight className="w-5 h-5" />
+ <span>درخواست ابزار سفارشی</span>
+ <FiArrowRight className="w-5 h-5 rotate-180" />
  </motion.button>
  </Link>
- 
+
  <div className="grid grid-cols-2 gap-3 max-w-sm mx-auto">
  <Link href="/solutions">
  <motion.button
@@ -1189,17 +1192,17 @@ export default function ToolsPage() {
  whileTap={{ scale: 0.98 }}
  className="w-full px-4 py-3 bg-white/10 backdrop-blur-sm border border-white/20 text-white font-semibold rounded-full hover:bg-white/20 transition-all duration-300 text-sm"
  >
- View Solutions
+ مشاهده راهکارها
  </motion.button>
  </Link>
- 
+
  <Link href="/services">
  <motion.button
  whileHover={{ scale: 1.02 }}
  whileTap={{ scale: 0.98 }}
  className="w-full px-4 py-3 bg-white/10 backdrop-blur-sm border border-white/20 text-white font-semibold rounded-full hover:bg-white/20 transition-all duration-300 text-sm"
  >
- Our Services
+ خدمات ما
  </motion.button>
  </Link>
  </div>
@@ -1217,36 +1220,36 @@ export default function ToolsPage() {
  </motion.div>
 
  <h2 className="text-5xl md:text-7xl font-bold bg-gradient-to-r from-white via-blue-200 to-cyan-200 bg-clip-text text-transparent mb-8">
- Need a Custom Tool?
+ به یک ابزار سفارشی نیاز دارید؟
  </h2>
  <p className="text-xl text-gray-300 mb-12 max-w-3xl mx-auto leading-relaxed">
- Our team can build custom automation tools designed specifically for your business processes and workflows.
+ تیم ما می‌تواند ابزارهای اتوماسیون سفارشی، طراحی‌شده مخصوص فرآیندها و روندهای کاری کسب‌وکار شما، بسازد.
  </p>
- 
+
  <div className="flex flex-wrap gap-6 justify-center">
  <Link href="/contact">
  <motion.button
- whileHover={{ 
- scale: 1.05, 
+ whileHover={{
+ scale: 1.05,
  boxShadow: '0 25px 50px rgba(59, 130, 246, 0.6)',
  background: 'linear-gradient(135deg, #3B82F6 0%, #06B6D4 100%)'
  }}
  whileTap={{ scale: 0.95 }}
  className="group px-10 py-5 bg-gradient-to-r from-blue-600 to-cyan-600 text-white font-bold rounded-full flex items-center gap-3 hover:shadow-2xl transition-all duration-300 text-lg relative overflow-hidden"
  >
- <span className="relative z-10">Request Custom Tool</span>
+ <span className="relative z-10">درخواست ابزار سفارشی</span>
  <motion.div
  whileHover={{ x: 5 }}
  transition={{ duration: 0.2 }}
  >
- <FiArrowRight className="w-6 h-6" />
+ <FiArrowRight className="w-6 h-6 rotate-180" />
  </motion.div>
  </motion.button>
  </Link>
- 
+
  <Link href="/solutions">
  <motion.button
- whileHover={{ 
+ whileHover={{
  scale: 1.05,
  backgroundColor: 'rgba(255, 255, 255, 0.15)',
  borderColor: 'rgba(59, 130, 246, 0.5)'
@@ -1254,7 +1257,7 @@ export default function ToolsPage() {
  whileTap={{ scale: 0.95 }}
  className="px-10 py-5 bg-white/5 backdrop-blur-sm border-2 border-white/20 text-white font-bold rounded-full hover:border-blue-500/50 transition-all duration-300 text-lg"
  >
- Browse Solutions
+ مشاهده راهکارها
  </motion.button>
  </Link>
  </div>
@@ -1313,17 +1316,17 @@ export default function ToolsPage() {
  whileTap={{ scale: 0.98 }}
  className="w-full px-6 py-4 bg-gradient-to-r from-blue-600 to-cyan-600 text-white font-semibold rounded-2xl"
  >
- View Full Details
+ مشاهده جزئیات کامل
  </motion.button>
  </Link>
- 
+
  {selectedTool.demoUrl && (
  <motion.button
  whileTap={{ scale: 0.98 }}
  onClick={() => window.open(selectedTool.demoUrl, '_blank')}
  className="w-full px-6 py-4 bg-white/10 backdrop-blur-sm border border-white/20 text-white font-semibold rounded-2xl"
  >
- Try Demo
+ امتحان نسخه نمایشی
  </motion.button>
  )}
  </div>

@@ -16,8 +16,8 @@ const inter = Inter({
 // These fonts will be loaded dynamically based on locale
 
 export const metadata: Metadata = {
- title: 'UAE Digital - Digital Solutions Agency',
- description: 'Transform your business with cutting-edge digital solutions',
+ title: 'راهکارهای دیجیتال امارات - آژانس راهکارهای دیجیتال',
+ description: 'کسب‌وکار خود را با راهکارهای دیجیتال پیشرفته تبدیل کنید',
 };
 
 export default function RootLayout({
@@ -26,7 +26,7 @@ export default function RootLayout({
  children: React.ReactNode;
 }) {
  return (
- <html lang="en" suppressHydrationWarning={true} className={inter.variable}>
+ <html lang="fa" dir="rtl" suppressHydrationWarning={true} className={inter.variable}>
  <body suppressHydrationWarning={true}>
   <LocaleProvider>
    <Header />

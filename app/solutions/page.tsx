@@ -37,6 +37,8 @@ import {
  FiX
 } from 'react-icons/fi';
 import { getSolutions, getSolutionCategories, getTargetAudiences, cleanHtmlContent } from '@/lib/wordpress';
+import { useTranslations } from '@/hooks/useTranslations';
+import { toFarsiDigits } from '@/lib/farsiNumerals';
 import React from 'react';
 
 // Category icon mapping
@@ -106,7 +108,16 @@ const getPricingColor = (range: string) => {
  return 'from-gray-500 to-gray-600';
 };
 
+// Pricing range Farsi labels
+const getPricingLabel = (range: string) => {
+ if (range === 'budget') return 'اقتصادی';
+ if (range === 'standard') return 'استاندارد';
+ if (range === 'premium') return 'ویژه';
+ return 'استاندارد';
+};
+
 export default function SolutionsPage() {
+ const { t } = useTranslations();
  const [solutions, setSolutions] = useState<any[]>([]);
  const [filteredSolutions, setFilteredSolutions] = useState<any[]>([]);
  const [categories, setCategories] = useState<any[]>([]);
@@ -274,7 +285,7 @@ export default function SolutionsPage() {
  transition={{ duration: 2, repeat: Infinity }}
  className="text-gray-400 text-lg"
  >
- Loading solutions...
+ {t('common.loading')}
  </motion.p>
  </div>
  </div>
@@ -359,18 +370,18 @@ export default function SolutionsPage() {
  className="w-2 h-2 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full"
  />
  <span className={`px-4 py-2 bg-gradient-to-r from-purple-500/20 to-pink-500/20 backdrop-blur-sm rounded-full text-purple-300 border border-purple-500/30 font-medium ${isMobile ? 'text-xs' : 'text-sm'}`}>
- Digital Solutions Hub
+ مرکز راهکارهای دیجیتال
  </span>
  </div>
- 
+
  <h1 className={`font-bold bg-gradient-to-r from-white via-purple-200 to-pink-200 bg-clip-text text-transparent leading-tight mb-4 md:mb-6 ${isMobile ? 'text-4xl' : 'text-6xl md:text-8xl'}`}>
- Solutions
+ {t('pages.solutions.title')}
  </h1>
- 
+
  <p className={`text-gray-300 max-w-3xl mx-auto leading-relaxed ${isMobile ? 'text-base px-4' : 'text-xl'}`}>
- {isMobile 
- ? 'Transform your business challenges into growth opportunities'
- : 'Discover tailored digital solutions that transform your business challenges into growth opportunities and competitive advantages'
+ {isMobile
+ ? 'راهکارهایی برای تبدیل چالش‌های کسب‌وکار شما به فرصت‌های رشد'
+ : 'راهکارهای دیجیتال متناسب با نیاز شما را کشف کنید؛ راهکارهایی که چالش‌های کسب‌وکارتان را به فرصت‌های رشد و مزیت رقابتی تبدیل می‌کنند'
  }
  </p>
  </motion.div>
@@ -385,13 +396,13 @@ export default function SolutionsPage() {
  >
  {/* Search Bar */}
  <div className="relative">
- <FiSearch className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+ <FiSearch className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
  <input
  type="text"
- placeholder="Search solutions..."
+ placeholder="جستجوی راهکارها..."
  value={searchTerm}
  onChange={(e) => setSearchTerm(e.target.value)}
- className="w-full pl-12 pr-4 py-4 bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl text-white placeholder-gray-400 focus:outline-none focus:border-purple-500/50 transition-all duration-300"
+ className="w-full pr-12 pl-4 py-4 bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl text-white placeholder-gray-400 focus:outline-none focus:border-purple-500/50 transition-all duration-300"
  />
  </div>
 
@@ -403,7 +414,7 @@ export default function SolutionsPage() {
  className="w-full px-6 py-4 bg-gradient-to-r from-purple-600/20 to-pink-600/20 backdrop-blur-sm border border-purple-500/30 rounded-2xl text-white font-semibold flex items-center justify-center gap-3 transition-all duration-300"
  >
  <FiFilter className="w-5 h-5" />
- <span>Filter Solutions</span>
+ <span>{t('pages.solutions.filterBy')}</span>
  <motion.div
  animate={{ rotate: showFilters ? 180 : 0 }}
  transition={{ duration: 0.3 }}
@@ -424,7 +435,7 @@ export default function SolutionsPage() {
  >
  {/* Category Filter */}
  <div>
- <h4 className="text-white font-semibold mb-2 text-sm">Category ({uniqueCategories.length})</h4>
+ <h4 className="text-white font-semibold mb-2 text-sm">{t('pages.solutions.category')} ({toFarsiDigits(uniqueCategories.length)})</h4>
  <div className="space-y-2 max-h-48 overflow-y-auto custom-scrollbar">
  <button
  onClick={() => setActiveCategory('all')}
@@ -434,13 +445,13 @@ export default function SolutionsPage() {
  : 'bg-white/5 text-gray-400 hover:text-white'
  }`}
  >
- All Categories
+ همه دسته‌بندی‌ها
  </button>
  {uniqueCategories.map(category => (
  <button
  key={category}
  onClick={() => setActiveCategory(category)}
- className={`w-full px-3 py-2 rounded-xl text-sm transition-all text-left ${
+ className={`w-full px-3 py-2 rounded-xl text-sm transition-all text-right ${
  activeCategory === category
  ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white'
  : 'bg-white/5 text-gray-400 hover:text-white'
@@ -454,7 +465,7 @@ export default function SolutionsPage() {
 
  {/* Audience Filter */}
  <div>
- <h4 className="text-white font-semibold mb-2 text-sm">Target Audience ({uniqueAudiences.length})</h4>
+ <h4 className="text-white font-semibold mb-2 text-sm">{t('pages.solutions.audience')} ({toFarsiDigits(uniqueAudiences.length)})</h4>
  <div className="space-y-2 max-h-64 overflow-y-auto custom-scrollbar">
  <button
  onClick={() => setActiveAudience('all')}
@@ -464,13 +475,13 @@ export default function SolutionsPage() {
  : 'bg-white/5 text-gray-400 hover:text-white'
  }`}
  >
- All Audiences
+ همه مخاطبین
  </button>
  {uniqueAudiences.map(audience => (
  <button
  key={audience}
  onClick={() => setActiveAudience(audience)}
- className={`w-full px-3 py-2 rounded-xl text-sm transition-all text-left ${
+ className={`w-full px-3 py-2 rounded-xl text-sm transition-all text-right ${
  activeAudience === audience
  ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white'
  : 'bg-white/5 text-gray-400 hover:text-white'
@@ -524,13 +535,13 @@ export default function SolutionsPage() {
  {/* Search and View Mode */}
  <div className="flex items-center justify-between gap-8">
  <div className="relative flex-1 max-w-md">
- <FiSearch className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+ <FiSearch className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
  <input
  type="text"
- placeholder="Search solutions..."
+ placeholder="جستجوی راهکارها..."
  value={searchTerm}
  onChange={(e) => setSearchTerm(e.target.value)}
- className="w-full pl-12 pr-4 py-3 bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:border-purple-500/50 transition-all duration-300"
+ className="w-full pr-12 pl-4 py-3 bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:border-purple-500/50 transition-all duration-300"
  />
  </div>
 
@@ -567,7 +578,7 @@ export default function SolutionsPage() {
  {/* Category Filter */}
  <div className="relative">
  <div className="flex items-center gap-3 mb-4">
- <span className="text-gray-400 text-sm font-medium">Category ({uniqueCategories.length}):</span>
+ <span className="text-gray-400 text-sm font-medium">{t('pages.solutions.category')} ({toFarsiDigits(uniqueCategories.length)}):</span>
  <div className="h-px bg-gradient-to-r from-purple-500/50 to-transparent flex-1"></div>
  </div>
  <div className="flex flex-wrap gap-3">
@@ -579,7 +590,7 @@ export default function SolutionsPage() {
  : 'bg-white/5 text-gray-400 hover:text-white hover:bg-white/10 border border-white/10'
  }`}
  >
- All Categories
+ همه دسته‌بندی‌ها
  </button>
  {uniqueCategories.map((category, index) => {
  const Icon = getCategoryIcon(category);
@@ -609,10 +620,10 @@ export default function SolutionsPage() {
  {/* Audience Filter */}
  <div className="relative">
  <div className="flex items-center gap-3 mb-4">
- <span className="text-gray-400 text-sm font-medium">Target Audience ({uniqueAudiences.length}):</span>
+ <span className="text-gray-400 text-sm font-medium">{t('pages.solutions.audience')} ({toFarsiDigits(uniqueAudiences.length)}):</span>
  <div className="h-px bg-gradient-to-r from-blue-500/50 to-transparent flex-1"></div>
  </div>
- 
+
  <div className="relative">
  <div className={`grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 transition-all duration-500 overflow-hidden ${
  showAllAudiences ? 'max-h-none' : 'max-h-32'
@@ -625,7 +636,7 @@ export default function SolutionsPage() {
  : 'bg-white/5 text-gray-400 hover:text-white hover:bg-white/10 border border-white/10'
  }`}
  >
- All Audiences
+ همه مخاطبین
  </button>
  {uniqueAudiences.map((audience, index) => {
  const AudienceIcon = getAudienceIcon(audience);
@@ -660,7 +671,7 @@ export default function SolutionsPage() {
  whileTap={{ scale: 0.98 }}
  className="absolute bottom-0 right-0 px-4 py-2 bg-gradient-to-r from-blue-600/20 to-cyan-600/20 backdrop-blur-sm border border-blue-500/30 rounded-lg text-blue-300 text-xs font-medium hover:bg-blue-600/30 transition-all duration-300 flex items-center gap-2"
  >
- <span>{showAllAudiences ? 'Show Less' : `Show All ${uniqueAudiences.length}`}</span>
+ <span>{showAllAudiences ? 'نمایش کمتر' : `نمایش همه (${toFarsiDigits(uniqueAudiences.length)})`}</span>
  <motion.div
  animate={{ rotate: showAllAudiences ? 180 : 0 }}
  transition={{ duration: 0.3 }}
@@ -687,20 +698,20 @@ export default function SolutionsPage() {
  className={`grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8 max-w-4xl mx-auto ${isMobile ? 'mb-8' : ''}`}
  >
  <div className="text-center">
- <div className={`font-bold text-white mb-2 ${isMobile ? 'text-2xl' : 'text-4xl'}`}>{solutions.length}+</div>
- <div className={`text-gray-400 ${isMobile ? 'text-xs' : 'text-sm'}`}>Solutions</div>
+ <div className={`font-bold text-white mb-2 ${isMobile ? 'text-2xl' : 'text-4xl'}`}>{toFarsiDigits(solutions.length)}+</div>
+ <div className={`text-gray-400 ${isMobile ? 'text-xs' : 'text-sm'}`}>راهکار</div>
  </div>
  <div className="text-center">
- <div className={`font-bold text-white mb-2 ${isMobile ? 'text-2xl' : 'text-4xl'}`}>{uniqueCategories.length}</div>
- <div className={`text-gray-400 ${isMobile ? 'text-xs' : 'text-sm'}`}>Categories</div>
+ <div className={`font-bold text-white mb-2 ${isMobile ? 'text-2xl' : 'text-4xl'}`}>{toFarsiDigits(uniqueCategories.length)}</div>
+ <div className={`text-gray-400 ${isMobile ? 'text-xs' : 'text-sm'}`}>دسته‌بندی</div>
  </div>
  <div className="text-center">
- <div className={`font-bold text-white mb-2 ${isMobile ? 'text-2xl' : 'text-4xl'}`}>48hr</div>
- <div className={`text-gray-400 ${isMobile ? 'text-xs' : 'text-sm'}`}>Avg Setup</div>
+ <div className={`font-bold text-white mb-2 ${isMobile ? 'text-2xl' : 'text-4xl'}`}>{toFarsiDigits(48)} ساعت</div>
+ <div className={`text-gray-400 ${isMobile ? 'text-xs' : 'text-sm'}`}>میانگین راه‌اندازی</div>
  </div>
  <div className="text-center">
- <div className={`font-bold text-white mb-2 ${isMobile ? 'text-2xl' : 'text-4xl'}`}>5★</div>
- <div className={`text-gray-400 ${isMobile ? 'text-xs' : 'text-sm'}`}>Rating</div>
+ <div className={`font-bold text-white mb-2 ${isMobile ? 'text-2xl' : 'text-4xl'}`}>{toFarsiDigits(5)}★</div>
+ <div className={`text-gray-400 ${isMobile ? 'text-xs' : 'text-sm'}`}>امتیاز</div>
  </div>
  </motion.div>
  </div>
@@ -739,8 +750,8 @@ export default function SolutionsPage() {
  {/* Results Header */}
  <div className="flex items-center justify-between mb-8">
  <h3 className={`font-semibold text-white ${isMobile ? 'text-lg' : 'text-xl'}`}>
- {filteredSolutions.length} {filteredSolutions.length === 1 ? 'Solution' : 'Solutions'} Found
- {(activeCategory !== 'all' || activeAudience !== 'all') && ' (Filtered)'}
+ {toFarsiDigits(filteredSolutions.length)} راهکار پیدا شد
+ {(activeCategory !== 'all' || activeAudience !== 'all') && ' (فیلتر شده)'}
  </h3>
  </div>
 
@@ -752,8 +763,8 @@ export default function SolutionsPage() {
  className="text-center py-20"
  >
  <FiFilter className="w-16 h-16 text-gray-600 mx-auto mb-4" />
- <h3 className={`font-semibold text-white mb-2 ${isMobile ? 'text-xl' : 'text-2xl'}`}>No Solutions Found</h3>
- <p className="text-gray-400">Try adjusting your search or filter criteria</p>
+ <h3 className={`font-semibold text-white mb-2 ${isMobile ? 'text-xl' : 'text-2xl'}`}>{t('pages.solutions.noResults')}</h3>
+ <p className="text-gray-400">معیارهای جستجو یا فیلتر خود را تغییر دهید</p>
  </motion.div>
  ) : (
  <div className={`${
@@ -801,11 +812,11 @@ export default function SolutionsPage() {
  <CategoryIcon className="w-6 h-6 text-purple-400" />
  {/* Show title field as requested - Updated for transformed data */}
  <h3 className="text-xl font-bold text-white group-hover:text-purple-300 transition-colors">
- {solution.title || 'Untitled Solution'}
+ {solution.title || 'راهکار بدون عنوان'}
  </h3>
  </div>
  <p className="text-gray-400 text-sm">
- {solution.painPointSubtitle || solution.excerpt || 'No description available'}
+ {solution.painPointSubtitle || solution.excerpt || 'توضیحاتی موجود نیست'}
  </p>
  </div>
  
@@ -838,23 +849,23 @@ export default function SolutionsPage() {
  <div className="grid grid-cols-3 gap-3">
  <div className="text-center p-3 bg-white/5 rounded-xl">
  <FiClock className="w-4 h-4 text-blue-400 mx-auto mb-1" />
- <div className="text-xs text-gray-400">Time Saved</div>
- <div className="text-sm font-bold text-white">{solution.timeSaved || '10hrs/week'}</div>
+ <div className="text-xs text-gray-400">زمان صرفه‌جویی شده</div>
+ <div className="text-sm font-bold text-white">{toFarsiDigits(solution.timeSaved || '10 ساعت/هفته')}</div>
  </div>
  <div className="text-center p-3 bg-white/5 rounded-xl">
  <FiTrendingUp className="w-4 h-4 text-green-400 mx-auto mb-1" />
- <div className="text-xs text-gray-400">Revenue</div>
+ <div className="text-xs text-gray-400">درآمد</div>
  <div className="text-sm font-bold text-white">
- {solution.revenueIncrease ? 
- (solution.revenueIncrease.includes('%') ? solution.revenueIncrease : `+${solution.revenueIncrease}`) 
- : '+25%'
+ {toFarsiDigits(solution.revenueIncrease ?
+ (solution.revenueIncrease.includes('%') ? solution.revenueIncrease : `+${solution.revenueIncrease}`)
+ : '+25%')
  }
  </div>
  </div>
  <div className="text-center p-3 bg-white/5 rounded-xl">
  <FiDollarSign className="w-4 h-4 text-yellow-400 mx-auto mb-1" />
- <div className="text-xs text-gray-400">Cost Cut</div>
- <div className="text-sm font-bold text-white">{solution.costReduction || '30%'}</div>
+ <div className="text-xs text-gray-400">کاهش هزینه</div>
+ <div className="text-sm font-bold text-white">{toFarsiDigits(solution.costReduction || '30%')}</div>
  </div>
  </div>
  </div>
@@ -862,7 +873,7 @@ export default function SolutionsPage() {
  {/* Solution Details */}
  <div className="p-6 pt-0">
  <p className="text-gray-300 mb-4 line-clamp-3">
- {solution.problemDescription || solution.excerpt || 'No description available'}
+ {solution.problemDescription || solution.excerpt || 'توضیحاتی موجود نیست'}
  </p>
 
  {/* Target Audiences */}
@@ -882,7 +893,7 @@ export default function SolutionsPage() {
  })}
  {solutionAudiences.length > 2 && (
  <span className="px-3 py-1 bg-gray-500/20 text-gray-400 rounded-lg border border-gray-500/30 text-xs">
- +{solutionAudiences.length - 2}
+ +{toFarsiDigits(solutionAudiences.length - 2)}
  </span>
  )}
  </div>
@@ -891,11 +902,11 @@ export default function SolutionsPage() {
  {/* Pricing & Timeline */}
  <div className="flex items-center justify-between mb-4">
  <span className={`px-3 py-1 bg-gradient-to-r ${pricingColor} bg-opacity-20 backdrop-blur-sm rounded-full text-xs font-medium text-white border border-white/20`}>
- {solution.pricingRange || 'Standard'} Pricing
+ بسته {getPricingLabel(solution.pricingRange)}
  </span>
  <span className="text-xs text-gray-400 flex items-center gap-1">
  <FiClock className="w-3 h-3" />
- {solution.implementationTime || '2-3 days'}
+ {toFarsiDigits(solution.implementationTime || '۲ تا ۳ روز')}
  </span>
  </div>
 
@@ -906,8 +917,8 @@ export default function SolutionsPage() {
  className="w-full"
  >
  <button className="w-full px-4 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold rounded-xl flex items-center justify-center gap-2 group-hover:shadow-lg transition-all duration-300">
- <span>{solution.ctaText || 'Explore Solution'}</span>
- <FiArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+ <span>{solution.ctaText || 'مشاهده راهکار'}</span>
+ <FiArrowRight className="w-4 h-4 rotate-180 group-hover:translate-x-1 transition-transform" />
  </button>
  </motion.div>
  </div>
@@ -966,13 +977,13 @@ export default function SolutionsPage() {
  </motion.div>
 
  <h2 className="text-3xl font-bold bg-gradient-to-r from-white via-purple-200 to-pink-200 bg-clip-text text-transparent mb-4">
- Can&apos;t Find Your Solution?
+ راهکار مورد نظرتان را پیدا نکردید؟
  </h2>
 
  <p className="text-gray-300 mb-8 leading-relaxed px-4">
- Let&apos;s create a custom solution tailored to your unique business challenges.
+ بیایید یک راهکار اختصاصی متناسب با چالش‌های منحصربه‌فرد کسب‌وکار شما بسازیم.
  </p>
- 
+
  <div className="space-y-4">
  <Link href="/contact">
  <motion.button
@@ -980,11 +991,11 @@ export default function SolutionsPage() {
  whileTap={{ scale: 0.98 }}
  className="w-full max-w-sm mx-auto block px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold rounded-full flex items-center justify-center gap-3 hover:shadow-lg transition-all duration-300 text-lg"
  >
- <span>Get Custom Solution</span>
- <FiArrowRight className="w-5 h-5" />
+ <span>دریافت راهکار اختصاصی</span>
+ <FiArrowRight className="w-5 h-5 rotate-180" />
  </motion.button>
  </Link>
- 
+
  <div className="grid grid-cols-2 gap-3 max-w-sm mx-auto">
  <Link href="/tools">
  <motion.button
@@ -992,17 +1003,17 @@ export default function SolutionsPage() {
  whileTap={{ scale: 0.98 }}
  className="w-full px-4 py-3 bg-white/10 backdrop-blur-sm border border-white/20 text-white font-semibold rounded-full hover:bg-white/20 transition-all duration-300 text-sm"
  >
- Browse Tools
+ مشاهده ابزارها
  </motion.button>
  </Link>
- 
+
  <Link href="/services">
  <motion.button
  whileHover={{ scale: 1.02 }}
  whileTap={{ scale: 0.98 }}
  className="w-full px-4 py-3 bg-white/10 backdrop-blur-sm border border-white/20 text-white font-semibold rounded-full hover:bg-white/20 transition-all duration-300 text-sm"
  >
- Our Services
+ خدمات ما
  </motion.button>
  </Link>
  </div>
@@ -1020,36 +1031,36 @@ export default function SolutionsPage() {
  </motion.div>
 
  <h2 className="text-5xl md:text-7xl font-bold bg-gradient-to-r from-white via-purple-200 to-pink-200 bg-clip-text text-transparent mb-8">
- Need a Custom Solution?
+ به یک راهکار اختصاصی نیاز دارید؟
  </h2>
  <p className="text-xl text-gray-300 mb-12 max-w-3xl mx-auto leading-relaxed">
- Every business is unique. Let&apos;s discuss your specific challenges and create a tailored solution that delivers real results.
+ هر کسب‌وکار منحصربه‌فرد است. بیایید درباره چالش‌های خاص شما صحبت کنیم و راهکاری اختصاصی بسازیم که نتایج واقعی به همراه داشته باشد.
  </p>
- 
+
  <div className="flex flex-wrap gap-6 justify-center">
  <Link href="/contact">
  <motion.button
- whileHover={{ 
- scale: 1.05, 
+ whileHover={{
+ scale: 1.05,
  boxShadow: '0 25px 50px rgba(168, 85, 247, 0.6)',
  background: 'linear-gradient(135deg, #A855F7 0%, #EC4899 100%)'
  }}
  whileTap={{ scale: 0.95 }}
  className="group px-10 py-5 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold rounded-full flex items-center gap-3 hover:shadow-2xl transition-all duration-300 text-lg relative overflow-hidden"
  >
- <span className="relative z-10">Get Custom Solution</span>
+ <span className="relative z-10">دریافت راهکار اختصاصی</span>
  <motion.div
  whileHover={{ x: 5 }}
  transition={{ duration: 0.2 }}
  >
- <FiArrowRight className="w-6 h-6" />
+ <FiArrowRight className="w-6 h-6 rotate-180" />
  </motion.div>
  </motion.button>
  </Link>
- 
+
  <Link href="/tools">
  <motion.button
- whileHover={{ 
+ whileHover={{
  scale: 1.05,
  backgroundColor: 'rgba(255, 255, 255, 0.15)',
  borderColor: 'rgba(168, 85, 247, 0.5)'
@@ -1057,7 +1068,7 @@ export default function SolutionsPage() {
  whileTap={{ scale: 0.95 }}
  className="px-10 py-5 bg-white/5 backdrop-blur-sm border-2 border-white/20 text-white font-bold rounded-full hover:border-purple-500/50 transition-all duration-300 text-lg"
  >
- Explore Our Tools
+ کاوش در ابزارهای ما
  </motion.button>
  </Link>
  </div>

@@ -34,6 +34,8 @@ import {
 } from 'react-icons/fi';
 import { FaGoogle, FaWordpress, FaPalette, FaRobot, FaWhatsapp } from 'react-icons/fa';
 import { getServiceBySlug, getServices, getCases, cleanHtmlContent } from '@/lib/wordpress';
+import { useTranslations } from '@/hooks/useTranslations';
+import { toFarsiDigits } from '@/lib/farsiNumerals';
 
 // Service icons mapping
 const getServiceIcon = (service: any) => {
@@ -63,6 +65,7 @@ interface ServicePageProps {
 }
 
 export default function ServicePage({ params }: ServicePageProps) {
+  const { t } = useTranslations();
   const resolvedParams = use(params);
   const containerRef = useRef<HTMLDivElement>(null);
   
@@ -196,7 +199,7 @@ export default function ServicePage({ params }: ServicePageProps) {
             transition={{ duration: 2, repeat: Infinity }}
             className="text-gray-400 text-sm md:text-lg"
           >
-            Loading service...
+            {t('common.loading')}
           </motion.p>
         </div>
       </div>
@@ -254,7 +257,7 @@ export default function ServicePage({ params }: ServicePageProps) {
                 >
                   <div className="w-2 h-2 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full animate-pulse" />
                   <span className="px-3 py-1.5 bg-gradient-to-r from-purple-500/20 to-blue-500/20 backdrop-blur-sm rounded-full text-sm text-purple-300 border border-purple-500/30 font-medium">
-                    {cleanHtmlContent(service.categories[0]?.name || 'Service')}
+                    {cleanHtmlContent(service.categories[0]?.name || 'خدمت')}
                   </span>
                 </motion.div>
               )}
@@ -297,16 +300,16 @@ export default function ServicePage({ params }: ServicePageProps) {
                 className="grid grid-cols-3 gap-4 max-w-sm mx-auto"
               >
                 <div className="text-center p-3 bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10">
-                  <div className="text-2xl font-bold text-white mb-1">99%</div>
-                  <div className="text-xs text-gray-400">Success</div>
+                  <div className="text-2xl font-bold text-white mb-1">{toFarsiDigits('99%')}</div>
+                  <div className="text-xs text-gray-400">موفقیت</div>
                 </div>
                 <div className="text-center p-3 bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10">
-                  <div className="text-2xl font-bold text-white mb-1">24/7</div>
-                  <div className="text-xs text-gray-400">Support</div>
+                  <div className="text-2xl font-bold text-white mb-1">{toFarsiDigits('24/7')}</div>
+                  <div className="text-xs text-gray-400">پشتیبانی</div>
                 </div>
                 <div className="text-center p-3 bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10">
-                  <div className="text-2xl font-bold text-white mb-1">500+</div>
-                  <div className="text-xs text-gray-400">Projects</div>
+                  <div className="text-2xl font-bold text-white mb-1">{toFarsiDigits('500+')}</div>
+                  <div className="text-xs text-gray-400">پروژه</div>
                 </div>
               </motion.div>
 
@@ -323,11 +326,11 @@ export default function ServicePage({ params }: ServicePageProps) {
                     whileTap={{ scale: 0.98 }}
                     className="w-full px-8 py-4 bg-gradient-to-r from-purple-600 to-blue-600 text-white font-semibold rounded-full flex items-center justify-center gap-3 hover:shadow-lg transition-all duration-300"
                   >
-                    <span>View Case Studies</span>
-                    <FiArrowRight className="w-5 h-5" />
+                    <span>مشاهده مطالعات موردی</span>
+                    <FiArrowRight className="w-5 h-5 rotate-180" />
                   </motion.button>
                 </Link>
-                
+
                 <div className="grid grid-cols-2 gap-3">
                   <Link href="/contact">
                     <motion.button
@@ -335,10 +338,10 @@ export default function ServicePage({ params }: ServicePageProps) {
                       whileTap={{ scale: 0.98 }}
                       className="w-full px-4 py-3 bg-white/10 backdrop-blur-sm border border-white/20 text-white font-semibold rounded-full hover:bg-white/20 transition-all duration-300 text-sm"
                     >
-                      Get Started
+                      شروع کنید
                     </motion.button>
                   </Link>
-                  
+
                   <a href="https://wa.me/971501234567">
                     <motion.button
                       whileHover={{ scale: 1.02 }}
@@ -346,7 +349,7 @@ export default function ServicePage({ params }: ServicePageProps) {
                       className="w-full px-4 py-3 bg-green-600 text-white font-semibold rounded-full hover:bg-green-700 transition-all duration-300 flex items-center justify-center gap-2 text-sm"
                     >
                       <FaWhatsapp className="w-4 h-4" />
-                      WhatsApp
+                      واتس‌اپ
                     </motion.button>
                   </a>
                 </div>
@@ -417,7 +420,7 @@ export default function ServicePage({ params }: ServicePageProps) {
                   >
                     <div className="w-2 h-2 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full animate-pulse" />
                     <span className="px-4 py-2 bg-gradient-to-r from-purple-500/20 to-blue-500/20 backdrop-blur-sm rounded-full text-sm text-purple-300 border border-purple-500/30 font-medium">
-                      {cleanHtmlContent(service.categories[0]?.name || 'Service')}
+                      {cleanHtmlContent(service.categories[0]?.name || 'خدمت')}
                     </span>
                   </motion.div>
                 )}
@@ -450,16 +453,16 @@ export default function ServicePage({ params }: ServicePageProps) {
                   className="grid grid-cols-3 gap-6"
                 >
                   <div className="text-center">
-                    <div className="text-3xl font-bold text-white mb-1">99%</div>
-                    <div className="text-sm text-gray-400">Success Rate</div>
+                    <div className="text-3xl font-bold text-white mb-1">{toFarsiDigits('99%')}</div>
+                    <div className="text-sm text-gray-400">نرخ موفقیت</div>
                   </div>
                   <div className="text-center">
-                    <div className="text-3xl font-bold text-white mb-1">24/7</div>
-                    <div className="text-sm text-gray-400">Support</div>
+                    <div className="text-3xl font-bold text-white mb-1">{toFarsiDigits('24/7')}</div>
+                    <div className="text-sm text-gray-400">پشتیبانی</div>
                   </div>
                   <div className="text-center">
-                    <div className="text-3xl font-bold text-white mb-1">500+</div>
-                    <div className="text-sm text-gray-400">Projects</div>
+                    <div className="text-3xl font-bold text-white mb-1">{toFarsiDigits('500+')}</div>
+                    <div className="text-sm text-gray-400">پروژه</div>
                   </div>
                 </motion.div>
 
@@ -480,27 +483,27 @@ export default function ServicePage({ params }: ServicePageProps) {
                       whileTap={{ scale: 0.95 }}
                       className="group px-8 py-4 bg-gradient-to-r from-purple-600 to-blue-600 text-white font-semibold rounded-full flex items-center gap-3 hover:shadow-2xl transition-all duration-300 relative overflow-hidden"
                     >
-                      <span className="relative z-10">View Case Studies</span>
+                      <span className="relative z-10">مشاهده مطالعات موردی</span>
                       <motion.div
-                        whileHover={{ x: 5 }}
+                        whileHover={{ x: -5 }}
                         transition={{ duration: 0.2 }}
                       >
-                        <FiArrowRight className="w-5 h-5" />
+                        <FiArrowRight className="w-5 h-5 rotate-180" />
                       </motion.div>
                       <div className="absolute inset-0 bg-gradient-to-r from-purple-700 to-blue-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                     </motion.button>
                   </Link>
-                  
+
                   <Link href="/contact">
                     <motion.button
-                      whileHover={{ 
+                      whileHover={{
                         scale: 1.05,
                         backgroundColor: 'rgba(255, 255, 255, 0.1)'
                       }}
                       whileTap={{ scale: 0.95 }}
                       className="px-8 py-4 bg-white/5 backdrop-blur-sm border-2 border-white/20 text-white font-semibold rounded-full hover:border-purple-500/50 transition-all duration-300"
                     >
-                      Get Started
+                      شروع کنید
                     </motion.button>
                   </Link>
                 </motion.div>
@@ -551,8 +554,8 @@ export default function ServicePage({ params }: ServicePageProps) {
                       <div className="flex items-center gap-3">
                         <FiTrendingUp className="w-6 h-6 text-green-400" />
                         <div>
-                          <div className="text-white font-semibold">ROI</div>
-                          <div className="text-green-400 text-sm">+250%</div>
+                          <div className="text-white font-semibold">بازگشت سرمایه</div>
+                          <div className="text-green-400 text-sm">{toFarsiDigits('+250%')}</div>
                         </div>
                       </div>
                     </motion.div>
@@ -566,8 +569,8 @@ export default function ServicePage({ params }: ServicePageProps) {
                       <div className="flex items-center gap-3">
                         <FiClock className="w-6 h-6 text-blue-400" />
                         <div>
-                          <div className="text-white font-semibold">Delivery</div>
-                          <div className="text-blue-400 text-sm">On Time</div>
+                          <div className="text-white font-semibold">تحویل</div>
+                          <div className="text-blue-400 text-sm">به‌موقع</div>
                         </div>
                       </div>
                     </motion.div>
@@ -654,10 +657,10 @@ export default function ServicePage({ params }: ServicePageProps) {
               // Desktop Tab Navigation
               <div className="flex flex-wrap justify-center gap-2">
                 {[
-                  { id: 'overview', label: 'Overview', icon: FiGlobe },
-                  { id: 'features', label: 'Features', icon: FiLayers },
-                  { id: 'process', label: 'Process', icon: FiTarget },
-                  { id: 'faqs', label: 'FAQs', icon: FiUsers }
+                  { id: 'overview', label: 'بررسی اجمالی', icon: FiGlobe },
+                  { id: 'features', label: t('pages.services.features'), icon: FiLayers },
+                  { id: 'process', label: t('pages.services.process'), icon: FiTarget },
+                  { id: 'faqs', label: t('pages.services.faqs'), icon: FiUsers }
                 ].map((tab, index) => (
                   <motion.button
                     key={tab.id}
@@ -732,7 +735,7 @@ export default function ServicePage({ params }: ServicePageProps) {
                   ) : (
                     <div className="col-span-full text-center py-20">
                       <FiLayers className="w-16 h-16 text-gray-600 mx-auto mb-4" />
-                      <p className="text-gray-400 text-lg">Service features will be available soon.</p>
+                      <p className="text-gray-400 text-lg">ویژگی‌های این خدمت به‌زودی در دسترس قرار می‌گیرد.</p>
                     </div>
                   )}
                 </div>
@@ -753,7 +756,7 @@ export default function ServicePage({ params }: ServicePageProps) {
                       >
                         <div className="flex-shrink-0">
                           <div className={`${isMobile ? 'w-12 h-12' : 'w-16 h-16'} bg-gradient-to-r from-purple-600 to-blue-600 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300`}>
-                            <span className={`text-white font-bold ${isMobile ? 'text-lg' : 'text-xl'}`}>{index + 1}</span>
+                            <span className={`text-white font-bold ${isMobile ? 'text-lg' : 'text-xl'}`}>{toFarsiDigits(index + 1)}</span>
                           </div>
                         </div>
                         <div className="flex-1">
@@ -769,7 +772,7 @@ export default function ServicePage({ params }: ServicePageProps) {
                   ) : (
                     <div className="text-center py-20">
                       <FiTarget className="w-16 h-16 text-gray-600 mx-auto mb-4" />
-                      <p className="text-gray-400 text-lg">Service process steps will be available soon.</p>
+                      <p className="text-gray-400 text-lg">مراحل فرآیند این خدمت به‌زودی در دسترس قرار می‌گیرد.</p>
                     </div>
                   )}
                 </div>
@@ -791,7 +794,7 @@ export default function ServicePage({ params }: ServicePageProps) {
                           <div>
                             <button
                               onClick={() => setExpandedFaq(expandedFaq === index ? null : index)}
-                              className="w-full text-left flex items-center justify-between"
+                              className="w-full text-right flex items-center justify-between"
                             >
                               <h3 className="text-lg font-bold text-white flex items-center gap-2">
                                 <div className="w-2 h-2 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full" />
@@ -838,7 +841,7 @@ export default function ServicePage({ params }: ServicePageProps) {
                   ) : (
                     <div className="text-center py-20">
                       <FiUsers className="w-16 h-16 text-gray-600 mx-auto mb-4" />
-                      <p className="text-gray-400 text-lg">Service FAQs will be available soon.</p>
+                      <p className="text-gray-400 text-lg">سوالات متداول این خدمت به‌زودی در دسترس قرار می‌گیرد.</p>
                     </div>
                   )}
                 </div>
@@ -865,12 +868,12 @@ export default function ServicePage({ params }: ServicePageProps) {
               className={`text-center ${isMobile ? 'mb-8' : 'mb-16'}`}
             >
               <h2 className={`font-bold bg-gradient-to-r from-white via-purple-200 to-blue-200 bg-clip-text text-transparent mb-4 md:mb-6 ${isMobile ? 'text-3xl' : 'text-5xl md:text-7xl'}`}>
-                Success Stories
+                داستان‌های موفقیت
               </h2>
               <p className={`text-gray-400 max-w-2xl mx-auto ${isMobile ? 'text-base' : 'text-xl'}`}>
-                {isMobile 
-                  ? 'See how we have delivered results for similar projects'
-                  : 'See how we have delivered exceptional results for clients with similar needs'
+                {isMobile
+                  ? 'ببینید چگونه برای پروژه‌های مشابه نتیجه گرفته‌ایم'
+                  : 'ببینید چگونه برای مشتریانی با نیازهای مشابه نتایج فوق‌العاده‌ای رقم زده‌ایم'
                 }
               </p>
             </motion.div>
@@ -943,7 +946,7 @@ export default function ServicePage({ params }: ServicePageProps) {
                     whileTap={{ scale: 0.9 }}
                     className="w-14 h-14 bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl flex items-center justify-center text-white hover:border-purple-500/50 transition-all duration-300 z-10"
                   >
-                    <FiChevronLeft className="w-6 h-6" />
+                    <FiChevronRight className="w-6 h-6" />
                   </motion.button>
 
                   <div className="flex-1 overflow-hidden">
@@ -1008,7 +1011,7 @@ export default function ServicePage({ params }: ServicePageProps) {
                     whileTap={{ scale: 0.9 }}
                     className="w-14 h-14 bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl flex items-center justify-center text-white hover:border-purple-500/50 transition-all duration-300 z-10"
                   >
-                    <FiChevronRight className="w-6 h-6" />
+                    <FiChevronLeft className="w-6 h-6" />
                   </motion.button>
                 </div>
               )}
@@ -1051,12 +1054,12 @@ export default function ServicePage({ params }: ServicePageProps) {
               className={`text-center ${isMobile ? 'mb-8' : 'mb-16'}`}
             >
               <h2 className={`font-bold bg-gradient-to-r from-white via-purple-200 to-blue-200 bg-clip-text text-transparent mb-4 md:mb-6 ${isMobile ? 'text-3xl' : 'text-5xl md:text-7xl'}`}>
-                Related Services
+                خدمات مرتبط
               </h2>
               <p className={`text-gray-400 max-w-2xl mx-auto ${isMobile ? 'text-base' : 'text-xl'}`}>
-                {isMobile 
-                  ? 'Discover other services that can help your business'
-                  : 'Discover other services that can amplify your success'
+                {isMobile
+                  ? 'سایر خدماتی که می‌تواند به کسب‌وکار شما کمک کند را کشف کنید'
+                  : 'سایر خدماتی که می‌تواند موفقیت شما را چند برابر کند را کشف کنید'
                 }
               </p>
             </motion.div>
@@ -1097,8 +1100,8 @@ export default function ServicePage({ params }: ServicePageProps) {
                               {cleanHtmlContent(relatedService.title)}
                             </h3>
                             <div className="flex items-center justify-between">
-                              <span className="text-xs text-purple-400">Learn More</span>
-                              <FiArrowRight className="w-3 h-3 text-purple-400" />
+                              <span className="text-xs text-purple-400">بیشتر بدانید</span>
+                              <FiArrowRight className="w-3 h-3 text-purple-400 rotate-180" />
                             </div>
                           </div>
                         </motion.div>
@@ -1115,7 +1118,7 @@ export default function ServicePage({ params }: ServicePageProps) {
                     whileTap={{ scale: 0.9 }}
                     className="w-14 h-14 bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl flex items-center justify-center text-white hover:border-purple-500/50 transition-all duration-300 z-10"
                   >
-                    <FiChevronLeft className="w-6 h-6" />
+                    <FiChevronRight className="w-6 h-6" />
                   </motion.button>
 
                   <div className="flex-1 overflow-hidden">
@@ -1149,7 +1152,7 @@ export default function ServicePage({ params }: ServicePageProps) {
                                   <RelatedIcon className="w-6 h-6 text-white" />
                                 </div>
                                 <div className="absolute bottom-4 right-4">
-                                  <FiArrowRight className="w-5 h-5 text-white/70 group-hover:text-white transition-colors duration-300" />
+                                  <FiArrowRight className="w-5 h-5 text-white/70 group-hover:text-white transition-colors duration-300 rotate-180" />
                                 </div>
                               </div>
                               <div className="p-8">
@@ -1173,7 +1176,7 @@ export default function ServicePage({ params }: ServicePageProps) {
                     whileTap={{ scale: 0.9 }}
                     className="w-14 h-14 bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl flex items-center justify-center text-white hover:border-purple-500/50 transition-all duration-300 z-10"
                   >
-                    <FiChevronRight className="w-6 h-6" />
+                    <FiChevronLeft className="w-6 h-6" />
                   </motion.button>
                 </div>
               )}
@@ -1232,7 +1235,7 @@ export default function ServicePage({ params }: ServicePageProps) {
                   transition={{ duration: 0.8, delay: 0.3 }}
                   className="text-3xl font-bold bg-gradient-to-r from-white via-purple-200 to-blue-200 bg-clip-text text-transparent mb-4"
                 >
-                  Ready to Get Started?
+                  آماده شروع هستید؟
                 </motion.h2>
 
                 <motion.p
@@ -1241,7 +1244,7 @@ export default function ServicePage({ params }: ServicePageProps) {
                   transition={{ duration: 0.8, delay: 0.4 }}
                   className="text-gray-300 mb-8 leading-relaxed"
                 >
-                  Let&apos;s discuss how this service can transform your business. Get started with a free consultation.
+                  بیایید صحبت کنیم که این خدمت چگونه می‌تواند کسب‌وکار شما را متحول کند. با یک مشاوره رایگان شروع کنید.
                 </motion.p>
                 
                 <motion.div
@@ -1256,11 +1259,11 @@ export default function ServicePage({ params }: ServicePageProps) {
                       whileTap={{ scale: 0.98 }}
                       className="w-full px-8 py-4 bg-gradient-to-r from-purple-600 to-blue-600 text-white font-bold rounded-full flex items-center justify-center gap-3 hover:shadow-lg transition-all duration-300 text-lg"
                     >
-                      <span>{service.cta || 'Get Started Now'}</span>
-                      <FiArrowRight className="w-5 h-5" />
+                      <span>{service.cta || 'همین حالا شروع کنید'}</span>
+                      <FiArrowRight className="w-5 h-5 rotate-180" />
                     </motion.button>
                   </Link>
-                  
+
                   <div className="grid grid-cols-2 gap-3">
                     <Link href="/services">
                       <motion.button
@@ -1268,10 +1271,10 @@ export default function ServicePage({ params }: ServicePageProps) {
                         whileTap={{ scale: 0.98 }}
                         className="w-full px-4 py-3 bg-white/10 backdrop-blur-sm border border-white/20 text-white font-semibold rounded-full hover:bg-white/20 transition-all duration-300 text-sm"
                       >
-                        All Services
+                        همه خدمات
                       </motion.button>
                     </Link>
-                    
+
                     <a href="tel:+971501234567">
                       <motion.button
                         whileHover={{ scale: 1.02 }}
@@ -1279,7 +1282,7 @@ export default function ServicePage({ params }: ServicePageProps) {
                         className="w-full px-4 py-3 bg-green-600 text-white font-semibold rounded-full hover:bg-green-700 transition-all duration-300 flex items-center justify-center gap-2 text-sm"
                       >
                         <FiPhone className="w-4 h-4" />
-                        Call Now
+                        تماس بگیرید
                       </motion.button>
                     </a>
                   </div>
@@ -1292,7 +1295,7 @@ export default function ServicePage({ params }: ServicePageProps) {
                   transition={{ duration: 0.8, delay: 0.6 }}
                   className="pt-6 border-t border-white/10"
                 >
-                  <p className="text-gray-400 text-sm mb-4">Or reach us directly</p>
+                  <p className="text-gray-400 text-sm mb-4">یا مستقیم با ما در تماس باشید</p>
                   <div className="flex items-center justify-center gap-6 text-sm">
                     <div className="flex items-center gap-2">
                       <FiPhone className="w-4 h-4 text-purple-400" />
@@ -1315,7 +1318,7 @@ export default function ServicePage({ params }: ServicePageProps) {
                   viewport={{ once: true }}
                   className="text-5xl md:text-7xl font-bold bg-gradient-to-r from-white via-purple-200 to-blue-200 bg-clip-text text-transparent mb-8"
                 >
-                  Ready to Transform Your Business?
+                  آماده تحول در کسب‌وکار خود هستید؟
                 </motion.h2>
                 <motion.p
                   initial={{ opacity: 0, y: 20 }}
@@ -1324,8 +1327,8 @@ export default function ServicePage({ params }: ServicePageProps) {
                   viewport={{ once: true }}
                   className="text-xl text-gray-300 mb-12 max-w-3xl mx-auto leading-relaxed"
                 >
-                  Let&apos;s discuss how this service can revolutionize your operations and drive unprecedented growth. 
-                  Get started with a comprehensive consultation today.
+                  بیایید صحبت کنیم که این خدمت چگونه می‌تواند عملیات شما را متحول کند و رشدی بی‌سابقه رقم بزند.
+                  همین امروز با یک مشاوره جامع شروع کنید.
                 </motion.p>
                 
                 <motion.div
@@ -1345,20 +1348,20 @@ export default function ServicePage({ params }: ServicePageProps) {
                       whileTap={{ scale: 0.95 }}
                       className="group px-10 py-5 bg-gradient-to-r from-purple-600 to-blue-600 text-white font-bold rounded-full flex items-center gap-3 hover:shadow-2xl transition-all duration-300 text-lg relative overflow-hidden"
                     >
-                      <span className="relative z-10">{service.cta || 'Get Started Now'}</span>
+                      <span className="relative z-10">{service.cta || 'همین حالا شروع کنید'}</span>
                       <motion.div
-                        whileHover={{ x: 5 }}
+                        whileHover={{ x: -5 }}
                         transition={{ duration: 0.2 }}
                       >
-                        <FiArrowRight className="w-6 h-6" />
+                        <FiArrowRight className="w-6 h-6 rotate-180" />
                       </motion.div>
                       <div className="absolute inset-0 bg-gradient-to-r from-purple-700 to-blue-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                     </motion.button>
                   </Link>
-                  
+
                   <Link href="/services">
                     <motion.button
-                      whileHover={{ 
+                      whileHover={{
                         scale: 1.05,
                         backgroundColor: 'rgba(255, 255, 255, 0.15)',
                         borderColor: 'rgba(139, 92, 246, 0.5)'
@@ -1366,7 +1369,7 @@ export default function ServicePage({ params }: ServicePageProps) {
                       whileTap={{ scale: 0.95 }}
                       className="px-10 py-5 bg-white/5 backdrop-blur-sm border-2 border-white/20 text-white font-bold rounded-full hover:border-purple-500/50 transition-all duration-300 text-lg"
                     >
-                      Explore All Services
+                      مشاهده تمام خدمات
                     </motion.button>
                   </Link>
                 </motion.div>

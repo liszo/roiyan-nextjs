@@ -211,8 +211,8 @@ export function SectionNavigator() {
             <span className="text-2xl">
               {sections.find(s => s.id === activeSection)?.icon}
             </span>
-            <div className="text-left">
-              <div className="text-xs text-neutral-500 font-medium">Navigate to</div>
+            <div className="text-right">
+              <div className="text-xs text-neutral-500 font-medium">رفتن به</div>
               <div className="text-sm font-bold text-neutral-900">
                 {sections.find(s => s.id === activeSection)?.label}
               </div>

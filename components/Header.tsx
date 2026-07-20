@@ -8,11 +8,10 @@ import { usePathname } from 'next/navigation';
 import { useTranslations } from '@/hooks/useTranslations';
 import { useLocale } from '@/components/LocaleProvider';
 import { 
-  FiMenu, 
-  FiX, 
-  FiChevronDown, 
+  FiMenu,
+  FiX,
+  FiChevronDown,
   FiArrowRight,
-  FiGlobe,
   FiMessageCircle,
   FiCode,
   FiShoppingCart,
@@ -36,11 +35,10 @@ import {
 
 const Header = () => {
   const { t, tRaw, locale } = useTranslations();
-  const { setLocale, isRTL } = useLocale();
+  const { isRTL } = useLocale();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
-  const [isLanguageOpen, setIsLanguageOpen] = useState(false);
   const [caseCategories, setCaseCategories] = useState<string[]>([]);
   const [scrollProgress, setScrollProgress] = useState(0);
   const [mounted, setMounted] = useState(false);
@@ -222,13 +220,6 @@ useEffect(() => {
     { key: 'contact', name: t('nav.contact'), href: '/contact', icon: FiMail }
   ];
 
-  const languages = [
-    { code: 'en', name: 'English', flag: '🇬🇧' },
-    { code: 'fa', name: 'فارسی', flag: '🇮🇷' }
-  ];
-
-  const currentLanguage = languages.find((l) => l.code === locale) || languages[1];
-
   // Don't render until mounted to prevent hydration mismatch
   if (!mounted) {
     return <div className="h-20"></div>;
@@ -244,13 +235,13 @@ useEffect(() => {
         className="hidden lg:block fixed top-0 left-0 right-0 z-50"
         style={{ backgroundColor: 'transparent' }}
       >
-        <div className={`max-w-screen-2xl mx-auto flex items-center justify-between px-6 pt-4 ${isRTL ? 'flex-row-reverse' : ''}`}>
+        <div className="max-w-screen-2xl mx-auto flex items-center justify-between px-6 pt-4">
           {/* Left Column - Logo and Navigation */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className={`flex items-center space-x-7 ${isRTL ? 'space-x-reverse flex-row-reverse' : ''} px-3 py-0 rounded-2xl transition-all duration-500 ${
+            className={`flex items-center space-x-7 ${isRTL ? 'space-x-reverse' : ''} px-3 py-0 rounded-2xl transition-all duration-500 ${
               isScrolled
                 ? 'bg-white/80 backdrop-blur-xl border border-gray-100 shadow-lg shadow-gray-900/10'
                 : 'bg-white/90 backdrop-blur-sm border border-gray-100 shadow-md'
@@ -565,52 +556,6 @@ useEffect(() => {
                 : 'bg-white/90 backdrop-blur-sm border border-gray-100 shadow-md'
             }`}
           >
-            {/* Language Selector */}
-            <div className="relative">
-              <motion.button
-                whileHover={{ scale: 1.02 }}
-                onClick={() => setIsLanguageOpen(!isLanguageOpen)}
-                className={`flex items-center space-x-2 ${isRTL ? 'space-x-reverse' : ''} px-3 py-2 bg-gray-50 hover:bg-gray-100 rounded-xl border border-gray-200 transition-all duration-300`}
-              >
-                <FiGlobe className="w-4 h-4 text-gray-600" />
-                <span className="text-sm text-gray-700 font-medium">{currentLanguage.flag} {currentLanguage.name}</span>
-                <FiChevronDown className={`w-3 h-3 text-gray-500 transition-transform duration-300 ${
-                  isLanguageOpen ? 'rotate-180' : ''
-                }`} />
-              </motion.button>
-
-              <AnimatePresence>
-                {isLanguageOpen && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 10, scale: 0.95 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                    transition={{ duration: 0.2 }}
-                    className={`absolute top-full ${isRTL ? 'left-0' : 'right-0'} mt-2 w-48 bg-white border border-gray-200 rounded-xl shadow-lg overflow-hidden`}
-                  >
-                    {languages.map((lang) => (
-                      <button
-                        key={lang.code}
-                        onClick={() => {
-                          setLocale(lang.code as 'en' | 'fa');
-                          setIsLanguageOpen(false);
-                        }}
-                        className={`w-full flex items-center space-x-3 px-4 py-3 hover:bg-gray-50 transition-colors text-left ${
-                          locale === lang.code ? 'bg-blue-50 border-l-4 border-blue-500' : ''
-                        }`}
-                      >
-                        <span className="text-lg">{lang.flag}</span>
-                        <div>
-                          <div className="text-sm font-medium text-gray-900">{lang.name}</div>
-                          <div className="text-xs text-gray-500">{lang.code.toUpperCase()}</div>
-                        </div>
-                      </button>
-                    ))}
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-
             {/* Live Chat Button */}
             <motion.button
               whileHover={{ scale: 1.05 }}
@@ -657,7 +602,7 @@ useEffect(() => {
 
         {/* Mobile Header Bar - Constrained Width with Smaller Buttons */}
         <div className="relative z-10 w-full px-3 py-3">
-          <div className={`flex items-center justify-between max-w-full ${isRTL ? 'flex-row-reverse' : ''}`}>
+          <div className="flex items-center justify-between max-w-full">
             {/* Enhanced Logo Section - Smaller */}
             <motion.div
               initial={{ opacity: 0, x: -20 }}

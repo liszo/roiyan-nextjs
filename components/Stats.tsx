@@ -3,6 +3,7 @@ import { useEffect, useState, useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import CountUp from 'react-countup';
 import { useTranslations } from '@/hooks/useTranslations';
+import { toFarsiDigits } from '@/lib/farsiNumerals';
 
 const statValues = [
   { value: 150, suffix: '+', icon: '🚀' },
@@ -97,6 +98,7 @@ export default function Stats() {
                         duration={2.5}
                         separator=","
                         suffix={stat.suffix}
+                        formattingFn={(value) => toFarsiDigits(value.toLocaleString()) + toFarsiDigits(stat.suffix)}
                       />
                     )}
                   </div>

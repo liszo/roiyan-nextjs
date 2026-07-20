@@ -25,6 +25,8 @@ import {
 } from 'react-icons/fi';
 import { FaGoogle, FaWordpress, FaPalette, FaRobot } from 'react-icons/fa';
 import { getServices } from '@/lib/wordpress';
+import { useTranslations } from '@/hooks/useTranslations';
+import { toFarsiDigits } from '@/lib/farsiNumerals';
 
 // Service icons mapping
 const getServiceIcon = (service: any) => {
@@ -48,6 +50,7 @@ const getServiceIcon = (service: any) => {
 };
 
 export default function ServicesPage() {
+  const { t } = useTranslations();
   const [services, setServices] = useState<any[]>([]);
   const [filteredServices, setFilteredServices] = useState<any[]>([]);
   const [activeCategory, setActiveCategory] = useState('all');
@@ -64,11 +67,11 @@ export default function ServicesPage() {
 
   // Categories based on your WordPress taxonomy
   const categories = [
-    { slug: 'all', name: 'All Services', icon: FiGrid, color: 'from-purple-500 to-blue-500' },
-    { slug: 'marketing', name: 'Marketing', icon: FiTrendingUp, color: 'from-green-500 to-emerald-500' },
-    { slug: 'ai-automation', name: 'AI & Automation', icon: FaRobot, color: 'from-orange-500 to-red-500' },
-    { slug: 'design-development', name: 'Design & Development', icon: FiPenTool, color: 'from-blue-500 to-cyan-500' },
-    { slug: 'maintenance-support', name: 'Maintenance & Support', icon: FiShield, color: 'from-purple-500 to-pink-500' }
+    { slug: 'all', name: 'همه خدمات', icon: FiGrid, color: 'from-purple-500 to-blue-500' },
+    { slug: 'marketing', name: 'بازاریابی', icon: FiTrendingUp, color: 'from-green-500 to-emerald-500' },
+    { slug: 'ai-automation', name: 'هوش مصنوعی و اتوماسیون', icon: FaRobot, color: 'from-orange-500 to-red-500' },
+    { slug: 'design-development', name: 'طراحی و توسعه', icon: FiPenTool, color: 'from-blue-500 to-cyan-500' },
+    { slug: 'maintenance-support', name: 'نگهداری و پشتیبانی', icon: FiShield, color: 'from-purple-500 to-pink-500' }
   ];
 
   useEffect(() => {
@@ -132,7 +135,7 @@ export default function ServicesPage() {
   }, [services, activeCategory, searchTerm]);
 
   const getServiceTitle = (service: any) => {
-    const title = service?.title || 'Service';
+    const title = service?.title || 'خدمت';
     return title.replace(/&#038;/g, '&').replace(/&amp;/g, '&');
   };
 
@@ -143,9 +146,9 @@ export default function ServicesPage() {
   const getServiceCategory = (service: any) => {
     const categories = service?.categories || [];
     if (categories.length > 0) {
-      return categories[0]?.name || 'Service';
+      return categories[0]?.name || 'خدمت';
     }
-    return 'Service';
+    return 'خدمت';
   };
 
   if (loading) {
@@ -162,7 +165,7 @@ export default function ServicesPage() {
             transition={{ duration: 2, repeat: Infinity }}
             className="text-gray-400 text-sm md:text-lg"
           >
-            Loading services...
+            {t('common.loading')}
           </motion.p>
         </div>
       </div>
@@ -221,19 +224,19 @@ export default function ServicesPage() {
             <h1 className={`font-bold text-white mb-4 md:mb-6 ${isMobile ? 'text-4xl' : 'text-6xl md:text-8xl'}`}>
               {isMobile ? (
                 <>
-                  Our Digital
+                  خدمات دیجیتال
                   <span className="block bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-blue-400">
-                    Services
+                    ما
                   </span>
                 </>
               ) : (
-                'Our Services'
+                'خدمات ما'
               )}
             </h1>
             <p className={`text-gray-400 max-w-3xl mx-auto ${isMobile ? 'text-base leading-relaxed' : 'text-xl'}`}>
-              {isMobile 
-                ? 'Comprehensive digital solutions designed to transform your business'
-                : 'Comprehensive digital solutions designed to transform your business and drive exceptional results'
+              {isMobile
+                ? 'راهکارهای دیجیتال جامع برای متحول‌کردن کسب‌وکار شما'
+                : 'راهکارهای دیجیتال جامع، طراحی‌شده برای متحول‌کردن کسب‌وکار شما و رساندن نتایج فوق‌العاده'
               }
             </p>
           </motion.div>
@@ -247,13 +250,13 @@ export default function ServicesPage() {
               className="mb-6"
             >
               <div className="relative">
-                <FiSearch className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                <FiSearch className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
                 <input
                   type="text"
-                  placeholder="Search services..."
+                  placeholder="جستجوی خدمات..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full pl-12 pr-4 py-4 bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl text-white placeholder-gray-400 focus:outline-none focus:border-purple-500/50 transition-all"
+                  className="w-full pr-12 pl-4 py-4 bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl text-white placeholder-gray-400 focus:outline-none focus:border-purple-500/50 transition-all"
                 />
               </div>
             </motion.div>
@@ -275,7 +278,7 @@ export default function ServicesPage() {
                     className="flex items-center gap-2 px-4 py-3 bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl text-white"
                   >
                     <FiFilter className="w-5 h-5" />
-                    <span>Filters</span>
+                    <span>فیلترها</span>
                     {activeCategory !== 'all' && (
                       <span className="w-2 h-2 bg-purple-500 rounded-full"></span>
                     )}
@@ -341,7 +344,7 @@ export default function ServicesPage() {
                                 setActiveCategory(category.slug);
                                 setShowFilters(false);
                               }}
-                              className={`p-3 rounded-xl transition-all text-left ${
+                              className={`p-3 rounded-xl transition-all text-right ${
                                 activeCategory === category.slug
                                   ? `bg-gradient-to-r ${category.color} text-white shadow-lg`
                                   : 'bg-white/10 text-gray-400 hover:text-white'
@@ -352,7 +355,7 @@ export default function ServicesPage() {
                                 <span className="font-medium text-sm">{category.name}</span>
                               </div>
                               <div className="text-xs opacity-70">
-                                {count} service{count !== 1 ? 's' : ''}
+                                {toFarsiDigits(count)} خدمت
                               </div>
                             </motion.button>
                           );
@@ -394,7 +397,7 @@ export default function ServicesPage() {
                             : 'bg-white/10 text-gray-400 hover:text-white hover:bg-white/20'
                         }`}
                       >
-                        {category.name} ({count})
+                        {category.name} ({toFarsiDigits(count)})
                       </button>
                     );
                   })}
@@ -415,8 +418,8 @@ export default function ServicesPage() {
               className="text-center py-20"
             >
               <FiFilter className="w-16 h-16 text-gray-600 mx-auto mb-4" />
-              <h3 className="text-2xl font-semibold text-white mb-2">No Services Found</h3>
-              <p className="text-gray-400">Try adjusting your search or filters</p>
+              <h3 className="text-2xl font-semibold text-white mb-2">خدمتی یافت نشد</h3>
+              <p className="text-gray-400">جستجو یا فیلترهای خود را تغییر دهید</p>
               {(searchTerm || activeCategory !== 'all') && (
                 <button
                   onClick={() => {
@@ -425,7 +428,7 @@ export default function ServicesPage() {
                   }}
                   className="mt-4 px-6 py-3 bg-purple-600 text-white rounded-full hover:bg-purple-700 transition-colors"
                 >
-                  Clear Filters
+                  پاک کردن فیلترها
                 </button>
               )}
             </motion.div>
@@ -473,7 +476,7 @@ export default function ServicesPage() {
                               <h3 className="text-lg font-semibold text-white truncate">
                                 {getServiceTitle(service)}
                               </h3>
-                              <FiArrowRight className="w-4 h-4 text-purple-400 flex-shrink-0" />
+                              <FiArrowRight className="w-4 h-4 text-purple-400 flex-shrink-0 rotate-180" />
                             </div>
                             <p className="text-gray-400 text-sm line-clamp-2 mb-2">
                               {getServiceExcerpt(service)}
@@ -513,7 +516,7 @@ export default function ServicesPage() {
                             {isMobile && (
                               <div className="absolute top-3 left-3 flex items-center gap-1">
                                 <FiStar className="w-3 h-3 text-yellow-400" />
-                                <span className="text-xs text-white">4.9</span>
+                                <span className="text-xs text-white">{toFarsiDigits('4.9')}</span>
                               </div>
                             )}
                           </div>
@@ -528,16 +531,16 @@ export default function ServicesPage() {
                             </p>
                             <div className="flex items-center justify-between">
                               <span className={`text-purple-400 font-semibold ${isMobile ? 'text-sm' : ''}`}>
-                                {service?.acf?.service_cta || 'Learn More'}
+                                {service?.acf?.service_cta || 'بیشتر بدانید'}
                               </span>
-                              <FiArrowRight className={`text-purple-400 group-hover:translate-x-2 transition-transform duration-300 ${isMobile ? 'w-4 h-4' : 'w-5 h-5'}`} />
+                              <FiArrowRight className={`text-purple-400 group-hover:-translate-x-2 rotate-180 transition-transform duration-300 ${isMobile ? 'w-4 h-4' : 'w-5 h-5'}`} />
                             </div>
 
                             {/* Mobile: Additional Info */}
                             {isMobile && (
                               <div className="mt-3 pt-3 border-t border-white/10 flex items-center justify-between text-xs text-gray-500">
-                                <span>Starting from $999</span>
-                                <span>2-4 weeks</span>
+                                <span>{`شروع از ${toFarsiDigits(999)} دلار`}</span>
+                                <span>{`${toFarsiDigits('2')} تا ${toFarsiDigits('4')} هفته`}</span>
                               </div>
                             )}
                           </div>
@@ -568,19 +571,19 @@ export default function ServicesPage() {
             <h2 className={`font-bold text-white mb-4 md:mb-6 ${isMobile ? 'text-3xl' : 'text-4xl md:text-5xl'}`}>
               {isMobile ? (
                 <>
-                  Ready to Transform
+                  آماده تحول در
                   <span className="block bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-blue-400">
-                    Your Business?
+                    کسب‌وکار خود هستید؟
                   </span>
                 </>
               ) : (
-                'Ready to Transform Your Business?'
+                'آماده تحول در کسب‌وکار خود هستید؟'
               )}
             </h2>
             <p className={`text-gray-300 mb-6 md:mb-8 max-w-2xl mx-auto ${isMobile ? 'text-base' : 'text-xl'}`}>
-              {isMobile 
-                ? "Let's discuss how our services can drive your success. Get started today."
-                : "Let's discuss how our services can drive your success. Get started with a free consultation today."
+              {isMobile
+                ? 'بیایید صحبت کنیم که خدمات ما چگونه می‌تواند به موفقیت شما کمک کند. همین حالا شروع کنید.'
+                : 'بیایید صحبت کنیم که خدمات ما چگونه می‌تواند به موفقیت شما کمک کند. با یک مشاوره رایگان همین امروز شروع کنید.'
               }
             </p>
             <div className={`${isMobile ? 'space-y-3' : 'flex flex-wrap gap-4 justify-center'}`}>
@@ -590,8 +593,8 @@ export default function ServicesPage() {
                   whileTap={{ scale: 0.95 }}
                   className={`${isMobile ? 'w-full' : ''} px-6 md:px-8 py-3 md:py-4 bg-gradient-to-r from-purple-600 to-blue-600 text-white font-semibold rounded-full flex items-center justify-center gap-2 hover:shadow-lg transition-all duration-300 text-sm md:text-base`}
                 >
-                  Get Free Consultation
-                  <FiArrowRight className="w-4 h-4 md:w-5 md:h-5" />
+                  دریافت مشاوره رایگان
+                  <FiArrowRight className="w-4 h-4 md:w-5 md:h-5 rotate-180" />
                 </motion.button>
               </Link>
               <Link href="/cases">
@@ -600,7 +603,7 @@ export default function ServicesPage() {
                   whileTap={{ scale: 0.95 }}
                   className={`${isMobile ? 'w-full' : ''} px-6 md:px-8 py-3 md:py-4 bg-white/10 backdrop-blur-sm border border-white/20 text-white font-semibold rounded-full hover:bg-white/20 transition-all duration-300 text-sm md:text-base`}
                 >
-                  View Our Work
+                  مشاهده نمونه کارها
                 </motion.button>
               </Link>
             </div>

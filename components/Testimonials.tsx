@@ -10,6 +10,7 @@ import Image from 'next/image';
 import { getTestimonials } from '@/lib/wordpress';
 import { useTranslations } from '@/hooks/useTranslations';
 import { useLocale } from '@/components/LocaleProvider';
+import { toFarsiDigits } from '@/lib/farsiNumerals';
 
 export default function Testimonials() {
   const { t } = useTranslations();
@@ -275,7 +276,7 @@ export default function Testimonials() {
                 {/* Mobile: Swipe Indicator */}
                 {isMobile && (
                   <div className="absolute bottom-2 right-4 text-xs text-white/40">
-                    {activeIndex + 1}/{testimonials.length}
+                    {toFarsiDigits(activeIndex + 1)}/{toFarsiDigits(testimonials.length)}
                   </div>
                 )}
               </div>
@@ -295,7 +296,7 @@ export default function Testimonials() {
             }}
             className={`${isMobile ? 'p-2' : 'p-3'} bg-white/10 backdrop-blur-sm rounded-full border border-white/20 hover:bg-white/20 transition-all text-white`}
           >
-            <FaChevronLeft className={isMobile ? 'w-3 h-3' : 'w-4 h-4'} />
+            <FaChevronRight className={isMobile ? 'w-3 h-3' : 'w-4 h-4'} />
           </motion.button>
 
           {/* Dots Navigation */}
@@ -326,7 +327,7 @@ export default function Testimonials() {
             }}
             className={`${isMobile ? 'p-2' : 'p-3'} bg-white/10 backdrop-blur-sm rounded-full border border-white/20 hover:bg-white/20 transition-all text-white`}
           >
-            <FaChevronRight className={isMobile ? 'w-3 h-3' : 'w-4 h-4'} />
+            <FaChevronLeft className={isMobile ? 'w-3 h-3' : 'w-4 h-4'} />
           </motion.button>
         </div>
 
@@ -338,10 +339,10 @@ export default function Testimonials() {
           className={`grid ${isMobile ? 'grid-cols-2 gap-4' : 'grid-cols-2 md:grid-cols-4 gap-6 md:gap-8'}`}
         >
           {[
-            { number: '98%', label: t('testimonials.statLabels.clientSatisfaction') },
-            { number: '150+', label: t('testimonials.statLabels.projectsCompleted') },
-            { number: `${testimonials.length}+`, label: t('testimonials.statLabels.happyClients') },
-            { number: '5★', label: t('testimonials.statLabels.averageRating') }
+            { number: toFarsiDigits('98%'), label: t('testimonials.statLabels.clientSatisfaction') },
+            { number: toFarsiDigits('150+'), label: t('testimonials.statLabels.projectsCompleted') },
+            { number: toFarsiDigits(`${testimonials.length}+`), label: t('testimonials.statLabels.happyClients') },
+            { number: toFarsiDigits('5') + '★', label: t('testimonials.statLabels.averageRating') }
           ].map((stat, index) => (
             <div key={index} className="text-center">
               <div className={`font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-blue-400 mb-1 md:mb-2 ${isMobile ? 'text-2xl' : 'text-2xl md:text-3xl lg:text-4xl'}`}>
