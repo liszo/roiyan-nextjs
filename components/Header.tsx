@@ -5,6 +5,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
+import { useTranslations } from '@/hooks/useTranslations';
+import { useLocale } from '@/components/LocaleProvider';
 import { 
   FiMenu, 
   FiX, 
@@ -33,6 +35,8 @@ import {
 } from 'react-icons/fi';
 
 const Header = () => {
+  const { t, locale } = useTranslations();
+  const { setLocale, isRTL } = useLocale();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
@@ -255,8 +259,8 @@ useEffect(() => {
   ];
 
   const languages = [
-    { code: 'EN', name: 'English', flag: '🇺🇸' },
-    { code: 'AR', name: 'العربية', flag: '🇦🇪' }
+    { code: 'en', name: 'English', flag: '🇬🇧' },
+    { code: 'fa', name: 'فارسی', flag: '🇮🇷' }
   ];
 
   // Don't render until mounted to prevent hydration mismatch
@@ -618,13 +622,18 @@ useEffect(() => {
                     {languages.map((lang) => (
                       <button
                         key={lang.code}
-                        onClick={() => setIsLanguageOpen(false)}
-                        className="w-full flex items-center space-x-3 px-4 py-3 hover:bg-gray-50 transition-colors text-left"
+                        onClick={() => {
+                          setLocale(lang.code as 'en' | 'fa');
+                          setIsLanguageOpen(false);
+                        }}
+                        className={`w-full flex items-center space-x-3 px-4 py-3 hover:bg-gray-50 transition-colors text-left ${
+                          locale === lang.code ? 'bg-blue-50 border-l-4 border-blue-500' : ''
+                        }`}
                       >
                         <span className="text-lg">{lang.flag}</span>
                         <div>
                           <div className="text-sm font-medium text-gray-900">{lang.name}</div>
-                          <div className="text-xs text-gray-500">{lang.code}</div>
+                          <div className="text-xs text-gray-500">{lang.code.toUpperCase()}</div>
                         </div>
                       </button>
                     ))}
@@ -649,7 +658,7 @@ useEffect(() => {
                 href="/contact"
                 className="px-6 py-3 bg-gradient-to-r from-purple-600 to-blue-600 text-white font-semibold rounded-xl hover:shadow-lg hover:shadow-purple-500/25 transition-all duration-300"
               >
-                Say Hello!
+                {t('nav.sayHello')}
               </Link>
             </motion.div>
           </motion.div>
